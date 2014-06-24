@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6342CA25195A2C5700BF6ADE /* beyonce2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6342CA24195A2C5700BF6ADE /* beyonce2.jpg */; };
 		63E298AB1958D67F00CC4906 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E298AA1958D67F00CC4906 /* Foundation.framework */; };
 		63E298AD1958D67F00CC4906 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E298AC1958D67F00CC4906 /* CoreGraphics.framework */; };
 		63E298AF1958D67F00CC4906 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E298AE1958D67F00CC4906 /* UIKit.framework */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6342CA24195A2C5700BF6ADE /* beyonce2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = beyonce2.jpg; sourceTree = "<group>"; };
 		63E298A71958D67F00CC4906 /* WhisperImageTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhisperImageTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E298AA1958D67F00CC4906 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		63E298AC1958D67F00CC4906 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				63E298E31958D74A00CC4906 /* beyonce.jpg */,
+				6342CA24195A2C5700BF6ADE /* beyonce2.jpg */,
 				63E298C51958D67F00CC4906 /* Images.xcassets */,
 			);
 			name = Resources;
@@ -259,6 +262,7 @@
 				63E298C61958D67F00CC4906 /* Images.xcassets in Resources */,
 				63E298E41958D74A00CC4906 /* beyonce.jpg in Resources */,
 				63E298BE1958D67F00CC4906 /* Main_iPhone.storyboard in Resources */,
+				6342CA25195A2C5700BF6ADE /* beyonce2.jpg in Resources */,
 				63E298B51958D67F00CC4906 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -496,6 +500,7 @@
 				63E298DE1958D67F00CC4906 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		63E298DF1958D67F00CC4906 /* Build configuration list for PBXNativeTarget "WhisperImageTestTests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +509,7 @@
 				63E298E11958D67F00CC4906 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

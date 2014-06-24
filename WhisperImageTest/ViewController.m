@@ -12,7 +12,6 @@
 @interface ViewController () <UIDocumentInteractionControllerDelegate>
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) NSURL* url;
-@property (strong, nonatomic) WHManager* manager;
 @end
 
 @implementation ViewController
@@ -22,30 +21,25 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    self.url = [[NSBundle mainBundle] URLForResource:@"beyonce" withExtension:@"jpg"];
+    self.url = [[NSBundle mainBundle] URLForResource:@"beyonce2" withExtension:@"jpg"];
     NSAssert(self.url, @"no url!");
     
-    UIImage* image = [UIImage imageNamed:@"beyonce.jpg"];
+    UIImage* image = [UIImage imageWithContentsOfFile:self.url.path];
     NSAssert(image, @"image is nil");
     self.imageView.clipsToBounds = YES;
     self.imageView.image = image;
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.imageView sizeToFit];
-    
-    self.manager = [[WHManager alloc] initWithView:self.imageView];
 }
 
 - (IBAction)openButton:(id)sender {
     BOOL result;
-    result = [self.manager createWhisperWithURL:self.url];
-//    result = [self.manager createWhisperWithImage:self.imageView.image];
-//    result = [self.manager createWhisperWithData:UIImageJPEGRepresentation(self.image, 1.0)];
-
-//    NSString* path = [[NSBundle mainBundle] pathForResource:@"beyonce" ofType:@"jpg"];
-//    result = [self.manager createWhisperWithPath:path];
     
+    NSError* error;
+    result = [[WHManager sharedManager] createWhisperWithURL:self.url withMenuFromRect:self.imageView.bounds inView:self.imageView animated:YES error:&error];
+
     if (!result) {
-        NSLog(@"failed");
+        NSLog(@"%@", error.description);
     }
 }
 
