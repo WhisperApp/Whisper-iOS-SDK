@@ -55,26 +55,6 @@ NSString* const redirectMessage = @"You don't have Whisper Installed. You are ab
     return [self createWhisperWithData:data];
 }
 
--(BOOL) writeToCache:(NSData *)data {
-    
-    //create cache path
-    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString* cachePath = [paths objectAtIndex:0];
-    BOOL isDir = NO;
-    NSError* error;
-    if (![[NSFileManager defaultManager] fileExistsAtPath:cachePath isDirectory:&isDir] && isDir == NO) {
-        [[NSFileManager defaultManager] createDirectoryAtURL:[NSURL URLWithString:cachePath] withIntermediateDirectories:NO attributes:nil error:&error];
-    }
-    if (error) {
-        return NO;
-    }
-    NSString* cacheFile = [cachePath stringByAppendingPathComponent:dataFile];
-    
-    self.fileURL = [NSURL URLWithString:cacheFile relativeToURL:[NSURL URLWithString:@"file://"]];
-    
-    return [data writeToFile:cacheFile atomically:YES];
-}
-
 -(BOOL) createWhisperWithPath:(NSString *)path {
 //    NSURL* url = [[NSBundle mainBundle] URLForResource:path withExtension:nil];
     UIImage* image = [UIImage imageWithContentsOfFile:path];
@@ -112,6 +92,26 @@ NSString* const redirectMessage = @"You don't have Whisper Installed. You are ab
     }
     return YES;
 
+}
+
+-(BOOL) writeToCache:(NSData *)data {
+    
+    //create cache path
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString* cachePath = [paths objectAtIndex:0];
+    BOOL isDir = NO;
+    NSError* error;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:cachePath isDirectory:&isDir] && isDir == NO) {
+        [[NSFileManager defaultManager] createDirectoryAtURL:[NSURL URLWithString:cachePath] withIntermediateDirectories:NO attributes:nil error:&error];
+    }
+    if (error) {
+        return NO;
+    }
+    NSString* cacheFile = [cachePath stringByAppendingPathComponent:dataFile];
+    
+    self.fileURL = [NSURL URLWithString:cacheFile relativeToURL:[NSURL URLWithString:@"file://"]];
+    
+    return [data writeToFile:cacheFile atomically:YES];
 }
 
 -(BOOL) whisperAppExists {
