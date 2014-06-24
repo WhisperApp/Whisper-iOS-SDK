@@ -12,26 +12,24 @@
 NSString* const dataFile = @"whisperTemp.img";
 
 #define kImageQuality 1.0
-#define kMinWidth 640
-#define kMinHeight 920
+#define kMinWidth 640.0f
+#define kMinHeight 920.0f
 
-NSString* const redirectMessage = @"You are about to be taken to the Whisper App Store page. Continue?";
+NSString* const redirectMessage = @"You don't have Whisper Installed. You are about to be taken to the Whisper App Store page. Continue?";
 
 @interface WHManager () <UIDocumentInteractionControllerDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSData* data;
 @property (nonatomic, strong) UIView* view;
 @property (nonatomic, strong) UIDocumentInteractionController* docController;
-@property (nonatomic, strong) NSString* cacheFile;
 @property (nonatomic, strong) NSURL* fileURL;
-@property (nonatomic, strong) UIAlertView* alert;
 
 @end
 
 @implementation WHManager
 
-+(WHManager*)whisperManagerForView:(UIView *)view {
-    return [[WHManager alloc] initWithView:view];
++(CGSize) minImageSize {
+    return CGSizeMake(kMinWidth, kMinHeight);
 }
 
 -(id) initWithView:(UIView*) view {
@@ -49,11 +47,12 @@ NSString* const redirectMessage = @"You are about to be taken to the Whisper App
     if (![self writeToCache:data])
         return NO;
     
-    return [self createWhisperWithURL:[NSURL URLWithString:self.cacheFile]];
+    return [self createWhisperWithURL:self.fileURL];
 }
 
 -(BOOL) createWhisperWithImage:(UIImage *)image {
-    return [self createWhisperWithData:UIImageJPEGRepresentation(image, kImageQuality)];
+    NSData* data = UIImageJPEGRepresentation(image, kImageQuality);
+    return [self createWhisperWithData:data];
 }
 
 -(BOOL) writeToCache:(NSData *)data {
@@ -69,23 +68,33 @@ NSString* const redirectMessage = @"You are about to be taken to the Whisper App
     if (error) {
         return NO;
     }
-    self.cacheFile = [cachePath stringByAppendingPathComponent:dataFile];
-    self.fileURL = [NSURL URLWithString:self.cacheFile];
+    NSString* cacheFile = [cachePath stringByAppendingPathComponent:dataFile];
     
-    return [data writeToFile:self.cacheFile atomically:YES];
+    self.fileURL = [NSURL URLWithString:cacheFile relativeToURL:[NSURL URLWithString:@"file://"]];
+    
+    return [data writeToFile:cacheFile atomically:YES];
 }
 
 -(BOOL) createWhisperWithPath:(NSString *)path {
-    return [self createWhisperWithURL:[NSURL URLWithString:path]];
+//    NSURL* url = [[NSBundle mainBundle] URLForResource:path withExtension:nil];
+    UIImage* image = [UIImage imageWithContentsOfFile:path];
+    if (!image) {
+        NSLog(@"failed to load image");
+        return NO;
+    }
+    return [self createWhisperWithImage:image];
 }
 
 -(BOOL) createWhisperWithURL:(NSURL *)url {
     //assumes all URL's are local - if you do a network call this WILL hang
     NSData* imageData = [NSData dataWithContentsOfURL:url];
     UIImage* image = [UIImage imageWithData:imageData];
+    if (!image) {
+        return NO;
+    }
     if (![self isLegalImageSize:image]) {
         CGSize imageSize = image.size;
-        NSLog(@"WHManager: image too small! (%f, %f)", imageSize.width, imageSize.height);
+        NSLog(@"WHManager: image too small (%f, %f) - must be at least (%f, %f)", imageSize.width, imageSize.height, kMinWidth, kMinHeight);
         return NO;
     }
     if ([self whisperAppExists]) {
@@ -145,10 +154,11 @@ NSString* const redirectMessage = @"You are about to be taken to the Whisper App
 
 -(void) dealloc {
     NSLog(@"dealloc!");
-    if (self.cacheFile) {
+    if (self.fileURL) {
         //remove cached file (not really necessary but still)
         NSError* error;
-        [[NSFileManager defaultManager] removeItemAtPath:self.cacheFile error:&error];
+//        [[NSFileManager defaultManager] removeItemAtPath:self.cacheFile error:&error];
+        [[NSFileManager defaultManager] removeItemAtURL:self.fileURL error:&error];
     }
 }
 

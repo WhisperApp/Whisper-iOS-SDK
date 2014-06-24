@@ -12,14 +12,13 @@
 
 @property BOOL autotakeToAppStore;
 
++(CGSize) minImageSize;
+
 -(id) initWithView:(UIView*) view;
-+(WHManager*) whisperManagerForView:(UIView*)view;
 
 -(BOOL) createWhisperWithData:(NSData*) data;
 -(BOOL) createWhisperWithImage:(UIImage*)image;
 -(BOOL) createWhisperWithURL:(NSURL*)url;
 -(BOOL) createWhisperWithPath:(NSString*)path;
-
--(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 
 @end
