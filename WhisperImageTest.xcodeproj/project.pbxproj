@@ -22,6 +22,8 @@
 		63E298CF1958D67F00CC4906 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E298AE1958D67F00CC4906 /* UIKit.framework */; };
 		63E298D71958D67F00CC4906 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63E298D51958D67F00CC4906 /* InfoPlist.strings */; };
 		63E298D91958D67F00CC4906 /* WhisperImageTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E298D81958D67F00CC4906 /* WhisperImageTestTests.m */; };
+		63E298E41958D74A00CC4906 /* beyonce.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 63E298E31958D74A00CC4906 /* beyonce.jpg */; };
+		63E298E81958F14000CC4906 /* WHManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E298E71958F14000CC4906 /* WHManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,9 @@
 		63E298D41958D67F00CC4906 /* WhisperImageTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WhisperImageTestTests-Info.plist"; sourceTree = "<group>"; };
 		63E298D61958D67F00CC4906 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		63E298D81958D67F00CC4906 /* WhisperImageTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WhisperImageTestTests.m; sourceTree = "<group>"; };
+		63E298E31958D74A00CC4906 /* beyonce.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = beyonce.jpg; sourceTree = "<group>"; };
+		63E298E61958F14000CC4906 /* WHManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WHManager.h; path = Manager/WHManager.h; sourceTree = "<group>"; };
+		63E298E71958F14000CC4906 /* WHManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WHManager.m; path = Manager/WHManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,7 +125,8 @@
 				63E298BF1958D67F00CC4906 /* Main_iPad.storyboard */,
 				63E298C21958D67F00CC4906 /* ViewController.h */,
 				63E298C31958D67F00CC4906 /* ViewController.m */,
-				63E298C51958D67F00CC4906 /* Images.xcassets */,
+				63E298E51958F11800CC4906 /* Manager */,
+				63E298E21958D73E00CC4906 /* Resources */,
 				63E298B11958D67F00CC4906 /* Supporting Files */,
 			);
 			path = WhisperImageTest;
@@ -153,6 +159,24 @@
 				63E298D51958D67F00CC4906 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		63E298E21958D73E00CC4906 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				63E298E31958D74A00CC4906 /* beyonce.jpg */,
+				63E298C51958D67F00CC4906 /* Images.xcassets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		63E298E51958F11800CC4906 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				63E298E61958F14000CC4906 /* WHManager.h */,
+				63E298E71958F14000CC4906 /* WHManager.m */,
+			);
+			name = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,6 +257,7 @@
 			files = (
 				63E298C11958D67F00CC4906 /* Main_iPad.storyboard in Resources */,
 				63E298C61958D67F00CC4906 /* Images.xcassets in Resources */,
+				63E298E41958D74A00CC4906 /* beyonce.jpg in Resources */,
 				63E298BE1958D67F00CC4906 /* Main_iPhone.storyboard in Resources */,
 				63E298B51958D67F00CC4906 /* InfoPlist.strings in Resources */,
 			);
@@ -253,6 +278,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63E298E81958F14000CC4906 /* WHManager.m in Sources */,
 				63E298C41958D67F00CC4906 /* ViewController.m in Sources */,
 				63E298BB1958D67F00CC4906 /* AppDelegate.m in Sources */,
 				63E298B71958D67F00CC4906 /* main.m in Sources */,
