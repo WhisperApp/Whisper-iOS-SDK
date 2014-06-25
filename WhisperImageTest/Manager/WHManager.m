@@ -9,7 +9,8 @@
 #import "WHManager.h"
 #import "AppDelegate.h"
 
-NSString* const dataFile = @"whisperTemp.img";
+NSString* const tempDirectoryName = @"whisperTmp";
+NSString* const tempFileName = @"whisperTemp.wh";
 
 #define kImageQuality 1.0
 #define kMinWidth 640.0f
@@ -19,7 +20,6 @@ NSString* const redirectMessage = @"You don't have Whisper Installed. You are ab
 
 @interface WHManager () <UIDocumentInteractionControllerDelegate, UIAlertViewDelegate>
 
-@property (nonatomic, strong) NSData* data;
 @property (nonatomic, strong) UIDocumentInteractionController* docController;
 @property (nonatomic, strong) NSURL* fileURL;
 
@@ -63,6 +63,30 @@ static WHManager* singleton = nil;
     }
 }
 
+-(id)init {
+    if (self=[super init]) {
+        _animated = YES;
+        _item = nil;
+        _view = nil;
+        _rect = CGRectNull;
+        _docController = nil;
+        _autotakeToAppStore = NO;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+    }
+    return self;
+}
+
+#pragma mark - NSNotificationCenter
+
+-(void)applicationWillEnterForeground {
+    BOOL isDir;
+    NSError* error;
+    NSString* dirPath = [NSTemporaryDirectory() stringByAppendingPathComponent:tempDirectoryName];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:dirPath isDirectory:&isDir]) {
+        [[NSFileManager defaultManager] removeItemAtPath:dirPath error:&error];
+    }
+    return;
+}
 
 #pragma mark Property-dependent methods
 
@@ -74,7 +98,7 @@ static WHManager* singleton = nil;
     if (![self writeToCache:data error:error])
         return NO;
     
-    return [self createWhisperWithURL:self.fileURL error:error];
+    return [self createWhisperWithCachedURL:self.fileURL error:error];
 }
 
 -(BOOL) createWhisperWithImage:(UIImage *)image error:(NSError**)error {
@@ -83,17 +107,20 @@ static WHManager* singleton = nil;
 }
 
 -(BOOL) createWhisperWithPath:(NSString *)path error:(NSError**)error {
-//    NSURL* url = [[NSBundle mainBundle] URLForResource:path withExtension:nil];
-    UIImage* image = [UIImage imageWithContentsOfFile:path];
-    if (!image) {
-        NSLog(@"failed to load image");
-        return NO;
-    }
-    return [self createWhisperWithImage:image error:error];
+    NSURL* url = [NSURL URLWithString:path relativeToURL:[NSURL URLWithString:@"file://"]];
+    return [self createWhisperWithURL:url error:error];
 }
 
 -(BOOL) createWhisperWithURL:(NSURL *)url error:(NSError**)error {
-    //assumes all URL's are local - if you do a network call this WILL hang
+
+    NSData* imageData = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:error];
+    if (!imageData)
+        return NO;
+    return [self createWhisperWithData:imageData error:error];
+}
+
+-(BOOL) createWhisperWithCachedURL:(NSURL*)url error:(NSError**)error {
+    
     NSData* imageData = [NSData dataWithContentsOfURL:url];
     UIImage* image = [UIImage imageWithData:imageData];
     if (!image) {
@@ -119,7 +146,6 @@ static WHManager* singleton = nil;
         }
     }
     return YES;
-
 }
 
 #pragma mark Using MenuFromBarButtonItem
@@ -266,22 +292,12 @@ static WHManager* singleton = nil;
 
 -(BOOL) writeToCache:(NSData *)data error:(NSError**)error{
     
-    //create cache path
-    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString* cachePath = [paths objectAtIndex:0];
-    BOOL isDir = NO;
-    BOOL success = YES;
-    if (![[NSFileManager defaultManager] fileExistsAtPath:cachePath isDirectory:&isDir] && isDir == NO) {
-        success = [[NSFileManager defaultManager] createDirectoryAtURL:[NSURL URLWithString:cachePath] withIntermediateDirectories:NO attributes:nil error:error];
-    }
-    if (!success) {
-        return NO;
-    }
-    NSString* cacheFile = [cachePath stringByAppendingPathComponent:dataFile];
+    NSURL* directoryURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:tempDirectoryName] isDirectory:YES];
+    [[NSFileManager defaultManager] createDirectoryAtURL:directoryURL withIntermediateDirectories:YES attributes:nil error:error];
+    NSString *fileName = [NSString stringWithFormat:@"%@_%@", [[NSProcessInfo processInfo] globallyUniqueString], tempFileName];
+    self.fileURL = [directoryURL URLByAppendingPathComponent:fileName];
     
-    self.fileURL = [NSURL URLWithString:cacheFile relativeToURL:[NSURL URLWithString:@"file://"]];
-    
-    return [data writeToFile:cacheFile options:NSDataWritingAtomic error:error];
+    return [data writeToFile:self.fileURL.path options:NSDataWritingAtomic error:error];
 }
 
 -(BOOL) whisperAppExists {
@@ -289,7 +305,7 @@ static WHManager* singleton = nil;
 }
 
 -(void) redirectToAppStore {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://itunes.apple.com/us/app/whisper-share-express-meet/id506141837"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://itunes.apple.com/us/app/whisper-share-express-meet/id506141837?mt=8"]];
 }
 
 -(void) promptForRedirect {
@@ -304,14 +320,29 @@ static WHManager* singleton = nil;
     return size.width >= kMinWidth && size.height >= kMinHeight;
 }
 
+-(NSString*)getApplicationURLScheme {
+    NSArray* urlTypes = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"];
+    if (urlTypes.count == 0)
+        return nil;
+    NSArray* urlSchemes = [[urlTypes objectAtIndex:0] objectForKey:@"CFBundleURLSchemes"];
+    if (urlSchemes.count == 0)
+        return nil;
+    return [urlSchemes objectAtIndex:0];
+}
+
 -(BOOL) showFileOpenDialog:(NSURL*) url error:(NSError**)error {
     
+    NSString* urlScheme = [self getApplicationURLScheme];
+    
     self.docController = [UIDocumentInteractionController interactionControllerWithURL:url];
-    self.docController.delegate = self;
+    _docController.delegate = self;
+    _docController.UTI = @"sh.whisper.whisperimage";
+    _docController.annotation = @{@"CallbackURL": urlScheme};
     
     if (self.mode == WHManagerModeMenuFromBarButtonItem) {
         if (!self.item) {
             *error = [WHManager errorItemIsNil];
+            _docController = nil;
             return NO;
         }
         [self.docController presentOpenInMenuFromBarButtonItem:self.item animated:self.animated];
@@ -319,10 +350,12 @@ static WHManager* singleton = nil;
     else if (self.mode == WHManagerModeMenuFromView) {
         if (!self.view) {
             *error = [WHManager errorViewIsNil];
+            _docController = nil;
             return NO;
         }
         if (CGRectIsNull(self.rect)) {
             *error = [WHManager errorRectIsNil];
+            _docController = nil;
             return NO;
         }
         [self.docController presentOpenInMenuFromRect:self.rect inView:self.view animated:self.animated];
@@ -330,6 +363,7 @@ static WHManager* singleton = nil;
     else if (self.mode == WHManagerModeOptionsMenuFromBarButtonItem) {
         if (!self.item) {
             *error = [WHManager errorItemIsNil];
+            _docController = nil;
             return NO;
         }
         [self.docController presentOptionsMenuFromBarButtonItem:self.item animated:self.animated];
@@ -337,10 +371,12 @@ static WHManager* singleton = nil;
     else if (self.mode == WHManagerModeOptionsMenuFromView) {
         if (!self.view) {
             *error = [WHManager errorViewIsNil];
+            _docController = nil;
             return NO;
         }
         if (CGRectIsNull(self.rect)) {
             *error = [WHManager errorRectIsNil];
+            _docController = nil;
             return NO;
         }
         [self.docController presentOptionsMenuFromRect:self.rect inView:self.view animated:self.animated];
@@ -403,10 +439,7 @@ static WHManager* singleton = nil;
 
 -(void) dealloc {
     NSLog(@"dealloc!");
-    if (self.fileURL) {
-        NSError* error;
-        [[NSFileManager defaultManager] removeItemAtURL:self.fileURL error:&error];
-    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

@@ -21,7 +21,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    self.url = [[NSBundle mainBundle] URLForResource:@"beyonce2" withExtension:@"jpg"];
+    self.url = [[NSBundle mainBundle] URLForResource:@"beyonce" withExtension:@"wh"];
     NSAssert(self.url, @"no url!");
     
     UIImage* image = [UIImage imageWithContentsOfFile:self.url.path];
@@ -36,7 +36,13 @@
     BOOL result;
     
     NSError* error;
-    result = [[WHManager sharedManager] createWhisperWithURL:self.url withMenuFromRect:self.imageView.bounds inView:self.imageView animated:YES error:&error];
+    
+    WHManager* manager = [WHManager sharedManager];
+    manager.mode = WHManagerModeMenuFromView;
+    manager.view = self.imageView;
+    manager.rect = self.imageView.bounds;
+    manager.animated = YES;
+    result = [manager createWhisperWithURL:self.url error:&error];
 
     if (!result) {
         NSLog(@"%@", error.description);

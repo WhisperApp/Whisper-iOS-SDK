@@ -23,8 +23,14 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string>sh.whisperapp.TestApp</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>test</string>
+			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
