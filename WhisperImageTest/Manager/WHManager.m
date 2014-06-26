@@ -93,6 +93,7 @@ static WHManager* singleton = nil;
 -(BOOL) createWhisperWithData:(NSData *)data error:(NSError**)error {
     
     if (!data) {
+        *error = [WHManager errorCouldNotInitializeImageFromData];
         return NO;
     }
     if (![self writeToCache:data error:error])

@@ -10,6 +10,51 @@
 
 static NSString* const WHManagerErrorDomain = @"sh.whisper.WHManager";
 
+/**
+  The `WHManager` class allows you to prompt the user to create a
+  Whisper using a given image.
+ 
+  You can call the prompt in one of two ways. The
+  first is to set the relevant properties of the `WHManager` before
+  calling one of the property-dependent create methods:
+
+    NSImage* image = ...
+    UIView* view = ...
+ 
+    WHManager* manager = [WHManager sharedManager];
+    manager.mode = WHManagerModeMenuFromView
+    manager.view = view;
+    manager.rect = view.bounds;
+
+    NSError* error;
+    [manager createWhisperWithImage:image error:&error];
+
+  Alternatively, you can call one of the shorthand methods, that
+  encapsulates the `mode` and relevant properties in its method name
+  and parameters:
+
+    NSImage* image = ...
+    UIView* view = ...
+ 
+    NSError* error;
+    [[WHManager sharedManager] createWhisperWithImage:image
+                                     withMenuFromRect:view.bounds
+                                               inView:view
+                                             animated:YES
+                                                error:error];
+ 
+  The create prompt can be presented in four different modes,
+  as defined in the `mode` property. This controls whether the open
+  menu is presented from a `UIView` or a `UIBarButtonItem`, and
+  the style of the underlying `UIDocumentInteractionController`.
+
+  The WHManager supports opening images from one of the `UIImage`,
+  `NSData`, `NSURL`, or `NSString` classes. Note that the data
+  associated with each of the types must be an image in a JPEG format,
+  with a size of at least 640 pixels wide by 920 pixels high. 
+  Failure to comply to these requirements will result in an `NSError`
+  and a return value of `NO`.
+ */
 @interface WHManager : NSObject
 
 typedef NS_ENUM(NSInteger, WHManagerErrorCode){
@@ -20,59 +65,7 @@ typedef NS_ENUM(NSInteger, WHManagerErrorCode){
     WHManagerErrorCodeImageIsTooSmall
 };
 
-/**
- * Specifies whether the user is automatically directed 
- * to the Whisper App Store page. If set to NO, a dialog 
- * is shown to confirm the redirect.
- */
-@property BOOL autotakeToAppStore;
-
-/**
- * Specifies whether menus are animated.
- */
-@property BOOL animated;
-
-
-typedef NS_ENUM(NSInteger, WHManagerMode) {
-    WHManagerModeMenuFromBarButtonItem,
-    WHManagerModeMenuFromView,
-    WHManagerModeOptionsMenuFromBarButtonItem,
-    WHManagerModeOptionsMenuFromView
-};
-
-/**
- *  The mode that the Whisper Manager is currently set in.
- *  This specifies whether the open prompt is shown from a Menu
- *  or an OptionsMenu, and whether the prompt is shown from inside
- *  a UIView or a UIBarButtonItem.
- *
- *  Note that when setting the Mode that WHManager runs in, you must
- *  also set the barButtonItem or view properties, depending on what
- *  mode you have set to.
- */
-@property WHManagerMode mode;
-
-/**
- *  The BarButtonItem that the prompt menu will open from.
- *  Note that the mode property must also be set to the 
- *  corresponding WHManagerMode value.
- */
-@property (nonatomic, weak) UIBarButtonItem* item;
-
-/**
- *  The View that the prompt menu will open in.
- *  Note that the mode property must also be set to the 
- *  corresponding WHManagerMode value.
- */
-@property (nonatomic, weak) UIView* view;
-
-/**
- *  The location (in the coordinate system of view) at which
- *  to anchor the prompt menu.
- *  Note that the mode property must also be set to the
- *  corresponding WHManagerMode value.
- */
-@property CGRect rect;
+///@name Class Methods
 
 /**
  *  Returns the singleton manager.
@@ -90,6 +83,87 @@ typedef NS_ENUM(NSInteger, WHManagerMode) {
  */
 +(CGSize) minImageSize;
 
+///@name Properties
+
+/**
+ * Specifies whether the user is automatically directed 
+ * to the Whisper App Store page. If set to `NO`, a dialog
+ * is shown to confirm the redirect.
+ */
+@property BOOL autotakeToAppStore;
+
+/**
+ * Specifies whether menus are animated.
+ */
+@property BOOL animated;
+
+/**
+ *  Denotes the current `mode` that the `WHManager` is set in. This
+ *  controls whether the open menu is presented in a `UIView`, or from
+ *  a `UIBarButtonItem`, and the style of the underlying
+ *  `UIDocumentInteractionController`.
+ */
+typedef NS_ENUM(NSInteger, WHManagerMode) {
+    /**
+     *  A standard menu is presented from a `UIBarButtonItem`.
+     *  Note that you must set the `item` property before calling any
+     *  one of the property-dependent create methods.
+     */
+    WHManagerModeMenuFromBarButtonItem,
+    /**
+     *  A standard menu is presented from a `UIView`.
+     *  Note that you must set the `view` and `rect` properties before
+     *  calling any one of the property-dependent create methods.
+     */
+    WHManagerModeMenuFromView,
+    /**
+     *  An options menu is presented from a `UIBarButtonItem`.
+     *  Note that you must set the `item` property before calling any
+     *  one of the property-dependent create methods.
+     */
+    WHManagerModeOptionsMenuFromBarButtonItem,
+    /**
+     *  An options menu is presented from a `UIView`.
+     *  Note that you must set the `view` and `rect` properties before
+     *  calling any one of the property-dependent create methods.
+     */
+    WHManagerModeOptionsMenuFromView
+};
+
+/**
+ *  The `mode` that the `WHManager` is currently set in.
+ *  This specifies whether the open prompt is shown from a Menu
+ *  or an OptionsMenu, and whether the prompt is shown from inside
+ *  a `UIView` or a `UIBarButtonItem`.
+ *
+ *  Note that when setting the `mode` that `WHManager` runs in, you 
+ *  must also set the `item`, `view`, and/or `rect` properties, depending on what
+ *  `mode` you have set to.
+ */
+@property WHManagerMode mode;
+
+/**
+ *  The `UIBarButtonItem` that the prompt menu will open from.
+ *  Note that the `mode` property must also be set to the 
+ *  corresponding `WHManagerMode` value.
+ */
+@property (nonatomic, weak) UIBarButtonItem* item;
+
+/**
+ *  The `UIView` that the prompt menu will open in.
+ *  Note that the `mode` property must also be set to the 
+ *  corresponding `WHManagerMode` value.
+ */
+@property (nonatomic, weak) UIView* view;
+
+/**
+ *  The location (in the coordinate system of view) at which
+ *  to anchor the prompt menu.
+ *  Note that the `mode` property must also be set to the
+ *  corresponding `WHManagerMode` value.
+ */
+@property CGRect rect;
+
 /// @name Property-dependent methods
 
 /**
@@ -100,9 +174,9 @@ typedef NS_ENUM(NSInteger, WHManagerMode) {
  *
  *  @param data The image data to be used.
  *  @param error If there is an error creating the Whisper, upon
- *  return contains an NSError object that describes the problem.
+ *  return contains an `NSError` object that describes the problem.
  *
- *  @return returns YES if the operation succeeded without errors.
+ *  @return returns `YES` if the operation succeeded without errors.
  */
 -(BOOL) createWhisperWithData:(NSData*) data error:(NSError**)error;
 
@@ -114,9 +188,9 @@ typedef NS_ENUM(NSInteger, WHManagerMode) {
  *
  *  @param image The image to be used.
  *  @param error If there is an error creating the Whisper, upon
- *  return contains an NSError object that describes the problem.
+ *  return contains an `NSError` object that describes the problem.
  *
- *  @return returns YES if the operation succeeded without errors.
+ *  @return returns `YES` if the operation succeeded without errors.
  */
 -(BOOL) createWhisperWithImage:(UIImage*)image error:(NSError**)error;
 
@@ -130,9 +204,9 @@ typedef NS_ENUM(NSInteger, WHManagerMode) {
  *
  *  @param url The URL of the image to be used.
  *  @param error If there is an error creating the Whisper, upon
- *  return contains an NSError object that describes the problem.
+ *  return contains an `NSError` object that describes the problem.
  *
- *  @return returns YES if the operation succeeded without errors.
+ *  @return returns `YES` if the operation succeeded without errors.
  */
 -(BOOL) createWhisperWithURL:(NSURL*)url error:(NSError**)error;
 
@@ -145,34 +219,34 @@ typedef NS_ENUM(NSInteger, WHManagerMode) {
  *
  *  @param path The file path to the image to be used.
  *  @param error If there is an error creating the Whisper, upon 
- *  return contains an NSError object that describes the problem.
+ *  return contains an `NSError` object that describes the problem.
  *
- *  @return returns YES if the operation succeeded without errors.
+ *  @return returns `YES` if the operation succeeded without errors.
  */
 -(BOOL) createWhisperWithPath:(NSString*)path error:(NSError**)error;
 
-/// @name MenuFromBarButtonItem
+/// @name Shorthand methods - MenuFromBarButtonItem
 
 -(BOOL) createWhisperWithData:(NSData *)data withMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
 -(BOOL) createWhisperWithImage:(UIImage *)image withMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
 -(BOOL) createWhisperWithPath:(NSString *)path withMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
 -(BOOL) createWhisperWithURL:(NSURL *)url withMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
 
-/// @name MenuFromRectInView
+/// @name Shorthand methods - MenuFromRectInView
 
 -(BOOL) createWhisperWithData:(NSData *)data withMenuFromRect:(CGRect)rect inView:(UIView*)view animated:(BOOL)animated error:(NSError**)error;
 -(BOOL) createWhisperWithImage:(UIImage *)image withMenuFromRect:(CGRect)rect inView:(UIView*)view animated:(BOOL)animated error:(NSError**)error;
 -(BOOL) createWhisperWithPath:(NSString *)path withMenuFromRect: (CGRect)rect inView:(UIView*)view animated:(BOOL)animated error:(NSError**)error;
 -(BOOL) createWhisperWithURL:(NSURL *)url withMenuFromRect: (CGRect)rect inView:(UIView*)view animated:(BOOL)animated error:(NSError**)error;
 
-/// @name OptionsMenuFromBarButtonItem
+/// @name Shorthand methods - OptionsMenuFromBarButtonItem
 
 -(BOOL) createWhisperWithData:(NSData *)data withOptionsMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
 -(BOOL) createWhisperWithImage:(UIImage *)image withOptionsMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
 -(BOOL) createWhisperWithPath:(NSString *)path withOptionsMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
 -(BOOL) createWhisperWithURL:(NSURL *)url withOptionsMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
 
-/// @name OptionsMenuFromRectInView
+/// @name Shorthand methods - OptionsMenuFromRectInView
 
 -(BOOL) createWhisperWithData:(NSData *)data withOptionsMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error;
 -(BOOL) createWhisperWithImage:(UIImage *)image withOptionsMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error;
