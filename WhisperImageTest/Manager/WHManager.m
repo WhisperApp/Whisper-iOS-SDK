@@ -8,6 +8,7 @@
 
 #import "WHManager.h"
 #import "AppDelegate.h"
+#import "NSData+ImageFormat.h"
 
 NSString* const tempDirectoryName = @"whisperTmp";
 NSString* const tempFileName = @"whisperTemp.wh";
@@ -155,6 +156,10 @@ static WHManager* singleton = nil;
     
     if (!data) {
         *error = [WHManager errorCouldNotInitializeImageFromData];
+        return NO;
+    }
+    if (![data isJPG]) {
+        *error = [WHManager errorWrongImageFormat];
         return NO;
     }
     if (![self writeToCache:data error:error])
@@ -495,6 +500,17 @@ static WHManager* singleton = nil;
                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Resize image to be at least minImageSize", nil)
                                };
     NSError* error = [NSError errorWithDomain:WHManagerErrorDomain code:WHManagerErrorCodeImageIsTooSmall userInfo:userInfo];
+    return error;
+}
+
++(NSError*) errorWrongImageFormat {
+    NSDictionary* userInfo = @{
+                               NSLocalizedDescriptionKey: NSLocalizedString(@"Whisper creation unsuccessful", nil),
+                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Data is not in JPEG image format", nil),
+                               NSLocalizedRecoverySuggestionErrorKey:
+                                   NSLocalizedString(@"Use the JPEG image format", nil)
+                               };
+    NSError* error = [NSError errorWithDomain:WHManagerErrorDomain code: WHManagerErrorCodeWrongImageFormat userInfo:userInfo];
     return error;
 }
 

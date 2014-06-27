@@ -62,7 +62,8 @@ typedef NS_ENUM(NSInteger, WHManagerErrorCode){
     WHManagerErrorCodeRectIsNil,
     WHManagerErrorCodeViewIsNil,
     WHManagerErrorCodeCouldNotInitializeImageFromData,
-    WHManagerErrorCodeImageIsTooSmall
+    WHManagerErrorCodeImageIsTooSmall,
+    WHManagerErrorCodeWrongImageFormat
 };
 
 ///@name Class Methods
