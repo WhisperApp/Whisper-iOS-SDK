@@ -102,12 +102,12 @@ static WHPWhisperAppClient* singleton = nil;
 +(CGSize)buttonSizeForEnum:(WHPWhisperAppClientButtonSize)size
 {
     switch (size) {
-        case WHPWhisperAppClientButtonSizeSmall:
+        case kWHPWhisperAppClientButtonSize_Small:
             return [WHPWhisperAppClient whisperButtonSmallSize];
             break;
-        case WHPWhisperAppClientButtonSizeMedium:
+        case kWHPWhisperAppClientButtonSize_Medium:
             return [WHPWhisperAppClient whisperButtonMediumSize];
-        case WHPWhisperAppClientButtonSizeLarge:
+        case kWHPWhisperAppClientButtonSize_Large:
             return [WHPWhisperAppClient whisperButtonLargeSize];
         default:
             return [WHPWhisperAppClient whisperButtonMediumSize];

@@ -31,7 +31,7 @@
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.imageView sizeToFit];
     
-    UIButton* button = [WHPWhisperAppClient whisperButtonWithSize:WHPWhisperAppClientButtonSizeMedium rounded:YES];
+    UIButton* button = [WHPWhisperAppClient whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Medium rounded:YES];
     button.center = CGPointMake(160,500);
     [button addTarget:self action:@selector(openButton:) forControlEvents:UIControlEventTouchUpInside];
     

@@ -74,9 +74,9 @@
 +(CGSize) minImageSize;
 
 typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
-    WHPWhisperAppClientButtonSizeSmall,
-    WHPWhisperAppClientButtonSizeMedium,
-    WHPWhisperAppClientButtonSizeLarge
+    kWHPWhisperAppClientButtonSize_Small,
+    kWHPWhisperAppClientButtonSize_Medium,
+    kWHPWhisperAppClientButtonSize_Large
 };
 
 /**
