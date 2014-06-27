@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "WHManager.h"
+#import "WHPWhisperAppClient.h"
 
 @interface ViewController () <UIDocumentInteractionControllerDelegate>
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
@@ -31,7 +31,7 @@
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.imageView sizeToFit];
     
-    UIButton* button = [WHManager whisperButtonWithSize:WHManagerButtonSizeMedium rounded:YES];
+    UIButton* button = [WHPWhisperAppClient whisperButtonWithSize:WHPWhisperAppClientButtonSizeMedium rounded:YES];
     button.center = CGPointMake(160,500);
     [button addTarget:self action:@selector(openButton:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -43,8 +43,8 @@
     
     NSError* error;
     
-    WHManager* manager = [WHManager sharedManager];
-    manager.mode = WHManagerModeMenuFromView;
+    WHPWhisperAppClient* manager = [WHPWhisperAppClient sharedManager];
+    manager.mode = WHPWhisperAppClientModeMenuFromView;
     manager.view = self.imageView;
     manager.rect = self.imageView.bounds;
     manager.animated = YES;

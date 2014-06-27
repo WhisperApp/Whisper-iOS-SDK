@@ -10,6 +10,7 @@
 		6342CA25195A2C5700BF6ADE /* beyonce2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6342CA24195A2C5700BF6ADE /* beyonce2.jpg */; };
 		63642C98195DDFF30000D3A4 /* NSData+ImageFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 63642C97195DDFF30000D3A4 /* NSData+ImageFormat.m */; };
 		63642C9A195DE41A0000D3A4 /* beyonce.png in Resources */ = {isa = PBXBuildFile; fileRef = 63642C99195DE41A0000D3A4 /* beyonce.png */; };
+		63642C9D195DEFE70000D3A4 /* NSError+WHPErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 63642C9C195DEFE70000D3A4 /* NSError+WHPErrors.m */; };
 		63DC3D7C195CED27006D43D2 /* WhisperResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63DC3D7B195CED27006D43D2 /* WhisperResources.bundle */; };
 		63E298AB1958D67F00CC4906 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E298AA1958D67F00CC4906 /* Foundation.framework */; };
 		63E298AD1958D67F00CC4906 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E298AC1958D67F00CC4906 /* CoreGraphics.framework */; };
@@ -27,7 +28,7 @@
 		63E298D71958D67F00CC4906 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63E298D51958D67F00CC4906 /* InfoPlist.strings */; };
 		63E298D91958D67F00CC4906 /* WhisperImageTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E298D81958D67F00CC4906 /* WhisperImageTestTests.m */; };
 		63E298E41958D74A00CC4906 /* beyonce.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 63E298E31958D74A00CC4906 /* beyonce.jpg */; };
-		63E298E81958F14000CC4906 /* WHManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E298E71958F14000CC4906 /* WHManager.m */; };
+		63E298E81958F14000CC4906 /* WHPWhisperAppClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E298E71958F14000CC4906 /* WHPWhisperAppClient.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,8 @@
 		63642C96195DDFF30000D3A4 /* NSData+ImageFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageFormat.h"; sourceTree = "<group>"; };
 		63642C97195DDFF30000D3A4 /* NSData+ImageFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+ImageFormat.m"; sourceTree = "<group>"; };
 		63642C99195DE41A0000D3A4 /* beyonce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beyonce.png; sourceTree = "<group>"; };
+		63642C9B195DEFE70000D3A4 /* NSError+WHPErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSError+WHPErrors.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		63642C9C195DEFE70000D3A4 /* NSError+WHPErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSError+WHPErrors.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		63DC3D7B195CED27006D43D2 /* WhisperResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WhisperResources.bundle; sourceTree = "<group>"; };
 		63E298A71958D67F00CC4906 /* WhisperImageTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhisperImageTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E298AA1958D67F00CC4906 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -59,7 +62,7 @@
 		63E298BD1958D67F00CC4906 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		63E298C01958D67F00CC4906 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		63E298C21958D67F00CC4906 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		63E298C31958D67F00CC4906 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		63E298C31958D67F00CC4906 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		63E298C51958D67F00CC4906 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		63E298CB1958D67F00CC4906 /* WhisperImageTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhisperImageTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E298CC1958D67F00CC4906 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -67,8 +70,8 @@
 		63E298D61958D67F00CC4906 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		63E298D81958D67F00CC4906 /* WhisperImageTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WhisperImageTestTests.m; sourceTree = "<group>"; };
 		63E298E31958D74A00CC4906 /* beyonce.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = beyonce.jpg; sourceTree = "<group>"; };
-		63E298E61958F14000CC4906 /* WHManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WHManager.h; path = Manager/WHManager.h; sourceTree = "<group>"; };
-		63E298E71958F14000CC4906 /* WHManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WHManager.m; path = Manager/WHManager.m; sourceTree = "<group>"; };
+		63E298E61958F14000CC4906 /* WHPWhisperAppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = WHPWhisperAppClient.h; path = Manager/WHPWhisperAppClient.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		63E298E71958F14000CC4906 /* WHPWhisperAppClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = WHPWhisperAppClient.m; path = Manager/WHPWhisperAppClient.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +98,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		63642C9E195DF1AE0000D3A4 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				63642C9F195DF1B70000D3A4 /* NSError */,
+				63642CA0195DF1C00000D3A4 /* NSData */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		63642C9F195DF1B70000D3A4 /* NSError */ = {
+			isa = PBXGroup;
+			children = (
+				63642C9B195DEFE70000D3A4 /* NSError+WHPErrors.h */,
+				63642C9C195DEFE70000D3A4 /* NSError+WHPErrors.m */,
+			);
+			name = NSError;
+			sourceTree = "<group>";
+		};
+		63642CA0195DF1C00000D3A4 /* NSData */ = {
+			isa = PBXGroup;
+			children = (
+				63642C96195DDFF30000D3A4 /* NSData+ImageFormat.h */,
+				63642C97195DDFF30000D3A4 /* NSData+ImageFormat.m */,
+			);
+			name = NSData;
+			sourceTree = "<group>";
+		};
 		63E2989E1958D67F00CC4906 = {
 			isa = PBXGroup;
 			children = (
@@ -185,10 +215,9 @@
 		63E298E51958F11800CC4906 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				63E298E61958F14000CC4906 /* WHManager.h */,
-				63E298E71958F14000CC4906 /* WHManager.m */,
-				63642C96195DDFF30000D3A4 /* NSData+ImageFormat.h */,
-				63642C97195DDFF30000D3A4 /* NSData+ImageFormat.m */,
+				63E298E61958F14000CC4906 /* WHPWhisperAppClient.h */,
+				63E298E71958F14000CC4906 /* WHPWhisperAppClient.m */,
+				63642C9E195DF1AE0000D3A4 /* Categories */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -295,8 +324,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63E298E81958F14000CC4906 /* WHManager.m in Sources */,
+				63E298E81958F14000CC4906 /* WHPWhisperAppClient.m in Sources */,
 				63E298C41958D67F00CC4906 /* ViewController.m in Sources */,
+				63642C9D195DEFE70000D3A4 /* NSError+WHPErrors.m in Sources */,
 				63642C98195DDFF30000D3A4 /* NSData+ImageFormat.m in Sources */,
 				63E298BB1958D67F00CC4906 /* AppDelegate.m in Sources */,
 				63E298B71958D67F00CC4906 /* main.m in Sources */,

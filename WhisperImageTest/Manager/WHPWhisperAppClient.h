@@ -1,5 +1,5 @@
 //
-//  WHManager.h
+//  WHPWhisperAppClient.h
 //  WhisperImageTest
 //
 //  Created by whisper on 6/23/14.
@@ -8,21 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString* const WHManagerErrorDomain = @"sh.whisper.WHManager";
-
 /**
-  The `WHManager` class allows you to prompt the user to create a
+  The `WHPWhisperAppClient` class allows you to prompt the user to create a
   Whisper using a given image.
  
   You can call the prompt in one of two ways. The
-  first is to set the relevant properties of the `WHManager` before
+  first is to set the relevant properties of the `WHPWhisperAppClient` before
   calling one of the property-dependent create methods:
 
     NSImage* image = ...
     UIView* view = ...
  
-    WHManager* manager = [WHManager sharedManager];
-    manager.mode = WHManagerModeMenuFromView
+    WHPWhisperAppClient* manager = [WHPWhisperAppClient sharedManager];
+    manager.mode = WHPWhisperAppClientModeMenuFromView
     manager.view = view;
     manager.rect = view.bounds;
 
@@ -37,7 +35,7 @@ static NSString* const WHManagerErrorDomain = @"sh.whisper.WHManager";
     UIView* view = ...
  
     NSError* error;
-    [[WHManager sharedManager] createWhisperWithImage:image
+    [[WHPWhisperAppClient sharedManager] createWhisperWithImage:image
                                      withMenuFromRect:view.bounds
                                                inView:view
                                              animated:YES
@@ -48,23 +46,14 @@ static NSString* const WHManagerErrorDomain = @"sh.whisper.WHManager";
   menu is presented from a `UIView` or a `UIBarButtonItem`, and
   the style of the underlying `UIDocumentInteractionController`.
 
-  The WHManager supports opening images from one of the `UIImage`,
+  The WHPWhisperAppClient supports opening images from one of the `UIImage`,
   `NSData`, `NSURL`, or `NSString` classes. Note that the data
   associated with each of the types must be an image in a JPEG format,
   with a size of at least 640 pixels wide by 920 pixels high. 
   Failure to comply to these requirements will result in an `NSError`
   and a return value of `NO`.
  */
-@interface WHManager : NSObject
-
-typedef NS_ENUM(NSInteger, WHManagerErrorCode){
-    WHManagerErrorCodeItemIsNil,
-    WHManagerErrorCodeRectIsNil,
-    WHManagerErrorCodeViewIsNil,
-    WHManagerErrorCodeCouldNotInitializeImageFromData,
-    WHManagerErrorCodeImageIsTooSmall,
-    WHManagerErrorCodeWrongImageFormat
-};
+@interface WHPWhisperAppClient : NSObject
 
 ///@name Class Methods
 
@@ -72,10 +61,10 @@ typedef NS_ENUM(NSInteger, WHManagerErrorCode){
  *  Returns the singleton manager.
  *
  *  @return The singleton manager.
- *  @discussion This method allocates and initializes a WHManager
+ *  @discussion This method allocates and initializes a WHPWhisperAppClient
  *  object if one doesn't already exist.
  */
-+(WHManager*) sharedManager;
++(WHPWhisperAppClient*) sharedManager;
 
 /**
  *  The minimum image size that can be passed into Whisper.
@@ -84,22 +73,22 @@ typedef NS_ENUM(NSInteger, WHManagerErrorCode){
  */
 +(CGSize) minImageSize;
 
-typedef NS_ENUM(NSInteger, WHManagerButtonSize) {
-    WHManagerButtonSizeSmall,
-    WHManagerButtonSizeMedium,
-    WHManagerButtonSizeLarge
+typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
+    WHPWhisperAppClientButtonSizeSmall,
+    WHPWhisperAppClientButtonSizeMedium,
+    WHPWhisperAppClientButtonSizeLarge
 };
 
 /**
  *  Returns a custom Whisper button that you can
  *  use for your prompt.
  *
- *  @param size    Size, as denoted by the `WHManagerButtonSize` enum.
+ *  @param size    Size, as denoted by the `WHPWhisperAppClientButtonSize` enum.
  *  @param rounded A boolean denoting whether the button is rounded on the corners
  *
  *  @return A custom Whisper button.
  */
-+(UIButton*)whisperButtonWithSize:(WHManagerButtonSize)size
++(UIButton*)whisperButtonWithSize:(WHPWhisperAppClientButtonSize)size
                           rounded:(BOOL)rounded;
 
 /**
@@ -138,61 +127,61 @@ typedef NS_ENUM(NSInteger, WHManagerButtonSize) {
 @property BOOL animated;
 
 /**
- *  Denotes the current `mode` that the `WHManager` is set in. This
+ *  Denotes the current `mode` that the `WHPWhisperAppClient` is set in. This
  *  controls whether the open menu is presented in a `UIView`, or from
  *  a `UIBarButtonItem`, and the style of the underlying
  *  `UIDocumentInteractionController`.
  */
-typedef NS_ENUM(NSInteger, WHManagerMode) {
+typedef NS_ENUM(NSInteger, WHPWhisperAppClientMode) {
     /**
      *  A standard menu is presented from a `UIBarButtonItem`.
      *  Note that you must set the `item` property before calling any
      *  one of the property-dependent create methods.
      */
-    WHManagerModeMenuFromBarButtonItem,
+    WHPWhisperAppClientModeMenuFromBarButtonItem,
     /**
      *  A standard menu is presented from a `UIView`.
      *  Note that you must set the `view` and `rect` properties before
      *  calling any one of the property-dependent create methods.
      */
-    WHManagerModeMenuFromView,
+    WHPWhisperAppClientModeMenuFromView,
     /**
      *  An options menu is presented from a `UIBarButtonItem`.
      *  Note that you must set the `item` property before calling any
      *  one of the property-dependent create methods.
      */
-    WHManagerModeOptionsMenuFromBarButtonItem,
+    WHPWhisperAppClientModeOptionsMenuFromBarButtonItem,
     /**
      *  An options menu is presented from a `UIView`.
      *  Note that you must set the `view` and `rect` properties before
      *  calling any one of the property-dependent create methods.
      */
-    WHManagerModeOptionsMenuFromView
+    WHPWhisperAppClientModeOptionsMenuFromView
 };
 
 /**
- *  The `mode` that the `WHManager` is currently set in.
+ *  The `mode` that the `WHPWhisperAppClient` is currently set in.
  *  This specifies whether the open prompt is shown from a Menu
  *  or an OptionsMenu, and whether the prompt is shown from inside
  *  a `UIView` or a `UIBarButtonItem`.
  *
- *  Note that when setting the `mode` that `WHManager` runs in, you 
+ *  Note that when setting the `mode` that `WHPWhisperAppClient` runs in, you 
  *  must also set the `item`, `view`, and/or `rect` properties, depending on what
  *  `mode` you have set to.
  */
-@property WHManagerMode mode;
+@property WHPWhisperAppClientMode mode;
 
 /**
  *  The `UIBarButtonItem` that the prompt menu will open from.
  *  Note that the `mode` property must also be set to the 
- *  corresponding `WHManagerMode` value.
+ *  corresponding `WHPWhisperAppClientMode` value.
  */
 @property (nonatomic, weak) UIBarButtonItem* item;
 
 /**
  *  The `UIView` that the prompt menu will open in.
  *  Note that the `mode` property must also be set to the 
- *  corresponding `WHManagerMode` value.
+ *  corresponding `WHPWhisperAppClientMode` value.
  */
 @property (nonatomic, weak) UIView* view;
 
@@ -200,7 +189,7 @@ typedef NS_ENUM(NSInteger, WHManagerMode) {
  *  The location (in the coordinate system of view) at which
  *  to anchor the prompt menu.
  *  Note that the `mode` property must also be set to the
- *  corresponding `WHManagerMode` value.
+ *  corresponding `WHPWhisperAppClientMode` value.
  */
 @property CGRect rect;
 
