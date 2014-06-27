@@ -21,7 +21,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    self.url = [[NSBundle mainBundle] URLForResource:@"beyonce" withExtension:@"wh"];
+    self.url = [[NSBundle mainBundle] URLForResource:@"beyonce" withExtension:@"jpg"];
     NSAssert(self.url, @"no url!");
     
     UIImage* image = [UIImage imageWithContentsOfFile:self.url.path];
@@ -30,6 +30,12 @@
     self.imageView.image = image;
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.imageView sizeToFit];
+    
+    UIButton* button = [WHManager whisperButtonWithSize:WHManagerButtonSizeMedium rounded:YES];
+    button.center = CGPointMake(160,500);
+    [button addTarget:self action:@selector(openButton:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:button];
 }
 
 - (IBAction)openButton:(id)sender {

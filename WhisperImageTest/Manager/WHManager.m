@@ -11,6 +11,20 @@
 
 NSString* const tempDirectoryName = @"whisperTmp";
 NSString* const tempFileName = @"whisperTemp.wh";
+NSString* const whisperIconName = @"whisper_appicon152";
+NSString* const whisperIconType = @"png";
+NSString* const resourceBundle = @"WhisperResources.bundle";
+
+#define kButtonSmallWidth 50.0f
+#define kButtonSmallHeight 50.0f
+
+#define kButtonMediumWidth 60.0f
+#define kButtonMediumHeight 60.0f
+
+#define kButtonLargeWidth 75.0f
+#define kButtonLargeHeight 75.0f
+
+#define kButtonCornerRadius 10.0f
 
 #define kImageQuality 1.0
 #define kMinWidth 640.0f
@@ -61,6 +75,53 @@ static WHManager* singleton = nil;
         }
         return singleton;
     }
+}
+
++(UIButton*) whisperButtonWithSize:(WHManagerButtonSize)size rounded:(BOOL)rounded {
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+    NSString* resourceName = [NSString stringWithFormat:@"%@/%@", resourceBundle, whisperIconName];
+    NSString* buttonPath = [[NSBundle mainBundle] pathForResource:resourceName ofType:whisperIconType];
+    
+    UIImage* buttonImage = [UIImage imageWithContentsOfFile:buttonPath];
+    
+    CGSize buttonSize = [WHManager buttonSizeForEnum:size];
+    button.frame = CGRectMake(0, 0, buttonSize.width, buttonSize.height);
+    
+    if (rounded) {
+        button.layer.cornerRadius = kButtonCornerRadius;
+        button.clipsToBounds = YES;
+    }
+    
+    [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [button.imageView setContentMode:UIViewContentModeScaleAspectFit];
+    return button;
+}
+
++(CGSize)buttonSizeForEnum:(WHManagerButtonSize)size
+{
+    switch (size) {
+        case WHManagerButtonSizeSmall:
+            return [WHManager whisperButtonSmallSize];
+            break;
+        case WHManagerButtonSizeMedium:
+            return [WHManager whisperButtonMediumSize];
+        case WHManagerButtonSizeLarge:
+            return [WHManager whisperButtonLargeSize];
+        default:
+            return [WHManager whisperButtonMediumSize];
+    }
+}
+
++(CGSize)whisperButtonSmallSize {
+    return CGSizeMake(kButtonSmallWidth, kButtonSmallHeight);
+}
+
++(CGSize)whisperButtonMediumSize {
+    return CGSizeMake(kButtonMediumWidth, kButtonMediumHeight);
+}
+
++(CGSize)whisperButtonLargeSize {
+    return CGSizeMake(kButtonLargeWidth, kButtonLargeHeight);
 }
 
 -(id)init {

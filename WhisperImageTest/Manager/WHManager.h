@@ -83,6 +83,45 @@ typedef NS_ENUM(NSInteger, WHManagerErrorCode){
  */
 +(CGSize) minImageSize;
 
+typedef NS_ENUM(NSInteger, WHManagerButtonSize) {
+    WHManagerButtonSizeSmall,
+    WHManagerButtonSizeMedium,
+    WHManagerButtonSizeLarge
+};
+
+/**
+ *  Returns a custom Whisper button that you can
+ *  use for your prompt.
+ *
+ *  @param size    Size, as denoted by the `WHManagerButtonSize` enum.
+ *  @param rounded A boolean denoting whether the button is rounded on the corners
+ *
+ *  @return A custom Whisper button.
+ */
++(UIButton*)whisperButtonWithSize:(WHManagerButtonSize)size
+                          rounded:(BOOL)rounded;
+
+/**
+ *  Get the default small size for a Whisper button.
+ *
+ *  @return The default small size for a Whisper button.
+ */
++(CGSize)whisperButtonSmallSize;
+
+/**
+ *  Get the default medium size for a Whisper button.
+ *
+ *  @return The default medium size for a Whisper button.
+ */
++(CGSize)whisperButtonMediumSize;
+
+/**
+ *  Get the default large size for a Whisper button.
+ *
+ *  @return The default small size for a Whisper button.
+ */
++(CGSize)whisperButtonLargeSize;
+
 ///@name Properties
 
 /**
