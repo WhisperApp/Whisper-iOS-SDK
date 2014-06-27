@@ -8,11 +8,11 @@
 
 #import "NSData+ImageFormat.h"
 
-static unsigned char wh_jpgImageHeaderBytes[4] =
+static unsigned char wh_jpgImageHeaderBytes[3] =
 {
-    0xff, 0xd8, 0xff, 0xe0
+    0xff, 0xd8, 0xff
 };
-#define wh_jpgImageHeaderLength 4
+#define wh_jpgImageHeaderLength 3
 
 static unsigned char wh_pngImageHeaderBytes[4] =
 {
