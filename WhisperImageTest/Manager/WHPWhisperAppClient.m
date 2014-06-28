@@ -7,90 +7,79 @@
 //
 
 #import "WHPWhisperAppClient.h"
-#import "AppDelegate.h"
 #import "NSData+ImageFormat.h"
 #import "NSError+WHPErrors.h"
 
-NSString* const tempDirectoryName = @"whisperTmp";
-NSString* const tempFileName = @"whisperTemp.wh";
-NSString* const whisperIconName = @"whisper_appicon152";
-NSString* const whisperIconType = @"png";
-NSString* const resourceBundle = @"WhisperResources.bundle";
+CGSize const whp_minImageSize = {640.0f, 920.0f};
+CGSize const whp_imageSizeSmall = {50.0f, 50.0f};
+CGSize const whp_imageSizeMedium = {60.0f, 60.0f};
+CGSize const whp_imageSizeLarge = {75.0f, 75.0f};
 
-#define kButtonSmallWidth 50.0f
-#define kButtonSmallHeight 50.0f
+CGFloat const whp_buttonCornerRadius = 10.0f;
+CGFloat const whp_imageQuality = 1.0f;
 
-#define kButtonMediumWidth 60.0f
-#define kButtonMediumHeight 60.0f
+NSString *const whp_bundleID = @"sh.whisper.whisperapp";
+NSString *const whp_resourceBundle = @"WhisperResources.bundle";
+NSString *const whp_appStoreURL = @"http://itunes.apple.com/us/app/whisper-share-express-meet/id506141837?mt=8";
+NSString *const whp_appURL = @"whisperapp://";
 
-#define kButtonLargeWidth 75.0f
-#define kButtonLargeHeight 75.0f
+NSString *const tempDirectoryName = @"whisperTmp";
+NSString *const tempFileName = @"whisperTemp.whimage";
+NSString *const whisperIconName = @"whisper_appicon152";
+NSString *const whisperIconType = @"png";
 
-#define kButtonCornerRadius 10.0f
-
-#define kImageQuality 1.0
-#define kMinWidth 640.0f
-#define kMinHeight 920.0f
-
-NSString* const redirectMessage = @"You don't have Whisper Installed. You are about to be taken to the Whisper App Store page. Continue?";
+NSString *const redirectMessage = @"You don't have Whisper Installed. You are about to be taken to the Whisper App Store page. Continue?";
+NSString *const updateMessage = @"Your Whisper App is not up to date. You are about to be taken to the Whisper App Store page. Continue?";
 
 @interface WHPWhisperAppClient () <UIDocumentInteractionControllerDelegate, UIAlertViewDelegate>
 
-@property (nonatomic, strong) UIDocumentInteractionController* docController;
-@property (nonatomic, strong) NSURL* fileURL;
+@property (nonatomic, strong) UIDocumentInteractionController *documentController;
+@property (nonatomic, strong) NSURL *fileURL;
+
+@property (nonatomic, weak) UIBarButtonItem *item;
+@property (nonatomic, weak) UIView *view;
+@property CGRect rect;
+
+-(void)cleanUpTempDirectory;
+-(BOOL)whisperAppExists;
+-(void)redirectToAppStore;
+-(void)promptForRedirect;
+-(BOOL)isLegalImageSize:(UIImage *)image;
+-(NSString *)getApplicationURLScheme;
+-(BOOL)writeToCache:(NSData *)data error:(NSError **)error;
+-(BOOL)showFileOpenDialog:(NSURL *)url error:(NSError **)error;
 
 @end
 
 @implementation WHPWhisperAppClient
 
--(void) setDocController:(UIDocumentInteractionController *)docController {
-    if (_docController) {
-        [_docController dismissMenuAnimated:self.autotakeToAppStore];
-    }
-    _docController = docController;
+#pragma mark - Singleton
+
++(WHPWhisperAppClient *)sharedClient
+{
+    static WHPWhisperAppClient *singleton = nil;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        singleton = [[WHPWhisperAppClient alloc] init];
+    });
+    return singleton;
 }
 
--(void) setItem:(UIBarButtonItem *)item {
-    if (_item) {
-        _view = nil;
-        _rect = CGRectMake(0, 0, 0, 0);
-    }
-    _item = item;
-}
+#pragma mark - Class
 
--(void) setView:(UIView *)view {
-    if (_view) {
-        _item = nil;
-    }
-    _view = view;
-}
-
-+(CGSize) minImageSize {
-    return CGSizeMake(kMinWidth, kMinHeight);
-}
-
-static WHPWhisperAppClient* singleton = nil;
-+(WHPWhisperAppClient*) sharedManager {
-    @synchronized(self) {
-        if (!singleton) {
-            singleton = [[WHPWhisperAppClient alloc] init];
-        }
-        return singleton;
-    }
-}
-
-+(UIButton*) whisperButtonWithSize:(WHPWhisperAppClientButtonSize)size rounded:(BOOL)rounded {
-    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-    NSString* resourceName = [NSString stringWithFormat:@"%@/%@", resourceBundle, whisperIconName];
-    NSString* buttonPath = [[NSBundle mainBundle] pathForResource:resourceName ofType:whisperIconType];
++(UIButton *)whisperButtonWithSize:(WHPWhisperAppClientButtonSize)size rounded:(BOOL)rounded
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    NSString *resourceName = [NSString stringWithFormat:@"%@/%@", whp_resourceBundle, whisperIconName];
+    NSString *buttonPath = [[NSBundle mainBundle] pathForResource:resourceName ofType:whisperIconType];
     
-    UIImage* buttonImage = [UIImage imageWithContentsOfFile:buttonPath];
+    UIImage *buttonImage = [UIImage imageWithContentsOfFile:buttonPath];
     
-    CGSize buttonSize = [WHPWhisperAppClient buttonSizeForEnum:size];
+    CGSize buttonSize = [WHPWhisperAppClient whisperButtonSizeForSize:size];
     button.frame = CGRectMake(0, 0, buttonSize.width, buttonSize.height);
     
     if (rounded) {
-        button.layer.cornerRadius = kButtonCornerRadius;
+        button.layer.cornerRadius = whp_buttonCornerRadius;
         button.clipsToBounds = YES;
     }
     
@@ -99,112 +88,112 @@ static WHPWhisperAppClient* singleton = nil;
     return button;
 }
 
-+(CGSize)buttonSizeForEnum:(WHPWhisperAppClientButtonSize)size
++(CGSize)whisperButtonSizeForSize:(WHPWhisperAppClientButtonSize)size
 {
     switch (size) {
         case kWHPWhisperAppClientButtonSize_Small:
-            return [WHPWhisperAppClient whisperButtonSmallSize];
+            return whp_imageSizeSmall;
             break;
         case kWHPWhisperAppClientButtonSize_Medium:
-            return [WHPWhisperAppClient whisperButtonMediumSize];
+            return whp_imageSizeMedium;
         case kWHPWhisperAppClientButtonSize_Large:
-            return [WHPWhisperAppClient whisperButtonLargeSize];
+            return whp_imageSizeLarge;
         default:
-            return [WHPWhisperAppClient whisperButtonMediumSize];
+            return whp_imageSizeMedium;
     }
 }
 
-+(CGSize)whisperButtonSmallSize {
-    return CGSizeMake(kButtonSmallWidth, kButtonSmallHeight);
-}
-
-+(CGSize)whisperButtonMediumSize {
-    return CGSizeMake(kButtonMediumWidth, kButtonMediumHeight);
-}
-
-+(CGSize)whisperButtonLargeSize {
-    return CGSizeMake(kButtonLargeWidth, kButtonLargeHeight);
-}
-
--(id)init {
-    if (self=[super init]) {
-        _animated = YES;
-        _item = nil;
-        _view = nil;
-        _rect = CGRectNull;
-        _docController = nil;
-        _autotakeToAppStore = NO;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
-    }
-    return self;
-}
-
-#pragma mark - NSNotificationCenter
-
--(void)applicationWillEnterForeground {
-    BOOL isDir;
-    NSError* error;
-    NSString* dirPath = [NSTemporaryDirectory() stringByAppendingPathComponent:tempDirectoryName];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:dirPath isDirectory:&isDir]) {
-        [[NSFileManager defaultManager] removeItemAtPath:dirPath error:&error];
-    }
-    return;
-}
-
-#pragma mark Property-dependent methods
-
--(BOOL) createWhisperWithData:(NSData *)data error:(NSError**)error {
++(BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
+{
+    [[WHPWhisperAppClient sharedClient] cleanUpTempDirectory];
     
+    if ([sourceApplication isEqualToString:whp_bundleID]) {
+
+        return YES;
+    }
+    return NO;
+}
+
+#pragma mark - Public
+
+-(void)prepareWithBarButtonItem:(UIBarButtonItem *)item
+{
+    NSAssert(item, @"item cannot be nil");
+    _item = item;
+    _view = nil;
+    _rect = CGRectZero;
+}
+
+-(void)prepareWithView:(UIView *)view inRect:(CGRect)rect
+{
+    NSAssert(view, @"view cannot be nil");
+    NSAssert(!CGRectIsEmpty(rect), @"rect cannot be empty");
+    _item = nil;
+    _view = view;
+    _rect = rect;
+}
+
+-(BOOL)createWhisperWithData:(NSData *)data error:(NSError **)error
+{
     if (!data) {
-        *error = [NSError WHPErrorCouldNotInitializeImageFromData];
+        *error = [NSError whp_ErrorCouldNotInitializeImageFromData];
         return NO;
     }
-    if (![data isJPG]) {
-        *error = [NSError WHPErrorWrongImageFormat];
+    if (![data whp_isJPG]) {
+        *error = [NSError whp_ErrorWrongImageFormat];
         return NO;
     }
     if (![self writeToCache:data error:error])
         return NO;
     
-    return [self createWhisperWithCachedURL:self.fileURL error:error];
+    *error = nil;
+    return [self createWhisperWithCachedURL:_fileURL error:error];
 }
 
--(BOOL) createWhisperWithImage:(UIImage *)image error:(NSError**)error {
-    NSData* data = UIImageJPEGRepresentation(image, kImageQuality);
+-(BOOL)createWhisperWithImage:(UIImage *)image error:(NSError **)error
+{
+    NSData *data = UIImageJPEGRepresentation(image, whp_imageQuality);
+    *error = nil;
     return [self createWhisperWithData:data error:error];
 }
 
--(BOOL) createWhisperWithPath:(NSString *)path error:(NSError**)error {
-    NSURL* url = [NSURL URLWithString:path relativeToURL:[NSURL URLWithString:@"file://"]];
+-(BOOL)createWhisperWithPath:(NSString *)path error:(NSError **)error
+{
+    NSURL *url = [NSURL URLWithString:path relativeToURL:[NSURL URLWithString:@"file://"]];
+    *error = nil;
     return [self createWhisperWithURL:url error:error];
 }
 
--(BOOL) createWhisperWithURL:(NSURL *)url error:(NSError**)error {
+-(BOOL)createWhisperWithURL:(NSURL *)url error:(NSError **)error
+{
 
-    NSData* imageData = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:error];
+    NSData *imageData = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:error];
     if (!imageData)
         return NO;
+    *error = nil;
     return [self createWhisperWithData:imageData error:error];
 }
 
--(BOOL) createWhisperWithCachedURL:(NSURL*)url error:(NSError**)error {
+-(BOOL)createWhisperWithCachedURL:(NSURL *)url error:(NSError **)error
+{
     
-    NSData* imageData = [NSData dataWithContentsOfURL:url];
-    UIImage* image = [UIImage imageWithData:imageData];
+    NSData *imageData = [NSData dataWithContentsOfURL:url];
+    UIImage *image = [UIImage imageWithData:imageData];
     if (!image) {
-        *error = [NSError WHPErrorCouldNotInitializeImageFromData];
+        *error = [NSError whp_ErrorCouldNotInitializeImageFromData];
         return NO;
     }
     if (![self isLegalImageSize:image]) {
-        *error = [NSError WHPErrorImageIsTooSmall];
+        *error = [NSError whp_ErrorImageIsTooSmall];
         return NO;
     }
     if ([self whisperAppExists]) {
+        *error = nil;
         if (![self showFileOpenDialog:url error:error])
             return NO;
     }
     else {
-        if (self.autotakeToAppStore) {
+        if (_autotakeToAppStore) {
             //redirect
             [self redirectToAppStore];
         }
@@ -215,138 +204,10 @@ static WHPWhisperAppClient* singleton = nil;
     }
     return YES;
 }
-
-#pragma mark Using MenuFromBarButtonItem
-
--(BOOL) createWhisperWithData:(NSData *)data withMenuFromBarButtonItem:(UIBarButtonItem *)item animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeMenuFromBarButtonItem;
-    self.item = item;
-    self.animated = animated;
-    return [self createWhisperWithData:data error:error];
-}
-
--(BOOL) createWhisperWithImage:(UIImage *)image withMenuFromBarButtonItem:(UIBarButtonItem *)item animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeMenuFromBarButtonItem;
-    self.item = item;
-    self.animated = animated;
-    return [self createWhisperWithImage:image error:error];
-}
-
--(BOOL) createWhisperWithPath:(NSString *)path withMenuFromBarButtonItem:(UIBarButtonItem *)item animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeMenuFromBarButtonItem;
-    self.item = item;
-    self.animated = animated;
-    return [self createWhisperWithPath:path error:error];
-}
-
--(BOOL) createWhisperWithURL:(NSURL *)url withMenuFromBarButtonItem:(UIBarButtonItem *)item animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeMenuFromBarButtonItem;
-    self.item = item;
-    self.animated = animated;
-    return [self createWhisperWithURL:url error:error];
-}
-
-#pragma mark Using MenuFromRectInView
-
--(BOOL) createWhisperWithData:(NSData *)data withMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeMenuFromView;
-    self.rect = rect;
-    self.view = view;
-    self.animated = animated;
-    return [self createWhisperWithData:data error:error];
-}
-
--(BOOL) createWhisperWithImage:(UIImage *)image withMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeMenuFromView;
-    self.rect = rect;
-    self.view = view;
-    self.animated = animated;
-    return [self createWhisperWithImage:image error:error];
-}
-
--(BOOL) createWhisperWithPath:(NSString *)path withMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeMenuFromView;
-    self.rect = rect;
-    self.view = view;
-    self.animated = animated;
-    return [self createWhisperWithPath:path error:error];
-}
-
--(BOOL) createWhisperWithURL:(NSURL *)url withMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeMenuFromView;
-    self.rect = rect;
-    self.view = view;
-    self.animated = animated;
-    return [self createWhisperWithURL:url error:error];
-}
-
-#pragma mark Using OptionsMenuFromBarButtonItem
-
--(BOOL) createWhisperWithData:(NSData *)data withOptionsMenuFromBarButtonItem:(UIBarButtonItem *)item animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeOptionsMenuFromBarButtonItem;
-    self.item = item;
-    self.animated = animated;
-    return [self createWhisperWithData:data error:error];
-}
-
--(BOOL) createWhisperWithImage:(UIImage *)image withOptionsMenuFromBarButtonItem:(UIBarButtonItem *)item animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeOptionsMenuFromBarButtonItem;
-    self.item = item;
-    self.animated = animated;
-    return [self createWhisperWithImage:image error:error];
-}
-
--(BOOL) createWhisperWithPath:(NSString *)path withOptionsMenuFromBarButtonItem:(UIBarButtonItem *)item animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeOptionsMenuFromBarButtonItem;
-    self.item = item;
-    self.animated = animated;
-    return [self createWhisperWithPath:path error:error];
-}
-
--(BOOL) createWhisperWithURL:(NSURL *)url withOptionsMenuFromBarButtonItem:(UIBarButtonItem *)item animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeOptionsMenuFromBarButtonItem;
-    self.item = item;
-    self.animated = animated;
-    return [self createWhisperWithURL:url error:error];
-}
-
-#pragma mark Using OptionsMenuFromRectInView
-
--(BOOL) createWhisperWithData:(NSData *)data withOptionsMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeOptionsMenuFromView;
-    self.rect = rect;
-    self.view = view;
-    self.animated = animated;
-    return [self createWhisperWithData:data error:error];
-}
-
--(BOOL) createWhisperWithImage:(UIImage *)image withOptionsMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeOptionsMenuFromView;
-    self.rect = rect;
-    self.view = view;
-    self.animated = animated;
-    return [self createWhisperWithImage:image error:error];
-}
-
--(BOOL) createWhisperWithPath:(NSString *)path withOptionsMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeOptionsMenuFromView;
-    self.rect = rect;
-    self.view = view;
-    self.animated = animated;
-    return [self createWhisperWithPath:path error:error];
-}
-
--(BOOL) createWhisperWithURL:(NSURL *)url withOptionsMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error {
-    self.mode = WHPWhisperAppClientModeOptionsMenuFromView;
-    self.rect = rect;
-    self.view = view;
-    self.animated = animated;
-    return [self createWhisperWithURL:url error:error];
-}
-
 #pragma mark UIAlertView
 
--(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
     if (buttonIndex == 0) {
         // cancelled
     }
@@ -356,106 +217,133 @@ static WHPWhisperAppClient* singleton = nil;
     }
 }
 
-#pragma mark misc
+#pragma mark Private
 
--(BOOL) writeToCache:(NSData *)data error:(NSError**)error{
-    
-    NSURL* directoryURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:tempDirectoryName] isDirectory:YES];
-    [[NSFileManager defaultManager] createDirectoryAtURL:directoryURL withIntermediateDirectories:YES attributes:nil error:error];
-    NSString *fileName = [NSString stringWithFormat:@"%@_%@", [[NSProcessInfo processInfo] globallyUniqueString], tempFileName];
-    self.fileURL = [directoryURL URLByAppendingPathComponent:fileName];
-    
-    return [data writeToFile:self.fileURL.path options:NSDataWritingAtomic error:error];
+-(id)init
+{
+    if (self=[super init]) {
+        _animated = YES;
+        [self cleanUpTempDirectory];
+    }
+    return self;
 }
 
--(BOOL) whisperAppExists {
-    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"whisperapp://"]];
+-(void)cleanUpTempDirectory
+{
+    BOOL isDir;
+    NSError *error = nil;
+    NSString *dirPath = [NSTemporaryDirectory() stringByAppendingPathComponent:tempDirectoryName];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:dirPath isDirectory:&isDir]) {
+        [[NSFileManager defaultManager] removeItemAtPath:dirPath error:&error];
+    }
+    return;
 }
 
--(void) redirectToAppStore {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://itunes.apple.com/us/app/whisper-share-express-meet/id506141837?mt=8"]];
+-(BOOL)whisperAppExists
+{
+    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:whp_appURL]];
 }
 
--(void) promptForRedirect {
-    WHPWhisperAppClient* delegate = self;
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Redirect Alert" message:redirectMessage delegate:delegate cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK!", nil];
+-(void)redirectToAppStore
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:whp_appStoreURL]];
+}
+
+-(void)promptForRedirect
+{
+    WHPWhisperAppClient *delegate = self;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Redirect Alert" message:redirectMessage delegate:delegate cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK!", nil];
     alert.alertViewStyle = UIAlertViewStyleDefault;
     [alert show];
 }
 
--(BOOL) isLegalImageSize:(UIImage*) image {
-    CGSize size = image.size;
-    return size.width >= kMinWidth && size.height >= kMinHeight;
+-(void)promptForUpdate
+{
+    WHPWhisperAppClient *delegate = self;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Redirect Alert" message:updateMessage delegate:delegate cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK!", nil];
+    alert.alertViewStyle = UIAlertViewStyleDefault;
+    [alert show];
 }
 
--(NSString*)getApplicationURLScheme {
-    NSArray* urlTypes = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"];
+-(BOOL)isLegalImageSize:(UIImage *)image
+{
+    CGSize size = image.size;
+    return size.width >= whp_minImageSize.width && size.height >= whp_minImageSize.height;
+}
+
+-(NSString *)getApplicationURLScheme
+{
+    NSArray *urlTypes = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"];
     if (urlTypes.count == 0)
         return nil;
-    NSArray* urlSchemes = [[urlTypes objectAtIndex:0] objectForKey:@"CFBundleURLSchemes"];
+    NSArray *urlSchemes = [[urlTypes objectAtIndex:0] objectForKey:@"CFBundleURLSchemes"];
     if (urlSchemes.count == 0)
         return nil;
     return [urlSchemes objectAtIndex:0];
 }
 
--(BOOL) showFileOpenDialog:(NSURL*) url error:(NSError**)error {
+-(BOOL)writeToCache:(NSData *)data error:(NSError **)error
+{
     
-    NSString* urlScheme = [self getApplicationURLScheme];
+    NSURL *directoryURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:tempDirectoryName] isDirectory:YES];
+    [[NSFileManager defaultManager] createDirectoryAtURL:directoryURL withIntermediateDirectories:YES attributes:nil error:error];
+    NSString *fileName = [NSString stringWithFormat:@"%@_%@", [[NSProcessInfo processInfo] globallyUniqueString], tempFileName];
+    _fileURL = [directoryURL URLByAppendingPathComponent:fileName];
     
-    self.docController = [UIDocumentInteractionController interactionControllerWithURL:url];
-    _docController.delegate = self;
-    _docController.UTI = @"sh.whisper.whisperimage";
-    _docController.annotation = @{@"CallbackURL": urlScheme};
+    *error = nil;
+    return [data writeToFile:_fileURL.path options:NSDataWritingAtomic error:error];
+}
+
+-(BOOL)showFileOpenDialog:(NSURL *)url error:(NSError **)error
+{
+    BOOL result;
+    NSString *urlScheme = [self getApplicationURLScheme];
     
-    if (self.mode == WHPWhisperAppClientModeMenuFromBarButtonItem) {
-        if (!self.item) {
-            *error = [NSError WHPErrorItemIsNil];
-            _docController = nil;
-            return NO;
+    self.documentController = [UIDocumentInteractionController interactionControllerWithURL:url];
+    _documentController.delegate = self;
+    _documentController.UTI = @"sh.whisper.whisperimage";
+    _documentController.annotation = @{@"CallbackURL": urlScheme};
+    
+    if (_item) {
+        if (_optionsMenu) {
+            result = [_documentController presentOptionsMenuFromBarButtonItem:_item animated:_animated];
         }
-        [self.docController presentOpenInMenuFromBarButtonItem:self.item animated:self.animated];
+        else {
+            result = [_documentController presentOpenInMenuFromBarButtonItem:_item animated:_animated];
+        }
     }
-    else if (self.mode == WHPWhisperAppClientModeMenuFromView) {
-        if (!self.view) {
-            *error = [NSError WHPErrorViewIsNil];
-            _docController = nil;
-            return NO;
+    else if (_view) {
+        if (_optionsMenu) {
+            result = [_documentController presentOptionsMenuFromRect:_rect inView:_view animated:_animated];
         }
-        if (CGRectIsNull(self.rect)) {
-            *error = [NSError WHPErrorRectIsNil];
-            _docController = nil;
-            return NO;
+        else {
+            result = [_documentController presentOpenInMenuFromRect:_rect inView:_view animated:_animated];
         }
-        [self.docController presentOpenInMenuFromRect:self.rect inView:self.view animated:self.animated];
     }
-    else if (self.mode == WHPWhisperAppClientModeOptionsMenuFromBarButtonItem) {
-        if (!self.item) {
-            *error = [NSError WHPErrorItemIsNil];
-            _docController = nil;
-            return NO;
-        }
-        [self.docController presentOptionsMenuFromBarButtonItem:self.item animated:self.animated];
+    else {
+        *error = [NSError whp_ErrorNotConfigured];
+        return NO;
     }
-    else if (self.mode == WHPWhisperAppClientModeOptionsMenuFromView) {
-        if (!self.view) {
-            *error = [NSError WHPErrorViewIsNil];
-            _docController = nil;
-            return NO;
-        }
-        if (CGRectIsNull(self.rect)) {
-            *error = [NSError WHPErrorRectIsNil];
-            _docController = nil;
-            return NO;
-        }
-        [self.docController presentOptionsMenuFromRect:self.rect inView:self.view animated:self.animated];
+    if (!result) {
+        [self promptForUpdate];
+        return NO;
     }
     return YES;
 }
 
+#pragma mark - Accessors
 
--(void) dealloc {
-    NSLog(@"dealloc!");
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+-(void)setDocumentController:(UIDocumentInteractionController *)docController
+{
+    if (_documentController) {
+        [_documentController dismissMenuAnimated:_autotakeToAppStore];
+    }
+    _documentController = docController;
+}
+
+#pragma mark - Dealloc
+
+-(void)dealloc {
 }
 
 @end

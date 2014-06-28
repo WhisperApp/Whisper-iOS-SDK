@@ -22,17 +22,17 @@ static unsigned char wh_pngImageHeaderBytes[4] =
 
 @implementation NSData (ImageFormat)
 
--(BOOL)isJPG
+-(BOOL)whp_isJPG
 {
-    return [self matchesHeaderWithBytes:wh_jpgImageHeaderBytes length:wh_jpgImageHeaderLength];
+    return [self whp_matchesHeaderWithBytes:wh_jpgImageHeaderBytes length:wh_jpgImageHeaderLength];
 }
 
--(BOOL)isPNG
+-(BOOL)whp_isPNG
 {
-    return [self matchesHeaderWithBytes:wh_pngImageHeaderBytes length:wh_pngImageHeaderLength];
+    return [self whp_matchesHeaderWithBytes:wh_pngImageHeaderBytes length:wh_pngImageHeaderLength];
 }
 
--(BOOL)matchesHeaderWithBytes:(unsigned char[]) bytes length:(unsigned int) length
+-(BOOL)whp_matchesHeaderWithBytes:(unsigned char[]) bytes length:(unsigned int) length
 {
     if (self.length < length)
         return NO;

@@ -8,9 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  A Category class for NSData that allows for detecting
+ *  image formats. This is done by reading the header bytes
+ *  of the data.
+ */
 @interface NSData (ImageFormat)
 
--(BOOL)isJPG;
--(BOOL)isPNG;
+/**
+ *  Detects if the data is in a JPEG image format.
+ *
+ *  @return returns `YES` if the data is in a JPEG image format.
+ */
+-(BOOL)whp_isJPG;
+
+/**
+ *  Detects if the data is in a PNG image format.
+ *
+ *  @return returns `YES` if the data is in a PNG image format.
+ */
+-(BOOL)whp_isPNG;
 
 @end

@@ -10,22 +10,64 @@
 
 static NSString* const WHPWhisperAppClientErrorDomain = @"sh.whisper.WHPWhisperAppClient";
 
-@interface NSError (WHPErrors)
-
+/**
+ *  Defines error codes within the 
+ *  `WHPWhisperAppClientErrorDomain`.
+ */
 typedef NS_ENUM(NSInteger, WHPWhisperAppClientErrorCode){
-    kWHPWhisperAppClientErrorCode_ItemIsNil,
-    kWHPWhisperAppClientErrorCode_RectIsNil,
-    kWHPWhisperAppClientErrorCode_ViewIsNil,
+    /**
+     *  The client has not been configured.
+     */
+    kWHPWhisperAppClientErrorCode_NotConfigured,
+    /**
+     *  An image cannot be initialized from the given data.
+     */
     kWHPWhisperAppClientErrorCode_CouldNotInitializeImageFromData,
+    /**
+     *  The image does not meet the minimum size restrictions.
+     */
     kWHPWhisperAppClientErrorCode_ImageIsTooSmall,
+    /**
+     *  The image is not in the proper JPEG image format.
+     */
     kWHPWhisperAppClientErrorCode_WrongImageFormat
 };
 
-+(NSError*)WHPErrorItemIsNil;
-+(NSError*)WHPErrorRectIsNil;
-+(NSError*)WHPErrorViewIsNil;
-+(NSError*)WHPErrorCouldNotInitializeImageFromData;
-+(NSError*)WHPErrorImageIsTooSmall;
-+(NSError*)WHPErrorWrongImageFormat;
+/**
+ *  This class category defines a few class methods for creating
+ *  NSErrors in the `WHPWhisperAppClientErrorDomain`, complete
+ *  with an error description and recovery suggestions.
+ */
+@interface NSError (WHPErrors)
+
+/**
+ *  Error when the client has not been configured.
+ *
+ *  @return An `NSError` object with the specified information.
+ */
++(NSError *)whp_ErrorNotConfigured;
+
+/**
+ *  Error when the image could not be initialized from the given
+ *  data.
+ *
+ *  @return An `NSError` object with the specified information.
+ */
++(NSError *)whp_ErrorCouldNotInitializeImageFromData;
+
+/**
+ *  Error when the image does not meet the minimum size 
+ *  requirements.
+ *
+ *  @return An `NSError` object with the specified information.
+ */
++(NSError *)whp_ErrorImageIsTooSmall;
+
+/**
+ *  Error when the image is not in the proper JPEG image format.
+ *
+ *  @return An `NSError` object with the specified information.
+ */
++(NSError *)whp_ErrorWrongImageFormat;
 
 @end
