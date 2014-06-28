@@ -35,7 +35,7 @@
     button.center = CGPointMake(160,500);
     [button addTarget:self action:@selector(openButton:) forControlEvents:UIControlEventTouchUpInside];
     
-    [_view addSubview:button];
+    [self.view addSubview:button];
 }
 
 - (IBAction)openButton:(id)sender {
