@@ -11,7 +11,7 @@
 
 @interface ViewController () <UIDocumentInteractionControllerDelegate>
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) NSURL* url;
+@property (strong, nonatomic) NSURL *url;
 @end
 
 @implementation ViewController
@@ -21,35 +21,31 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    self.url = [[NSBundle mainBundle] URLForResource:@"beyonce" withExtension:@"jpg"];
-    NSAssert(self.url, @"no url!");
+    _url = [[NSBundle mainBundle] URLForResource:@"beyonce" withExtension:@"jpg"];
+    NSAssert(_url, @"no url!");
     
-    UIImage* image = [UIImage imageWithContentsOfFile:self.url.path];
+    UIImage *image = [UIImage imageWithContentsOfFile:_url.path];
     NSAssert(image, @"image is nil");
-    self.imageView.clipsToBounds = YES;
-    self.imageView.image = image;
-    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.imageView sizeToFit];
+    _imageView.clipsToBounds = YES;
+    _imageView.image = image;
+    _imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [_imageView sizeToFit];
     
-    UIButton* button = [WHPWhisperAppClient whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Medium rounded:YES];
+    UIButton *button = [WHPWhisperAppClient whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Medium rounded:YES];
     button.center = CGPointMake(160,500);
     [button addTarget:self action:@selector(openButton:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:button];
+    [_view addSubview:button];
 }
 
 - (IBAction)openButton:(id)sender {
     BOOL result;
     
-    NSError* error;
+    NSError *error;
     
-    WHPWhisperAppClient* manager = [WHPWhisperAppClient sharedManager];
-    manager.mode = WHPWhisperAppClientModeMenuFromView;
-    manager.view = self.imageView;
-    manager.rect = self.imageView.bounds;
-    manager.animated = YES;
-    result = [manager createWhisperWithURL:self.url error:&error];
-
+    [[WHPWhisperAppClient sharedClient] prepareWithView:_imageView inRect:_imageView.bounds];
+    [[WHPWhisperAppClient sharedClient] createWhisperWithURL:_url error:&error];
+    
     if (!result) {
         NSLog(@"%@", error.description);
     }
@@ -57,7 +53,7 @@
 
 
 - (UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller {
-    return self.imageView;
+    return _imageView;
 }
 
 - (void)didReceiveMemoryWarning

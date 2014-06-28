@@ -8,76 +8,75 @@
 
 #import <Foundation/Foundation.h>
 
+extern struct CGSize const whp_minImageSize;
+
+extern struct CGSize const whp_imageSizeSmall;
+extern struct CGSize const whp_imageSizeMedium;
+extern struct CGSize const whp_imageSizeLarge;
+
+extern CGFloat const whp_buttonCornerRadius;
+
+extern NSString *const whp_bundleID;
+extern NSString *const whp_resourceBundle;
+extern NSString *const whp_appURL;
+
+/**
+ *  Defines the default sizes of a Whisper button.
+ */
+typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
+    /**
+     *  Default small size for a Whisper button.
+     */
+    kWHPWhisperAppClientButtonSize_Small,
+    /**
+     *  Default medium size for a Whisper button.
+     */
+    kWHPWhisperAppClientButtonSize_Medium,
+    /**
+     *  Default large size for a Whisper button.
+     */
+    kWHPWhisperAppClientButtonSize_Large
+};
+
 /**
   The `WHPWhisperAppClient` class allows you to prompt the user to create a
   Whisper using a given image.
  
-  You can call the prompt in one of two ways. The
-  first is to set the relevant properties of the `WHPWhisperAppClient` before
-  calling one of the property-dependent create methods:
-
-    NSImage* image = ...
-    UIView* view = ...
+  The prompt is done in two steps. First, call either of the
+  configure methods: this defines the source of the prompt.
+  Next, call one of the create methods to create the Whisper
+  from any one of four data sources.
  
-    WHPWhisperAppClient* manager = [WHPWhisperAppClient sharedManager];
-    manager.mode = WHPWhisperAppClientModeMenuFromView
-    manager.view = view;
-    manager.rect = view.bounds;
-
-    NSError* error;
-    [manager createWhisperWithImage:image error:&error];
-
-  Alternatively, you can call one of the shorthand methods, that
-  encapsulates the `mode` and relevant properties in its method name
-  and parameters:
-
     NSImage* image = ...
     UIView* view = ...
  
     NSError* error;
-    [[WHPWhisperAppClient sharedManager] createWhisperWithImage:image
-                                     withMenuFromRect:view.bounds
-                                               inView:view
-                                             animated:YES
-                                                error:error];
+    [[WHPWhisperAppClient sharedClient] prepareWithView:view inRect:view.bounds];
+    [[WHPWhisperAppClient sharedClient] createWhisperWithImage:image error:&error];
  
-  The create prompt can be presented in four different modes,
-  as defined in the `mode` property. This controls whether the open
-  menu is presented from a `UIView` or a `UIBarButtonItem`, and
-  the style of the underlying `UIDocumentInteractionController`.
+  The create prompt can be presented in either a Menu or an
+  Options menu style, and this is controlled by the
+  `optionsMenu` property.
 
-  The WHPWhisperAppClient supports opening images from one of the `UIImage`,
-  `NSData`, `NSURL`, or `NSString` classes. Note that the data
-  associated with each of the types must be an image in a JPEG format,
-  with a size of at least 640 pixels wide by 920 pixels high. 
-  Failure to comply to these requirements will result in an `NSError`
-  and a return value of `NO`.
+  The `WHPWhisperAppClient` supports opening images from one of
+  the `UIImage`, `NSData`, `NSURL`, or `NSString` classes. Note
+  that the data associated with each of the types must be an image
+  in a JPEG format, with a size of at least 640 pixels wide by 920
+  pixels high. Failure to comply to these requirements will result
+  in an `NSError` and a return value of `NO`.
  */
 @interface WHPWhisperAppClient : NSObject
 
 ///@name Class Methods
 
 /**
- *  Returns the singleton manager.
+ *  Returns the singleton client.
  *
- *  @return The singleton manager.
- *  @discussion This method allocates and initializes a WHPWhisperAppClient
- *  object if one doesn't already exist.
+ *  @return The singleton client.
+ *  @discussion This method allocates and initializes a
+ *  WHPWhisperAppClient object if one doesn't already exist.
  */
-+(WHPWhisperAppClient*) sharedManager;
-
-/**
- *  The minimum image size that can be passed into Whisper.
- *
- *  @return a CGSize struct containing the minimum width and height.
- */
-+(CGSize) minImageSize;
-
-typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
-    kWHPWhisperAppClientButtonSize_Small,
-    kWHPWhisperAppClientButtonSize_Medium,
-    kWHPWhisperAppClientButtonSize_Large
-};
++(WHPWhisperAppClient *)sharedClient;
 
 /**
  *  Returns a custom Whisper button that you can
@@ -88,112 +87,75 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
  *
  *  @return A custom Whisper button.
  */
-+(UIButton*)whisperButtonWithSize:(WHPWhisperAppClientButtonSize)size
++(UIButton *)whisperButtonWithSize:(WHPWhisperAppClientButtonSize)size
                           rounded:(BOOL)rounded;
 
 /**
- *  Get the default small size for a Whisper button.
+ *  Given a `WHPWhisperAppClientButtonSize` enum, returns the
+ *  corresponding CGSize.
  *
- *  @return The default small size for a Whisper button.
+ *  @param size The button size enum.
+ *
+ *  @return The corresponding CGSize.
  */
-+(CGSize)whisperButtonSmallSize;
++(CGSize)whisperButtonSizeForSize:(WHPWhisperAppClientButtonSize)size;
 
 /**
- *  Get the default medium size for a Whisper button.
+ *  Performs operations necessary when the app launches from
+ *  a Whisper app callback. Call this method from your 
+ *  `AppDelegate`'s `- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation`
+ *  method, with the corresponding parameters.
  *
- *  @return The default medium size for a Whisper button.
- */
-+(CGSize)whisperButtonMediumSize;
-
-/**
- *  Get the default large size for a Whisper button.
+ *  @param url               The url parameter called from AppDelegate
+ *  @param sourceApplication The sourceApplication parameter called form AppDelegate
  *
- *  @return The default small size for a Whisper button.
+ *  @return Returns `YES` if Whisper was able to read the URL callback.
  */
-+(CGSize)whisperButtonLargeSize;
++(BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
 
 ///@name Properties
 
 /**
  * Specifies whether the user is automatically directed 
  * to the Whisper App Store page. If set to `NO`, a dialog
- * is shown to confirm the redirect.
+ * is shown to confirm the redirect. Defaults to `NO`.
  */
 @property BOOL autotakeToAppStore;
 
 /**
- * Specifies whether menus are animated.
+ * Specifies whether menus are animated. Defaults to `YES`.
  */
 @property BOOL animated;
 
 /**
- *  Denotes the current `mode` that the `WHPWhisperAppClient` is set in. This
- *  controls whether the open menu is presented in a `UIView`, or from
- *  a `UIBarButtonItem`, and the style of the underlying
- *  `UIDocumentInteractionController`.
+ *  Specifies whether an options menu, rather than the default
+ *  menu, is displayed. Defaults to `NO`.
  */
-typedef NS_ENUM(NSInteger, WHPWhisperAppClientMode) {
-    /**
-     *  A standard menu is presented from a `UIBarButtonItem`.
-     *  Note that you must set the `item` property before calling any
-     *  one of the property-dependent create methods.
-     */
-    WHPWhisperAppClientModeMenuFromBarButtonItem,
-    /**
-     *  A standard menu is presented from a `UIView`.
-     *  Note that you must set the `view` and `rect` properties before
-     *  calling any one of the property-dependent create methods.
-     */
-    WHPWhisperAppClientModeMenuFromView,
-    /**
-     *  An options menu is presented from a `UIBarButtonItem`.
-     *  Note that you must set the `item` property before calling any
-     *  one of the property-dependent create methods.
-     */
-    WHPWhisperAppClientModeOptionsMenuFromBarButtonItem,
-    /**
-     *  An options menu is presented from a `UIView`.
-     *  Note that you must set the `view` and `rect` properties before
-     *  calling any one of the property-dependent create methods.
-     */
-    WHPWhisperAppClientModeOptionsMenuFromView
-};
+@property BOOL optionsMenu;
+
+/// @name Configure methods
 
 /**
- *  The `mode` that the `WHPWhisperAppClient` is currently set in.
- *  This specifies whether the open prompt is shown from a Menu
- *  or an OptionsMenu, and whether the prompt is shown from inside
- *  a `UIView` or a `UIBarButtonItem`.
+ *  Prepare the Document Controller, with a `UIBarButtonItem` to 
+ *  present the view from. Note that you must call either one of 
+ *  the configure methods prior to calling the create methods.
  *
- *  Note that when setting the `mode` that `WHPWhisperAppClient` runs in, you 
- *  must also set the `item`, `view`, and/or `rect` properties, depending on what
- *  `mode` you have set to.
+ *  @param item The `UIBarButtonItem` to show the menu from.
  */
-@property WHPWhisperAppClientMode mode;
+-(void)prepareWithBarButtonItem:(UIBarButtonItem *)item;
 
 /**
- *  The `UIBarButtonItem` that the prompt menu will open from.
- *  Note that the `mode` property must also be set to the 
- *  corresponding `WHPWhisperAppClientMode` value.
+ *  Prepare the Document Controller, with a `UIView` to
+ *  present the view from, and a `CGRect` to define the 
+ *  constraints of the menu. Note that you must call either one of
+ *  the configure methods prior to calling the create methods.
+ *
+ *  @param view The `UIView` to show the menu in.
+ *  @param rect The `CGRect` to constrain the menu to.
  */
-@property (nonatomic, weak) UIBarButtonItem* item;
+-(void)prepareWithView:(UIView *)view inRect:(CGRect)rect;
 
-/**
- *  The `UIView` that the prompt menu will open in.
- *  Note that the `mode` property must also be set to the 
- *  corresponding `WHPWhisperAppClientMode` value.
- */
-@property (nonatomic, weak) UIView* view;
-
-/**
- *  The location (in the coordinate system of view) at which
- *  to anchor the prompt menu.
- *  Note that the `mode` property must also be set to the
- *  corresponding `WHPWhisperAppClientMode` value.
- */
-@property CGRect rect;
-
-/// @name Property-dependent methods
+/// @name Create methods
 
 /**
  *  Attempts to open Whisper with the given image data.
@@ -207,13 +169,13 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientMode) {
  *
  *  @return returns `YES` if the operation succeeded without errors.
  */
--(BOOL) createWhisperWithData:(NSData*) data error:(NSError**)error;
+-(BOOL) createWhisperWithData:(NSData *)data error:(NSError **)error;
 
 /**
  *  Attempts to open Whisper with the given image.
  *
- *  @warning When calling this default method, all relevant properties
- *  must be set beforehand.
+ *  @warning You must call either one of the configure methods prior 
+ *  to calling this method.
  *
  *  @param image The image to be used.
  *  @param error If there is an error creating the Whisper, upon
@@ -221,14 +183,14 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientMode) {
  *
  *  @return returns `YES` if the operation succeeded without errors.
  */
--(BOOL) createWhisperWithImage:(UIImage*)image error:(NSError**)error;
+-(BOOL) createWhisperWithImage:(UIImage *)image error:(NSError **)error;
 
 /**
  *  Attempts to open Whisper with an image specified by the given
  *  URL.
  *
- *  @warning When calling this default method, all relevant properties
- *  must be set beforehand. The URL must point to a local file 
+ *  @warning You must call either one of the configure methods prior
+ *  to calling this method. The URL must point to a local file
  *  address.
  *
  *  @param url The URL of the image to be used.
@@ -237,49 +199,23 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientMode) {
  *
  *  @return returns `YES` if the operation succeeded without errors.
  */
--(BOOL) createWhisperWithURL:(NSURL*)url error:(NSError**)error;
+-(BOOL) createWhisperWithURL:(NSURL *)url error:(NSError **)error;
 
 /**
  *  Attempts to open Whisper with an image specified by the given
  *  file path.
  *
- *  @warning When calling this default method, all relevant properties
- *  must be set beforehand.
+ *  @warning You must call either one of the configure methods 
+ *  prior to calling this method. The file path must point to a
+ *  local file address.
  *
  *  @param path The file path to the image to be used.
  *  @param error If there is an error creating the Whisper, upon 
- *  return contains an `NSError` object that describes the problem.
+ *  return contains an `NSError` object that describes the 
+ *  problem.
  *
  *  @return returns `YES` if the operation succeeded without errors.
  */
--(BOOL) createWhisperWithPath:(NSString*)path error:(NSError**)error;
-
-/// @name Shorthand methods - MenuFromBarButtonItem
-
--(BOOL) createWhisperWithData:(NSData *)data withMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
--(BOOL) createWhisperWithImage:(UIImage *)image withMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
--(BOOL) createWhisperWithPath:(NSString *)path withMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
--(BOOL) createWhisperWithURL:(NSURL *)url withMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
-
-/// @name Shorthand methods - MenuFromRectInView
-
--(BOOL) createWhisperWithData:(NSData *)data withMenuFromRect:(CGRect)rect inView:(UIView*)view animated:(BOOL)animated error:(NSError**)error;
--(BOOL) createWhisperWithImage:(UIImage *)image withMenuFromRect:(CGRect)rect inView:(UIView*)view animated:(BOOL)animated error:(NSError**)error;
--(BOOL) createWhisperWithPath:(NSString *)path withMenuFromRect: (CGRect)rect inView:(UIView*)view animated:(BOOL)animated error:(NSError**)error;
--(BOOL) createWhisperWithURL:(NSURL *)url withMenuFromRect: (CGRect)rect inView:(UIView*)view animated:(BOOL)animated error:(NSError**)error;
-
-/// @name Shorthand methods - OptionsMenuFromBarButtonItem
-
--(BOOL) createWhisperWithData:(NSData *)data withOptionsMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
--(BOOL) createWhisperWithImage:(UIImage *)image withOptionsMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
--(BOOL) createWhisperWithPath:(NSString *)path withOptionsMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
--(BOOL) createWhisperWithURL:(NSURL *)url withOptionsMenuFromBarButtonItem:(UIBarButtonItem*)item animated:(BOOL)animated error:(NSError**)error;
-
-/// @name Shorthand methods - OptionsMenuFromRectInView
-
--(BOOL) createWhisperWithData:(NSData *)data withOptionsMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error;
--(BOOL) createWhisperWithImage:(UIImage *)image withOptionsMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error;
--(BOOL) createWhisperWithPath:(NSString *)path withOptionsMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error;
--(BOOL) createWhisperWithURL:(NSURL *)url withOptionsMenuFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated error:(NSError**)error;
+-(BOOL) createWhisperWithPath:(NSString *)path error:(NSError **)error;
 
 @end
