@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+//uncomment this line to enable debug logging
+//#define WHISPER_DEBUG
+
 extern struct CGSize const WHPMinimumSourceImageSize;
 
 /**

@@ -75,6 +75,9 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
     if (self = [super init]) {
         _animated = YES;
         [self cleanUpTempDirectory];
+#ifdef WHISPER_DEBUG
+        NSLog(@"WHPWhisperAppClient: Init");
+#endif
     }
     return self;
 }
@@ -87,6 +90,10 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
     NSBundle *whisperBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:WHPResourceBundleName ofType:@"bundle"]];
     NSString *buttonPath = [whisperBundle pathForResource:WHPWhisperIconResourceName ofType:WHPWhisperIconResourceType];
     
+#ifdef WHISPER_DEBUG
+    NSLog(@"Getting resource %@.%@ from bundle %@", WHPWhisperIconResourceName, WHPWhisperIconResourceType, whisperBundle.bundlePath);
+#endif
+    
     UIImage *buttonImage = [UIImage imageWithContentsOfFile:buttonPath];
     
     CGSize buttonSize = [WHPWhisperAppClient whisperButtonSizeForSize:size];
@@ -96,6 +103,10 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
         button.layer.cornerRadius = WHPButtonCornerRadius;
         button.clipsToBounds = YES;
     }
+    
+#ifdef WHISPER_DEBUG
+    NSLog(@"WHPWhisperAppClient: Button with size (%f, %f) with rounded: %@", buttonSize.width, buttonSize.height, rounded ? @"YES" : @"NO");
+#endif
     
     [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [button.imageView setContentMode:UIViewContentModeScaleAspectFit];
@@ -119,6 +130,9 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
 
 +(BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
 {
+#ifdef WHISPER_DEBUG
+    NSLog(@"WHPWhisperAppClient: Handle Open URL %@ from %@", url.path, sourceApplication);
+#endif
     [[WHPWhisperAppClient sharedClient] cleanUpTempDirectory];
     
     if ([sourceApplication isEqualToString:WHPWhisperBundleIdentifier]) {
@@ -131,6 +145,9 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
 -(void)prepareWithBarButtonItem:(UIBarButtonItem *)item
 {
     NSAssert(item, @"item cannot be nil");
+#ifdef WHISPER_DEBUG
+    NSLog(@"WHPWhisperAppClient: Preparing with bar button item %@", item);
+#endif
     _item = item;
     _view = nil;
     _rect = CGRectZero;
@@ -140,6 +157,9 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
 {
     NSAssert(view, @"view cannot be nil");
     NSAssert(!CGRectIsEmpty(rect), @"rect cannot be empty");
+#ifdef WHISPER_DEBUG
+    NSLog(@"WHPWhisperAppClient: Preparing with view %@ and rect ((%f, %f), (%f, %f))", view, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+#endif
     _item = nil;
     _view = view;
     _rect = rect;
@@ -147,11 +167,20 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
 
 -(BOOL)createWhisperWithData:(NSData *)data error:(NSError **)error
 {
+#ifdef WHISPER_DEBUG
+    NSLog(@"WHPWhisperAppClient: Whisper with data (%u bytes)", data.length);
+#endif
     if (!data) {
+#ifdef WHISPER_DEBUG
+        NSLog(@"WHPWhisperAppClient: ERROR - Data is nil");
+#endif
         *error = [NSError whp_ErrorCouldNotInitializeImageFromData];
         return NO;
     }
     if (![data whp_isJPG]) {
+#ifdef WHISPER_DEBUG
+        NSLog(@"WHPWhisperAppClient: ERROR - Data is not in JPEG format");
+#endif
         *error = [NSError whp_ErrorWrongImageFormat];
         return NO;
     }
@@ -163,19 +192,27 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
 
 -(BOOL)createWhisperWithImage:(UIImage *)image error:(NSError **)error
 {
+#ifdef WHISPER_DEBUG
+    NSLog(@"WHPWhisperAppClient: Whisper with image (%fx%f points)", image.size.width, image.size.height);
+#endif
     NSData *data = UIImageJPEGRepresentation(image, WHPSourceImageQuality);
     return [self createWhisperWithData:data error:error];
 }
 
 -(BOOL)createWhisperWithPath:(NSString *)path error:(NSError **)error
 {
+#ifdef WHISPER_DEBUG
+    NSLog(@"WHPWhisperAppClient: Whisper with path %@", path);
+#endif
     NSURL *url = [NSURL URLWithString:path relativeToURL:[NSURL URLWithString:@"file://"]];
     return [self createWhisperWithURL:url error:error];
 }
 
 -(BOOL)createWhisperWithURL:(NSURL *)url error:(NSError **)error
 {
-
+#ifdef WHISPER_DEBUG
+    NSLog(@"WHPWhisperAppClient: Whisper with URL %@", url.path);
+#endif
     NSData *imageData = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:error];
     if (!imageData)
         return NO;
@@ -184,14 +221,22 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
 
 -(BOOL)createWhisperWithCachedURL:(NSURL *)url error:(NSError **)error
 {
-    
+#ifdef WHISPER_DEBUG
+    NSLog(@"WHPWhisperAppClient: Whisper with cached URL %@", url.path);
+#endif
     NSData *imageData = [NSData dataWithContentsOfURL:url];
     UIImage *image = [UIImage imageWithData:imageData];
     if (!image) {
+#ifdef WHISPER_DEBUG
+        NSLog(@"WHPWhisperAppClient: ERROR - unable to load URL into UIImage");
+#endif
         *error = [NSError whp_ErrorCouldNotInitializeImageFromData];
         return NO;
     }
     if (![self isLegalImageSize:image]) {
+#ifdef WHISPER_DEBUG
+        NSLog(@"WHPWhisperAppClient: ERROR - Image is too small (%fx%f)", image.size.width, image.size.height);
+#endif
         *error = [NSError whp_ErrorImageIsTooSmall];
         return NO;
     }
@@ -200,6 +245,9 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
             return NO;
     }
     else {
+#ifdef WHISPER_DEBUG
+        NSLog(@"WHPWhisperAppClient: Whisper app not found. Redirect to App Store");
+#endif
         if (_autotakeToAppStore) {
             //redirect
             [self redirectToAppStore];
@@ -233,6 +281,9 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
     NSError *error = nil;
     NSString *dirPath = [NSTemporaryDirectory() stringByAppendingPathComponent:WHPTemporaryDirectoryName];
     if ([[NSFileManager defaultManager] fileExistsAtPath:dirPath isDirectory:&isDir]) {
+#ifdef WHISPER_DEBUG
+        NSLog(@"WHPWhisperAppClient: Removing Temp directory %@", dirPath);
+#endif
         [[NSFileManager defaultManager] removeItemAtPath:dirPath error:&error];
     }
     return;
@@ -300,6 +351,9 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
     NSString *fileName = [NSString stringWithFormat:@"%@_%@", [[NSProcessInfo processInfo] globallyUniqueString], WHPTemporaryFileName];
     _fileURL = [directoryURL URLByAppendingPathComponent:fileName];
     
+#ifdef WHISPER_DEBUG
+    NSLog(@"WHPWhisperAppClient: Writing data (%u bytes) to %@", data.length, _fileURL);
+#endif
     *error = nil;
     return [data writeToFile:_fileURL.path options:NSDataWritingAtomic error:error];
 }
@@ -318,28 +372,49 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
     if (urlScheme) {
         _documentController.annotation = @{@"CallbackURL": urlScheme};
     }
+#ifdef WHISPER_DEBUG
+    NSLog(@"WHPWhisperAppClient: Initializing Document controller with URL: %@, callback: %@", url.path, urlScheme ? urlScheme : @"(none)");
+#endif
     
     if (_item) {
         if (_optionsMenu) {
+#ifdef WHISPER_DEBUG
+            NSLog(@"WHPWhisperAppClient: Attempting to open Options Menu from UIBarButtonItem");
+#endif
             result = [_documentController presentOptionsMenuFromBarButtonItem:_item animated:_animated];
         }
         else {
+#ifdef WHISPER_DEBUG
+            NSLog(@"WHPWhisperAppClient: Attempting to open Menu from UIBarButtonItem");
+#endif
             result = [_documentController presentOpenInMenuFromBarButtonItem:_item animated:_animated];
         }
     }
     else if (_view) {
         if (_optionsMenu) {
+#ifdef WHISPER_DEBUG
+            NSLog(@"WHPWhisperAppClient: Attempting to open Options Menu from UIView");
+#endif
             result = [_documentController presentOptionsMenuFromRect:_rect inView:_view animated:_animated];
         }
         else {
+#ifdef WHISPER_DEBUG
+            NSLog(@"WHPWhisperAppClient: Attempting to open Menu from UIView");
+#endif
             result = [_documentController presentOpenInMenuFromRect:_rect inView:_view animated:_animated];
         }
     }
     else {
+#ifdef WHISPER_DEBUG
+        NSLog(@"WHPWhisperAppClient: ERROR - Not configured");
+#endif
         *error = [NSError whp_ErrorNotConfigured];
         return NO;
     }
     if (!result) {
+#ifdef WHISPER_DEBUG
+        NSLog(@"WHPWhisperAppClient: Whisper not up to date. Prompting for update");
+#endif
         [self promptForUpdate];
         return NO;
     }
