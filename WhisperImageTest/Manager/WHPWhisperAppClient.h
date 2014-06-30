@@ -8,17 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-extern struct CGSize const whp_minImageSize;
-
-extern struct CGSize const whp_imageSizeSmall;
-extern struct CGSize const whp_imageSizeMedium;
-extern struct CGSize const whp_imageSizeLarge;
-
-extern CGFloat const whp_buttonCornerRadius;
-
-extern NSString *const whp_bundleID;
-extern NSString *const whp_resourceBundle;
-extern NSString *const whp_appURL;
+extern struct CGSize const WHPMinimumSourceImageSize;
 
 /**
  *  Defines the default sizes of a Whisper button.
@@ -47,7 +37,7 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
   Next, call one of the create methods to create the Whisper
   from any one of four data sources.
  
-    NSImage* image = ...
+    UIImage* image = ...
     UIView* view = ...
  
     NSError* error;
@@ -66,6 +56,37 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
   in an `NSError` and a return value of `NO`.
  */
 @interface WHPWhisperAppClient : NSObject
+
+///@name Properties
+
+/**
+ * Specifies whether the user is automatically directed
+ * to the Whisper App Store page. If set to `NO`, a dialog
+ * is shown to confirm the redirect. Defaults to `NO`.
+ */
+@property BOOL autotakeToAppStore;
+
+/**
+ * Specifies whether menu presentations and dismissals are 
+ * animated. Defaults to `YES`.
+ */
+@property BOOL animated;
+
+/**
+ *  Specifies whether an options menu, rather than the default
+ *  menu, is displayed. Defaults to `NO`.
+ */
+@property BOOL optionsMenu;
+
+/**
+ *  Specifies a custom Callback URL if your 
+ *  application has a preferred URL that Whisper
+ *  can call back from. If unspecified, Whisper
+ *  will call the first available CFBundleURLSchemes in your
+ *  app's Info.plist, or ignore if you do not have
+ *  URLs set up.
+ */
+@property NSString *customCallbackURL;
 
 ///@name Class Methods
 
@@ -113,26 +134,6 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
  */
 +(BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
 
-///@name Properties
-
-/**
- * Specifies whether the user is automatically directed 
- * to the Whisper App Store page. If set to `NO`, a dialog
- * is shown to confirm the redirect. Defaults to `NO`.
- */
-@property BOOL autotakeToAppStore;
-
-/**
- * Specifies whether menus are animated. Defaults to `YES`.
- */
-@property BOOL animated;
-
-/**
- *  Specifies whether an options menu, rather than the default
- *  menu, is displayed. Defaults to `NO`.
- */
-@property BOOL optionsMenu;
-
 /// @name Configure methods
 
 /**
@@ -169,7 +170,7 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
  *
  *  @return returns `YES` if the operation succeeded without errors.
  */
--(BOOL) createWhisperWithData:(NSData *)data error:(NSError **)error;
+-(BOOL)createWhisperWithData:(NSData *)data error:(NSError **)error;
 
 /**
  *  Attempts to open Whisper with the given image.
@@ -183,7 +184,7 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
  *
  *  @return returns `YES` if the operation succeeded without errors.
  */
--(BOOL) createWhisperWithImage:(UIImage *)image error:(NSError **)error;
+-(BOOL)createWhisperWithImage:(UIImage *)image error:(NSError **)error;
 
 /**
  *  Attempts to open Whisper with an image specified by the given
@@ -199,7 +200,7 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
  *
  *  @return returns `YES` if the operation succeeded without errors.
  */
--(BOOL) createWhisperWithURL:(NSURL *)url error:(NSError **)error;
+-(BOOL)createWhisperWithURL:(NSURL *)url error:(NSError **)error;
 
 /**
  *  Attempts to open Whisper with an image specified by the given
@@ -216,6 +217,6 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
  *
  *  @return returns `YES` if the operation succeeded without errors.
  */
--(BOOL) createWhisperWithPath:(NSString *)path error:(NSError **)error;
+-(BOOL)createWhisperWithPath:(NSString *)path error:(NSError **)error;
 
 @end

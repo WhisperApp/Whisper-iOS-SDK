@@ -11,6 +11,11 @@
 		63642C98195DDFF30000D3A4 /* NSData+ImageFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 63642C97195DDFF30000D3A4 /* NSData+ImageFormat.m */; };
 		63642C9A195DE41A0000D3A4 /* beyonce.png in Resources */ = {isa = PBXBuildFile; fileRef = 63642C99195DE41A0000D3A4 /* beyonce.png */; };
 		63642C9D195DEFE70000D3A4 /* NSError+WHPErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 63642C9C195DEFE70000D3A4 /* NSError+WHPErrors.m */; };
+		6367DE5C1961F44700E14551 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E298CC1958D67F00CC4906 /* XCTest.framework */; };
+		6367DE5D1961F44700E14551 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E298AA1958D67F00CC4906 /* Foundation.framework */; };
+		6367DE5E1961F44700E14551 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E298AE1958D67F00CC4906 /* UIKit.framework */; };
+		6367DE641961F44700E14551 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6367DE621961F44700E14551 /* InfoPlist.strings */; };
+		6367DE661961F44700E14551 /* whisperapp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6367DE651961F44700E14551 /* whisperapp.m */; };
 		63DC3D7C195CED27006D43D2 /* WhisperResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63DC3D7B195CED27006D43D2 /* WhisperResources.bundle */; };
 		63E298AB1958D67F00CC4906 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E298AA1958D67F00CC4906 /* Foundation.framework */; };
 		63E298AD1958D67F00CC4906 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E298AC1958D67F00CC4906 /* CoreGraphics.framework */; };
@@ -48,6 +53,11 @@
 		63642C99195DE41A0000D3A4 /* beyonce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beyonce.png; sourceTree = "<group>"; };
 		63642C9B195DEFE70000D3A4 /* NSError+WHPErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSError+WHPErrors.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		63642C9C195DEFE70000D3A4 /* NSError+WHPErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSError+WHPErrors.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		6367DE5B1961F44700E14551 /* whisperapp.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = whisperapp.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6367DE611961F44700E14551 /* whisperapp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "whisperapp-Info.plist"; sourceTree = "<group>"; };
+		6367DE631961F44700E14551 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6367DE651961F44700E14551 /* whisperapp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = whisperapp.m; sourceTree = "<group>"; };
+		6367DE671961F44700E14551 /* whisperapp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "whisperapp-Prefix.pch"; sourceTree = "<group>"; };
 		63DC3D7B195CED27006D43D2 /* WhisperResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WhisperResources.bundle; sourceTree = "<group>"; };
 		63E298A71958D67F00CC4906 /* WhisperImageTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhisperImageTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E298AA1958D67F00CC4906 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -75,6 +85,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6367DE581961F44700E14551 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6367DE5C1961F44700E14551 /* XCTest.framework in Frameworks */,
+				6367DE5E1961F44700E14551 /* UIKit.framework in Frameworks */,
+				6367DE5D1961F44700E14551 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63E298A41958D67F00CC4906 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -125,11 +145,31 @@
 			name = NSData;
 			sourceTree = "<group>";
 		};
+		6367DE5F1961F44700E14551 /* whisperapp */ = {
+			isa = PBXGroup;
+			children = (
+				6367DE651961F44700E14551 /* whisperapp.m */,
+				6367DE601961F44700E14551 /* Supporting Files */,
+			);
+			path = whisperapp;
+			sourceTree = "<group>";
+		};
+		6367DE601961F44700E14551 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6367DE611961F44700E14551 /* whisperapp-Info.plist */,
+				6367DE621961F44700E14551 /* InfoPlist.strings */,
+				6367DE671961F44700E14551 /* whisperapp-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		63E2989E1958D67F00CC4906 = {
 			isa = PBXGroup;
 			children = (
 				63E298B01958D67F00CC4906 /* WhisperImageTest */,
 				63E298D21958D67F00CC4906 /* WhisperImageTestTests */,
+				6367DE5F1961F44700E14551 /* whisperapp */,
 				63E298A91958D67F00CC4906 /* Frameworks */,
 				63E298A81958D67F00CC4906 /* Products */,
 			);
@@ -140,6 +180,7 @@
 			children = (
 				63E298A71958D67F00CC4906 /* WhisperImageTest.app */,
 				63E298CB1958D67F00CC4906 /* WhisperImageTestTests.xctest */,
+				6367DE5B1961F44700E14551 /* whisperapp.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -225,6 +266,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6367DE5A1961F44700E14551 /* whisperapp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6367DE681961F44700E14551 /* Build configuration list for PBXNativeTarget "whisperapp" */;
+			buildPhases = (
+				6367DE571961F44700E14551 /* Sources */,
+				6367DE581961F44700E14551 /* Frameworks */,
+				6367DE591961F44700E14551 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = whisperapp;
+			productName = whisperapp;
+			productReference = 6367DE5B1961F44700E14551 /* whisperapp.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		63E298A61958D67F00CC4906 /* WhisperImageTest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 63E298DC1958D67F00CC4906 /* Build configuration list for PBXNativeTarget "WhisperImageTest" */;
@@ -289,11 +347,20 @@
 			targets = (
 				63E298A61958D67F00CC4906 /* WhisperImageTest */,
 				63E298CA1958D67F00CC4906 /* WhisperImageTestTests */,
+				6367DE5A1961F44700E14551 /* whisperapp */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6367DE591961F44700E14551 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6367DE641961F44700E14551 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63E298A51958D67F00CC4906 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -320,6 +387,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6367DE571961F44700E14551 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6367DE661961F44700E14551 /* whisperapp.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63E298A31958D67F00CC4906 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -352,6 +427,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6367DE621961F44700E14551 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6367DE631961F44700E14551 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		63E298B31958D67F00CC4906 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -387,6 +470,42 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6367DE691961F44700E14551 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "whisperapp/whisperapp-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "whisperapp/whisperapp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		6367DE6A1961F44700E14551 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "whisperapp/whisperapp-Prefix.pch";
+				INFOPLIST_FILE = "whisperapp/whisperapp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 		63E298DA1958D67F00CC4906 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -528,6 +647,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6367DE681961F44700E14551 /* Build configuration list for PBXNativeTarget "whisperapp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6367DE691961F44700E14551 /* Debug */,
+				6367DE6A1961F44700E14551 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		63E298A21958D67F00CC4906 /* Build configuration list for PBXProject "WhisperImageTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -13,7 +13,7 @@
  *  image formats. This is done by reading the header bytes
  *  of the data.
  */
-@interface NSData (ImageFormat)
+@interface NSData (WHPImageFormat)
 
 /**
  *  Detects if the data is in a JPEG image format.

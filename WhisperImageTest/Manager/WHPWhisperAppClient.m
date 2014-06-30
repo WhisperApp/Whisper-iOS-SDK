@@ -7,29 +7,32 @@
 //
 
 #import "WHPWhisperAppClient.h"
-#import "NSData+ImageFormat.h"
+#import "NSData+WHPImageFormat.h"
 #import "NSError+WHPErrors.h"
 
-CGSize const whp_minImageSize = {640.0f, 920.0f};
-CGSize const whp_imageSizeSmall = {50.0f, 50.0f};
-CGSize const whp_imageSizeMedium = {60.0f, 60.0f};
-CGSize const whp_imageSizeLarge = {75.0f, 75.0f};
+CGSize const WHPMinimumSourceImageSize = {640.0f, 920.0f};
+CGSize const WHPButtonSizeSmall = {44.0f, 44.0f};
+CGSize const WHPButtonSizeMedium = {60.0f, 60.0f};
+CGSize const WHPButtonSizeLarge = {80.0f, 80.0f};
 
-CGFloat const whp_buttonCornerRadius = 10.0f;
-CGFloat const whp_imageQuality = 1.0f;
+CGFloat const WHPButtonCornerRadius = 10.0f;
+CGFloat const WHPSourceImageQuality = 1.0f;
 
-NSString *const whp_bundleID = @"sh.whisper.whisperapp";
-NSString *const whp_resourceBundle = @"WhisperResources.bundle";
-NSString *const whp_appStoreURL = @"http://itunes.apple.com/us/app/whisper-share-express-meet/id506141837?mt=8";
-NSString *const whp_appURL = @"whisperapp://";
+NSString *const WHPWhisperBundleIdentifier = @"sh.whisper.whisperapp";
+NSString *const WHPResourceBundleName = @"WhisperResources";
+NSString *const WHPAppStoreURL = @"itms://itunes.apple.com/us/app/whisper-share-express-meet/id506141837";
+NSString *const WHPWhisperAppURL = @"whisperapp://";
 
-NSString *const tempDirectoryName = @"whisperTmp";
-NSString *const tempFileName = @"whisperTemp.whimage";
-NSString *const whisperIconName = @"whisper_appicon152";
-NSString *const whisperIconType = @"png";
+NSString *const WHPTemporaryDirectoryName = @"whisperTmp";
+NSString *const WHPTemporaryFileName = @"whisperTemp.whimage";
+NSString *const WHPWhisperIconResourceName = @"whisper_appicon152";
+NSString *const WHPWhisperIconResourceType = @"png";
 
-NSString *const redirectMessage = @"You don't have Whisper Installed. You are about to be taken to the Whisper App Store page. Continue?";
-NSString *const updateMessage = @"Your Whisper App is not up to date. You are about to be taken to the Whisper App Store page. Continue?";
+NSString *const WHPWhisperImageUTI = @"sh.whisper.whimage";
+
+NSString *const WHPRedirectMessage = @"You don't have Whisper Installed. You are about to be taken to the Whisper App Store page. Continue?";
+NSString *const WHPUpdateMessage = @"Your Whisper App is not up to date. You are about to be taken to the Whisper App Store page. Continue?";
+NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store Page.";
 
 @interface WHPWhisperAppClient () <UIDocumentInteractionControllerDelegate, UIAlertViewDelegate>
 
@@ -65,13 +68,24 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
     return singleton;
 }
 
-#pragma mark - Class
+#pragma mark - Initialization
+
+-(id)init
+{
+    if (self = [super init]) {
+        _animated = YES;
+        [self cleanUpTempDirectory];
+    }
+    return self;
+}
+
+#pragma mark - Public
 
 +(UIButton *)whisperButtonWithSize:(WHPWhisperAppClientButtonSize)size rounded:(BOOL)rounded
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    NSString *resourceName = [NSString stringWithFormat:@"%@/%@", whp_resourceBundle, whisperIconName];
-    NSString *buttonPath = [[NSBundle mainBundle] pathForResource:resourceName ofType:whisperIconType];
+    NSBundle *whisperBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:WHPResourceBundleName ofType:@"bundle"]];
+    NSString *buttonPath = [whisperBundle pathForResource:WHPWhisperIconResourceName ofType:WHPWhisperIconResourceType];
     
     UIImage *buttonImage = [UIImage imageWithContentsOfFile:buttonPath];
     
@@ -79,7 +93,7 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
     button.frame = CGRectMake(0, 0, buttonSize.width, buttonSize.height);
     
     if (rounded) {
-        button.layer.cornerRadius = whp_buttonCornerRadius;
+        button.layer.cornerRadius = WHPButtonCornerRadius;
         button.clipsToBounds = YES;
     }
     
@@ -92,14 +106,14 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
 {
     switch (size) {
         case kWHPWhisperAppClientButtonSize_Small:
-            return whp_imageSizeSmall;
+            return WHPButtonSizeSmall;
             break;
         case kWHPWhisperAppClientButtonSize_Medium:
-            return whp_imageSizeMedium;
+            return WHPButtonSizeMedium;
         case kWHPWhisperAppClientButtonSize_Large:
-            return whp_imageSizeLarge;
+            return WHPButtonSizeLarge;
         default:
-            return whp_imageSizeMedium;
+            return WHPButtonSizeMedium;
     }
 }
 
@@ -107,14 +121,12 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
 {
     [[WHPWhisperAppClient sharedClient] cleanUpTempDirectory];
     
-    if ([sourceApplication isEqualToString:whp_bundleID]) {
+    if ([sourceApplication isEqualToString:WHPWhisperBundleIdentifier]) {
 
         return YES;
     }
     return NO;
 }
-
-#pragma mark - Public
 
 -(void)prepareWithBarButtonItem:(UIBarButtonItem *)item
 {
@@ -146,21 +158,18 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
     if (![self writeToCache:data error:error])
         return NO;
     
-    *error = nil;
     return [self createWhisperWithCachedURL:_fileURL error:error];
 }
 
 -(BOOL)createWhisperWithImage:(UIImage *)image error:(NSError **)error
 {
-    NSData *data = UIImageJPEGRepresentation(image, whp_imageQuality);
-    *error = nil;
+    NSData *data = UIImageJPEGRepresentation(image, WHPSourceImageQuality);
     return [self createWhisperWithData:data error:error];
 }
 
 -(BOOL)createWhisperWithPath:(NSString *)path error:(NSError **)error
 {
     NSURL *url = [NSURL URLWithString:path relativeToURL:[NSURL URLWithString:@"file://"]];
-    *error = nil;
     return [self createWhisperWithURL:url error:error];
 }
 
@@ -170,7 +179,6 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
     NSData *imageData = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:error];
     if (!imageData)
         return NO;
-    *error = nil;
     return [self createWhisperWithData:imageData error:error];
 }
 
@@ -188,7 +196,6 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
         return NO;
     }
     if ([self whisperAppExists]) {
-        *error = nil;
         if (![self showFileOpenDialog:url error:error])
             return NO;
     }
@@ -204,7 +211,8 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
     }
     return YES;
 }
-#pragma mark UIAlertView
+
+#pragma mark - UIAlertView
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -217,22 +225,13 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
     }
 }
 
-#pragma mark Private
-
--(id)init
-{
-    if (self=[super init]) {
-        _animated = YES;
-        [self cleanUpTempDirectory];
-    }
-    return self;
-}
+#pragma mark - Private
 
 -(void)cleanUpTempDirectory
 {
     BOOL isDir;
     NSError *error = nil;
-    NSString *dirPath = [NSTemporaryDirectory() stringByAppendingPathComponent:tempDirectoryName];
+    NSString *dirPath = [NSTemporaryDirectory() stringByAppendingPathComponent:WHPTemporaryDirectoryName];
     if ([[NSFileManager defaultManager] fileExistsAtPath:dirPath isDirectory:&isDir]) {
         [[NSFileManager defaultManager] removeItemAtPath:dirPath error:&error];
     }
@@ -241,26 +240,32 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
 
 -(BOOL)whisperAppExists
 {
-    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:whp_appURL]];
+    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:WHPWhisperAppURL]];
 }
 
 -(void)redirectToAppStore
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:whp_appStoreURL]];
+    NSURL *whisperAppURL = [NSURL URLWithString:WHPAppStoreURL];
+    if ([[UIApplication sharedApplication] canOpenURL:whisperAppURL]) {
+        [[UIApplication sharedApplication] openURL:whisperAppURL];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot open URL" message:WHPCannotOpenAppStoreMessage delegate:self cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil, nil];
+        alert.alertViewStyle = UIAlertViewStyleDefault;
+        [alert show];
+    }
 }
 
 -(void)promptForRedirect
 {
-    WHPWhisperAppClient *delegate = self;
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Redirect Alert" message:redirectMessage delegate:delegate cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK!", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Redirect Alert" message:WHPRedirectMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK!", nil];
     alert.alertViewStyle = UIAlertViewStyleDefault;
     [alert show];
 }
 
 -(void)promptForUpdate
 {
-    WHPWhisperAppClient *delegate = self;
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Redirect Alert" message:updateMessage delegate:delegate cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK!", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Redirect Alert" message:WHPUpdateMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK!", nil];
     alert.alertViewStyle = UIAlertViewStyleDefault;
     [alert show];
 }
@@ -268,26 +273,31 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
 -(BOOL)isLegalImageSize:(UIImage *)image
 {
     CGSize size = image.size;
-    return size.width >= whp_minImageSize.width && size.height >= whp_minImageSize.height;
+    return size.width >= WHPMinimumSourceImageSize.width && size.height >= WHPMinimumSourceImageSize.height;
 }
 
 -(NSString *)getApplicationURLScheme
 {
+    if (_customCallbackURL) {
+        return _customCallbackURL;
+    }
     NSArray *urlTypes = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"];
-    if (urlTypes.count == 0)
+    if (urlTypes.count == 0) {
         return nil;
+    }
     NSArray *urlSchemes = [[urlTypes objectAtIndex:0] objectForKey:@"CFBundleURLSchemes"];
-    if (urlSchemes.count == 0)
+    if (urlSchemes.count == 0) {
         return nil;
+    }
     return [urlSchemes objectAtIndex:0];
 }
 
 -(BOOL)writeToCache:(NSData *)data error:(NSError **)error
 {
     
-    NSURL *directoryURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:tempDirectoryName] isDirectory:YES];
+    NSURL *directoryURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:WHPTemporaryDirectoryName] isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:directoryURL withIntermediateDirectories:YES attributes:nil error:error];
-    NSString *fileName = [NSString stringWithFormat:@"%@_%@", [[NSProcessInfo processInfo] globallyUniqueString], tempFileName];
+    NSString *fileName = [NSString stringWithFormat:@"%@_%@", [[NSProcessInfo processInfo] globallyUniqueString], WHPTemporaryFileName];
     _fileURL = [directoryURL URLByAppendingPathComponent:fileName];
     
     *error = nil;
@@ -299,10 +309,15 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
     BOOL result;
     NSString *urlScheme = [self getApplicationURLScheme];
     
-    self.documentController = [UIDocumentInteractionController interactionControllerWithURL:url];
+    if (_documentController) {
+        [_documentController dismissMenuAnimated:_animated];
+    }
+    _documentController = [UIDocumentInteractionController interactionControllerWithURL:url];
     _documentController.delegate = self;
-    _documentController.UTI = @"sh.whisper.whisperimage";
-    _documentController.annotation = @{@"CallbackURL": urlScheme};
+    _documentController.UTI = WHPWhisperImageUTI;
+    if (urlScheme) {
+        _documentController.annotation = @{@"CallbackURL": urlScheme};
+    }
     
     if (_item) {
         if (_optionsMenu) {
@@ -329,21 +344,6 @@ NSString *const updateMessage = @"Your Whisper App is not up to date. You are ab
         return NO;
     }
     return YES;
-}
-
-#pragma mark - Accessors
-
--(void)setDocumentController:(UIDocumentInteractionController *)docController
-{
-    if (_documentController) {
-        [_documentController dismissMenuAnimated:_autotakeToAppStore];
-    }
-    _documentController = docController;
-}
-
-#pragma mark - Dealloc
-
--(void)dealloc {
 }
 
 @end

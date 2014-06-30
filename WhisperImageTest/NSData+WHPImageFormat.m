@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Whisper. All rights reserved.
 //
 
-#import "NSData+ImageFormat.h"
+#import "NSData+WHPImageFormat.h"
 
 static unsigned char wh_jpgImageHeaderBytes[3] =
 {
@@ -20,7 +20,7 @@ static unsigned char wh_pngImageHeaderBytes[4] =
 };
 #define wh_pngImageHeaderLength 4
 
-@implementation NSData (ImageFormat)
+@implementation NSData (WHPImageFormat)
 
 -(BOOL)whp_isJPG
 {
