@@ -1,18 +1,18 @@
 //
-//  WhisperImageTestTests.m
-//  WhisperImageTestTests
+//  Whisper_iOS_SDKTestTests.m
+//  Whisper-iOS-SDKTestTests
 //
-//  Created by whisper on 6/23/14.
+//  Created by whisper on 6/30/14.
 //  Copyright (c) 2014 Whisper. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
 
-@interface WhisperImageTestTests : XCTestCase
+@interface Whisper_iOS_SDKTestTests : XCTestCase
 
 @end
 
-@implementation WhisperImageTestTests
+@implementation Whisper_iOS_SDKTestTests
 
 - (void)setUp
 {

@@ -9,12 +9,10 @@ $APPLEDOC_PATH \
 --keep-undocumented-objects \
 --keep-undocumented-members \
 --ignore "*.m" \
---ignore AppDelegate.h \
---ignore ViewController.h  \
 --keep-intermediate-files \
 --no-repeat-first-par \
 --no-warn-invalid-crossref \
 --exit-threshold 2 \
-./WhisperImageTest
+./Source
 fi;
 #fi;

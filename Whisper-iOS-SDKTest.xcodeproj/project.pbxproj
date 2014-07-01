@@ -1,0 +1,546 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6367DE7B196213EC00E14551 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6367DE7A196213EC00E14551 /* Foundation.framework */; };
+		6367DE7D196213EC00E14551 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6367DE7C196213EC00E14551 /* CoreGraphics.framework */; };
+		6367DE7F196213EC00E14551 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6367DE7E196213EC00E14551 /* UIKit.framework */; };
+		6367DE85196213EC00E14551 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6367DE83196213EC00E14551 /* InfoPlist.strings */; };
+		6367DE87196213EC00E14551 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6367DE86196213EC00E14551 /* main.m */; };
+		6367DE8B196213EC00E14551 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6367DE8A196213EC00E14551 /* AppDelegate.m */; };
+		6367DE8E196213EC00E14551 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6367DE8C196213EC00E14551 /* Main_iPhone.storyboard */; };
+		6367DE91196213EC00E14551 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6367DE8F196213EC00E14551 /* Main_iPad.storyboard */; };
+		6367DE94196213EC00E14551 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6367DE93196213EC00E14551 /* RootViewController.m */; };
+		6367DE96196213EC00E14551 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6367DE95196213EC00E14551 /* Images.xcassets */; };
+		6367DE9D196213EC00E14551 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6367DE9C196213EC00E14551 /* XCTest.framework */; };
+		6367DE9E196213EC00E14551 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6367DE7A196213EC00E14551 /* Foundation.framework */; };
+		6367DE9F196213EC00E14551 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6367DE7E196213EC00E14551 /* UIKit.framework */; };
+		6367DEA7196213EC00E14551 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6367DEA5196213EC00E14551 /* InfoPlist.strings */; };
+		6367DEA9196213EC00E14551 /* Whisper_iOS_SDKTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6367DEA8196213EC00E14551 /* Whisper_iOS_SDKTestTests.m */; };
+		6367DEC01962274300E14551 /* doge.png in Resources */ = {isa = PBXBuildFile; fileRef = 6367DEBF1962274300E14551 /* doge.png */; };
+		6367DEC3196227D900E14551 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6367DEC2196227D900E14551 /* PostViewController.m */; };
+		6367DEC5196242E300E14551 /* yosemite.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6367DEC4196242E300E14551 /* yosemite.jpg */; };
+		6367DECF1962495300E14551 /* NSData+WHPImageFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 6367DEC91962495300E14551 /* NSData+WHPImageFormat.m */; };
+		6367DED01962495300E14551 /* NSError+WHPErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 6367DECB1962495300E14551 /* NSError+WHPErrors.m */; };
+		6367DED11962495300E14551 /* WhisperResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6367DECC1962495300E14551 /* WhisperResources.bundle */; };
+		6367DED21962495300E14551 /* WHPWhisperAppClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6367DECE1962495300E14551 /* WHPWhisperAppClient.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6367DEA0196213EC00E14551 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6367DE6F196213EC00E14551 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6367DE76196213EC00E14551;
+			remoteInfo = "Whisper-iOS-SDKTest";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6367DE77196213EC00E14551 /* Whisper-iOS-SDKTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Whisper-iOS-SDKTest.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6367DE7A196213EC00E14551 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6367DE7C196213EC00E14551 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		6367DE7E196213EC00E14551 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		6367DE82196213EC00E14551 /* Whisper-iOS-SDKTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Whisper-iOS-SDKTest-Info.plist"; sourceTree = "<group>"; };
+		6367DE84196213EC00E14551 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6367DE86196213EC00E14551 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6367DE88196213EC00E14551 /* Whisper-iOS-SDKTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Whisper-iOS-SDKTest-Prefix.pch"; sourceTree = "<group>"; };
+		6367DE89196213EC00E14551 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		6367DE8A196213EC00E14551 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6367DE8D196213EC00E14551 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		6367DE90196213EC00E14551 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		6367DE92196213EC00E14551 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		6367DE93196213EC00E14551 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		6367DE95196213EC00E14551 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		6367DE9B196213EC00E14551 /* Whisper-iOS-SDKTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Whisper-iOS-SDKTestTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6367DE9C196213EC00E14551 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		6367DEA4196213EC00E14551 /* Whisper-iOS-SDKTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Whisper-iOS-SDKTestTests-Info.plist"; sourceTree = "<group>"; };
+		6367DEA6196213EC00E14551 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6367DEA8196213EC00E14551 /* Whisper_iOS_SDKTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Whisper_iOS_SDKTestTests.m; sourceTree = "<group>"; };
+		6367DEBF1962274300E14551 /* doge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = doge.png; path = Resources/doge.png; sourceTree = "<group>"; };
+		6367DEC1196227D900E14551 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
+		6367DEC2196227D900E14551 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
+		6367DEC4196242E300E14551 /* yosemite.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = yosemite.jpg; path = Resources/yosemite.jpg; sourceTree = "<group>"; };
+		6367DEC81962495300E14551 /* NSData+WHPImageFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+WHPImageFormat.h"; sourceTree = "<group>"; };
+		6367DEC91962495300E14551 /* NSData+WHPImageFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+WHPImageFormat.m"; sourceTree = "<group>"; };
+		6367DECA1962495300E14551 /* NSError+WHPErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+WHPErrors.h"; sourceTree = "<group>"; };
+		6367DECB1962495300E14551 /* NSError+WHPErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+WHPErrors.m"; sourceTree = "<group>"; };
+		6367DECC1962495300E14551 /* WhisperResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WhisperResources.bundle; sourceTree = "<group>"; };
+		6367DECD1962495300E14551 /* WHPWhisperAppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHPWhisperAppClient.h; sourceTree = "<group>"; };
+		6367DECE1962495300E14551 /* WHPWhisperAppClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHPWhisperAppClient.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6367DE74196213EC00E14551 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6367DE7D196213EC00E14551 /* CoreGraphics.framework in Frameworks */,
+				6367DE7F196213EC00E14551 /* UIKit.framework in Frameworks */,
+				6367DE7B196213EC00E14551 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6367DE98196213EC00E14551 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6367DE9D196213EC00E14551 /* XCTest.framework in Frameworks */,
+				6367DE9F196213EC00E14551 /* UIKit.framework in Frameworks */,
+				6367DE9E196213EC00E14551 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6367DE6E196213EC00E14551 = {
+			isa = PBXGroup;
+			children = (
+				6367DE80196213EC00E14551 /* Whisper-iOS-SDKTest */,
+				6367DEA2196213EC00E14551 /* Whisper-iOS-SDKTestTests */,
+				6367DE79196213EC00E14551 /* Frameworks */,
+				6367DE78196213EC00E14551 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6367DE78196213EC00E14551 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6367DE77196213EC00E14551 /* Whisper-iOS-SDKTest.app */,
+				6367DE9B196213EC00E14551 /* Whisper-iOS-SDKTestTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6367DE79196213EC00E14551 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6367DE7A196213EC00E14551 /* Foundation.framework */,
+				6367DE7C196213EC00E14551 /* CoreGraphics.framework */,
+				6367DE7E196213EC00E14551 /* UIKit.framework */,
+				6367DE9C196213EC00E14551 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6367DE80196213EC00E14551 /* Whisper-iOS-SDKTest */ = {
+			isa = PBXGroup;
+			children = (
+				6367DE89196213EC00E14551 /* AppDelegate.h */,
+				6367DE8A196213EC00E14551 /* AppDelegate.m */,
+				6367DE8C196213EC00E14551 /* Main_iPhone.storyboard */,
+				6367DE8F196213EC00E14551 /* Main_iPad.storyboard */,
+				6367DE92196213EC00E14551 /* RootViewController.h */,
+				6367DE93196213EC00E14551 /* RootViewController.m */,
+				6367DEC1196227D900E14551 /* PostViewController.h */,
+				6367DEC2196227D900E14551 /* PostViewController.m */,
+				6367DEC61962495300E14551 /* WHPWhisperAppClient */,
+				6367DE95196213EC00E14551 /* Images.xcassets */,
+				6367DEBE1962273400E14551 /* Resources */,
+				6367DE81196213EC00E14551 /* Supporting Files */,
+			);
+			path = "Whisper-iOS-SDKTest";
+			sourceTree = "<group>";
+		};
+		6367DE81196213EC00E14551 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6367DE82196213EC00E14551 /* Whisper-iOS-SDKTest-Info.plist */,
+				6367DE83196213EC00E14551 /* InfoPlist.strings */,
+				6367DE86196213EC00E14551 /* main.m */,
+				6367DE88196213EC00E14551 /* Whisper-iOS-SDKTest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6367DEA2196213EC00E14551 /* Whisper-iOS-SDKTestTests */ = {
+			isa = PBXGroup;
+			children = (
+				6367DEA8196213EC00E14551 /* Whisper_iOS_SDKTestTests.m */,
+				6367DEA3196213EC00E14551 /* Supporting Files */,
+			);
+			path = "Whisper-iOS-SDKTestTests";
+			sourceTree = "<group>";
+		};
+		6367DEA3196213EC00E14551 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6367DEA4196213EC00E14551 /* Whisper-iOS-SDKTestTests-Info.plist */,
+				6367DEA5196213EC00E14551 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6367DEBE1962273400E14551 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6367DEC4196242E300E14551 /* yosemite.jpg */,
+				6367DEBF1962274300E14551 /* doge.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		6367DEC61962495300E14551 /* WHPWhisperAppClient */ = {
+			isa = PBXGroup;
+			children = (
+				6367DEC71962495300E14551 /* Categories */,
+				6367DECC1962495300E14551 /* WhisperResources.bundle */,
+				6367DECD1962495300E14551 /* WHPWhisperAppClient.h */,
+				6367DECE1962495300E14551 /* WHPWhisperAppClient.m */,
+			);
+			name = WHPWhisperAppClient;
+			path = ../Source;
+			sourceTree = "<group>";
+		};
+		6367DEC71962495300E14551 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				6367DEC81962495300E14551 /* NSData+WHPImageFormat.h */,
+				6367DEC91962495300E14551 /* NSData+WHPImageFormat.m */,
+				6367DECA1962495300E14551 /* NSError+WHPErrors.h */,
+				6367DECB1962495300E14551 /* NSError+WHPErrors.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6367DE76196213EC00E14551 /* Whisper-iOS-SDKTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6367DEAC196213EC00E14551 /* Build configuration list for PBXNativeTarget "Whisper-iOS-SDKTest" */;
+			buildPhases = (
+				6367DE73196213EC00E14551 /* Sources */,
+				6367DE74196213EC00E14551 /* Frameworks */,
+				6367DE75196213EC00E14551 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Whisper-iOS-SDKTest";
+			productName = "Whisper-iOS-SDKTest";
+			productReference = 6367DE77196213EC00E14551 /* Whisper-iOS-SDKTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6367DE9A196213EC00E14551 /* Whisper-iOS-SDKTestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6367DEAF196213EC00E14551 /* Build configuration list for PBXNativeTarget "Whisper-iOS-SDKTestTests" */;
+			buildPhases = (
+				6367DE97196213EC00E14551 /* Sources */,
+				6367DE98196213EC00E14551 /* Frameworks */,
+				6367DE99196213EC00E14551 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6367DEA1196213EC00E14551 /* PBXTargetDependency */,
+			);
+			name = "Whisper-iOS-SDKTestTests";
+			productName = "Whisper-iOS-SDKTestTests";
+			productReference = 6367DE9B196213EC00E14551 /* Whisper-iOS-SDKTestTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6367DE6F196213EC00E14551 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Whisper;
+				TargetAttributes = {
+					6367DE9A196213EC00E14551 = {
+						TestTargetID = 6367DE76196213EC00E14551;
+					};
+				};
+			};
+			buildConfigurationList = 6367DE72196213EC00E14551 /* Build configuration list for PBXProject "Whisper-iOS-SDKTest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6367DE6E196213EC00E14551;
+			productRefGroup = 6367DE78196213EC00E14551 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6367DE76196213EC00E14551 /* Whisper-iOS-SDKTest */,
+				6367DE9A196213EC00E14551 /* Whisper-iOS-SDKTestTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6367DE75196213EC00E14551 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6367DE91196213EC00E14551 /* Main_iPad.storyboard in Resources */,
+				6367DEC01962274300E14551 /* doge.png in Resources */,
+				6367DED11962495300E14551 /* WhisperResources.bundle in Resources */,
+				6367DEC5196242E300E14551 /* yosemite.jpg in Resources */,
+				6367DE96196213EC00E14551 /* Images.xcassets in Resources */,
+				6367DE8E196213EC00E14551 /* Main_iPhone.storyboard in Resources */,
+				6367DE85196213EC00E14551 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6367DE99196213EC00E14551 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6367DEA7196213EC00E14551 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6367DE73196213EC00E14551 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6367DEC3196227D900E14551 /* PostViewController.m in Sources */,
+				6367DE94196213EC00E14551 /* RootViewController.m in Sources */,
+				6367DED01962495300E14551 /* NSError+WHPErrors.m in Sources */,
+				6367DE8B196213EC00E14551 /* AppDelegate.m in Sources */,
+				6367DED21962495300E14551 /* WHPWhisperAppClient.m in Sources */,
+				6367DECF1962495300E14551 /* NSData+WHPImageFormat.m in Sources */,
+				6367DE87196213EC00E14551 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6367DE97196213EC00E14551 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6367DEA9196213EC00E14551 /* Whisper_iOS_SDKTestTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6367DEA1196213EC00E14551 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6367DE76196213EC00E14551 /* Whisper-iOS-SDKTest */;
+			targetProxy = 6367DEA0196213EC00E14551 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6367DE83196213EC00E14551 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6367DE84196213EC00E14551 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		6367DE8C196213EC00E14551 /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6367DE8D196213EC00E14551 /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		6367DE8F196213EC00E14551 /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6367DE90196213EC00E14551 /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		6367DEA5196213EC00E14551 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6367DEA6196213EC00E14551 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6367DEAA196213EC00E14551 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6367DEAB196213EC00E14551 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6367DEAD196213EC00E14551 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Whisper-iOS-SDKTest/Whisper-iOS-SDKTest-Prefix.pch";
+				INFOPLIST_FILE = "Whisper-iOS-SDKTest/Whisper-iOS-SDKTest-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		6367DEAE196213EC00E14551 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Whisper-iOS-SDKTest/Whisper-iOS-SDKTest-Prefix.pch";
+				INFOPLIST_FILE = "Whisper-iOS-SDKTest/Whisper-iOS-SDKTest-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		6367DEB0196213EC00E14551 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Whisper-iOS-SDKTest.app/Whisper-iOS-SDKTest";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Whisper-iOS-SDKTest/Whisper-iOS-SDKTest-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Whisper-iOS-SDKTestTests/Whisper-iOS-SDKTestTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		6367DEB1196213EC00E14551 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Whisper-iOS-SDKTest.app/Whisper-iOS-SDKTest";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Whisper-iOS-SDKTest/Whisper-iOS-SDKTest-Prefix.pch";
+				INFOPLIST_FILE = "Whisper-iOS-SDKTestTests/Whisper-iOS-SDKTestTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6367DE72196213EC00E14551 /* Build configuration list for PBXProject "Whisper-iOS-SDKTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6367DEAA196213EC00E14551 /* Debug */,
+				6367DEAB196213EC00E14551 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6367DEAC196213EC00E14551 /* Build configuration list for PBXNativeTarget "Whisper-iOS-SDKTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6367DEAD196213EC00E14551 /* Debug */,
+				6367DEAE196213EC00E14551 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		6367DEAF196213EC00E14551 /* Build configuration list for PBXNativeTarget "Whisper-iOS-SDKTestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6367DEB0196213EC00E14551 /* Debug */,
+				6367DEB1196213EC00E14551 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6367DE6F196213EC00E14551 /* Project object */;
+}
