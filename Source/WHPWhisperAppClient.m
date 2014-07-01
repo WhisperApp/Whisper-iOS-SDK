@@ -36,7 +36,7 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
 
 @interface WHPWhisperAppClient () <UIDocumentInteractionControllerDelegate, UIAlertViewDelegate>
 
-@property (nonatomic, weak) UIDocumentInteractionController *documentController;
+@property (nonatomic, strong) UIDocumentInteractionController *documentController;
 @property (nonatomic, strong) NSURL *fileURL;
 
 @property (nonatomic, weak) UIBarButtonItem *item;
