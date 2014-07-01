@@ -192,30 +192,30 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
 
 -(BOOL)createWhisperWithImage:(UIImage *)image error:(NSError **)error
 {
+    NSParameterAssert(image);
 #ifdef WHISPER_DEBUG
     NSLog(@"WHPWhisperAppClient: Whisper with image (%fx%f points)", image.size.width, image.size.height);
 #endif
-    NSAssert(image, @"image cannot be nil");
     NSData *data = UIImageJPEGRepresentation(image, WHPSourceImageQuality);
     return [self createWhisperWithData:data error:error];
 }
 
 -(BOOL)createWhisperWithPath:(NSString *)path error:(NSError **)error
 {
+    NSParameterAssert(path);
 #ifdef WHISPER_DEBUG
     NSLog(@"WHPWhisperAppClient: Whisper with path %@", path);
 #endif
-    NSAssert(path, @"path cannot be nil");
     NSURL *url = [NSURL fileURLWithPath:path];
     return [self createWhisperWithURL:url error:error];
 }
 
 -(BOOL)createWhisperWithURL:(NSURL *)url error:(NSError **)error
 {
+    NSParameterAssert(url);
 #ifdef WHISPER_DEBUG
     NSLog(@"WHPWhisperAppClient: Whisper with URL %@", url.path);
 #endif
-    NSAssert(url, @"url cannot be nil");
     NSData *imageData = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:error];
     if (!imageData)
         return NO;
@@ -412,6 +412,8 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
         }
     }
     else {
+        
+        
 #ifdef WHISPER_DEBUG
         NSLog(@"WHPWhisperAppClient: ERROR - Not configured");
 #endif
