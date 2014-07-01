@@ -195,6 +195,7 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
 #ifdef WHISPER_DEBUG
     NSLog(@"WHPWhisperAppClient: Whisper with image (%fx%f points)", image.size.width, image.size.height);
 #endif
+    NSAssert(image, @"image cannot be nil");
     NSData *data = UIImageJPEGRepresentation(image, WHPSourceImageQuality);
     return [self createWhisperWithData:data error:error];
 }
@@ -204,7 +205,8 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
 #ifdef WHISPER_DEBUG
     NSLog(@"WHPWhisperAppClient: Whisper with path %@", path);
 #endif
-    NSURL *url = [NSURL URLWithString:path relativeToURL:[NSURL URLWithString:@"file://"]];
+    NSAssert(path, @"path cannot be nil");
+    NSURL *url = [NSURL fileURLWithPath:path];
     return [self createWhisperWithURL:url error:error];
 }
 
@@ -213,6 +215,7 @@ NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store P
 #ifdef WHISPER_DEBUG
     NSLog(@"WHPWhisperAppClient: Whisper with URL %@", url.path);
 #endif
+    NSAssert(url, @"url cannot be nil");
     NSData *imageData = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:error];
     if (!imageData)
         return NO;
