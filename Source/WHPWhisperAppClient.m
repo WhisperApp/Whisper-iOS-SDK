@@ -11,28 +11,28 @@
 #import "NSError+WHPErrors.h"
 
 CGSize const WHPMinimumSourceImageSize = {640.0f, 920.0f};
-CGSize const WHPButtonSizeSmall = {44.0f, 44.0f};
-CGSize const WHPButtonSizeMedium = {60.0f, 60.0f};
-CGSize const WHPButtonSizeLarge = {80.0f, 80.0f};
+static CGSize const WHPButtonSizeSmall = {44.0f, 44.0f};
+static CGSize const WHPButtonSizeMedium = {60.0f, 60.0f};
+static CGSize const WHPButtonSizeLarge = {80.0f, 80.0f};
 
-CGFloat const WHPButtonCornerRadius = 10.0f;
-CGFloat const WHPSourceImageQuality = 1.0f;
+static CGFloat const WHPButtonCornerRadius = 10.0f;
+static CGFloat const WHPSourceImageQuality = 1.0f;
 
-NSString *const WHPWhisperBundleIdentifier = @"sh.whisper.whisperapp";
-NSString *const WHPResourceBundleName = @"WhisperResources";
-NSString *const WHPAppStoreURL = @"itms://itunes.apple.com/us/app/whisper-share-express-meet/id506141837";
-NSString *const WHPWhisperAppURL = @"whisperapp://";
+static NSString *const WHPWhisperBundleIdentifier = @"sh.whisper.whisperapp";
+static NSString *const WHPResourceBundleName = @"WhisperResources";
+static NSString *const WHPAppStoreURL = @"itms://itunes.apple.com/us/app/whisper-share-express-meet/id506141837";
+static NSString *const WHPWhisperAppURL = @"whisperapp://";
 
-NSString *const WHPTemporaryDirectoryName = @"whisperTmp";
-NSString *const WHPTemporaryFileName = @"whisperTemp.whimage";
-NSString *const WHPWhisperIconResourceName = @"whisper_appicon152";
-NSString *const WHPWhisperIconResourceType = @"png";
+static NSString *const WHPTemporaryDirectoryName = @"whisperTmp";
+static NSString *const WHPTemporaryFileName = @"whisperTemp.whimage";
+static NSString *const WHPWhisperIconResourceName = @"whisper_appicon152";
+static NSString *const WHPWhisperIconResourceType = @"png";
 
-NSString *const WHPWhisperImageUTI = @"sh.whisper.whimage";
+static NSString *const WHPWhisperImageUTI = @"sh.whisper.whimage";
 
-NSString *const WHPRedirectMessage = @"You don't have Whisper Installed. You are about to be taken to the Whisper App Store page. Continue?";
-NSString *const WHPUpdateMessage = @"Your Whisper App is not up to date. You are about to be taken to the Whisper App Store page. Continue?";
-NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store Page.";
+static NSString *const WHPRedirectMessage = @"You don't have Whisper Installed. You are about to be taken to the Whisper App Store page. Continue?";
+static NSString *const WHPUpdateMessage = @"Your Whisper App is not up to date. You are about to be taken to the Whisper App Store page. Continue?";
+static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store Page.";
 
 @interface WHPWhisperAppClient () <UIDocumentInteractionControllerDelegate, UIAlertViewDelegate>
 
