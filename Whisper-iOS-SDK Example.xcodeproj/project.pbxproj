@@ -42,14 +42,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6367DE77196213EC00E14551 /* Whisper-iOS-SDKTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Whisper-iOS-SDKTest.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6367DE77196213EC00E14551 /* Whisper-iOS-SDK Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Whisper-iOS-SDK Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6367DE7A196213EC00E14551 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6367DE7C196213EC00E14551 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6367DE7E196213EC00E14551 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6367DE82196213EC00E14551 /* Whisper-iOS-SDKTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Whisper-iOS-SDKTest-Info.plist"; sourceTree = "<group>"; };
+		6367DE82196213EC00E14551 /* Whisper-iOS-SDK Example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Whisper-iOS-SDK Example-Info.plist"; sourceTree = "<group>"; };
 		6367DE84196213EC00E14551 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6367DE86196213EC00E14551 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6367DE88196213EC00E14551 /* Whisper-iOS-SDKTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Whisper-iOS-SDKTest-Prefix.pch"; sourceTree = "<group>"; };
+		6367DE88196213EC00E14551 /* Whisper-iOS-SDK Example-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Whisper-iOS-SDK Example-Prefix.pch"; sourceTree = "<group>"; };
 		6367DE89196213EC00E14551 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6367DE8A196213EC00E14551 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		6367DE8D196213EC00E14551 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
@@ -57,9 +57,9 @@
 		6367DE92196213EC00E14551 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		6367DE93196213EC00E14551 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		6367DE95196213EC00E14551 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6367DE9B196213EC00E14551 /* Whisper-iOS-SDKTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Whisper-iOS-SDKTestTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6367DE9B196213EC00E14551 /* Whisper-iOS-SDK ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Whisper-iOS-SDK ExampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6367DE9C196213EC00E14551 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		6367DEA4196213EC00E14551 /* Whisper-iOS-SDKTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Whisper-iOS-SDKTestTests-Info.plist"; sourceTree = "<group>"; };
+		6367DEA4196213EC00E14551 /* Whisper-iOS-SDK ExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Whisper-iOS-SDK ExampleTests-Info.plist"; sourceTree = "<group>"; };
 		6367DEA6196213EC00E14551 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6367DEA8196213EC00E14551 /* Whisper_iOS_SDKTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Whisper_iOS_SDKTestTests.m; sourceTree = "<group>"; };
 		6367DEBF1962274300E14551 /* doge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = doge.png; path = Resources/doge.png; sourceTree = "<group>"; };
@@ -102,8 +102,8 @@
 		6367DE6E196213EC00E14551 = {
 			isa = PBXGroup;
 			children = (
-				6367DE80196213EC00E14551 /* Whisper-iOS-SDKTest */,
-				6367DEA2196213EC00E14551 /* Whisper-iOS-SDKTestTests */,
+				6367DE80196213EC00E14551 /* Whisper-iOS-SDK Example */,
+				6367DEA2196213EC00E14551 /* Whisper-iOS-SDK ExampleTests */,
 				6367DE79196213EC00E14551 /* Frameworks */,
 				6367DE78196213EC00E14551 /* Products */,
 			);
@@ -112,8 +112,8 @@
 		6367DE78196213EC00E14551 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6367DE77196213EC00E14551 /* Whisper-iOS-SDKTest.app */,
-				6367DE9B196213EC00E14551 /* Whisper-iOS-SDKTestTests.xctest */,
+				6367DE77196213EC00E14551 /* Whisper-iOS-SDK Example.app */,
+				6367DE9B196213EC00E14551 /* Whisper-iOS-SDK ExampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -129,7 +129,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6367DE80196213EC00E14551 /* Whisper-iOS-SDKTest */ = {
+		6367DE80196213EC00E14551 /* Whisper-iOS-SDK Example */ = {
 			isa = PBXGroup;
 			children = (
 				6367DE89196213EC00E14551 /* AppDelegate.h */,
@@ -145,33 +145,35 @@
 				6367DEBE1962273400E14551 /* Resources */,
 				6367DE81196213EC00E14551 /* Supporting Files */,
 			);
+			name = "Whisper-iOS-SDK Example";
 			path = "Whisper-iOS-SDKTest";
 			sourceTree = "<group>";
 		};
 		6367DE81196213EC00E14551 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6367DE82196213EC00E14551 /* Whisper-iOS-SDKTest-Info.plist */,
+				6367DE82196213EC00E14551 /* Whisper-iOS-SDK Example-Info.plist */,
 				6367DE83196213EC00E14551 /* InfoPlist.strings */,
 				6367DE86196213EC00E14551 /* main.m */,
-				6367DE88196213EC00E14551 /* Whisper-iOS-SDKTest-Prefix.pch */,
+				6367DE88196213EC00E14551 /* Whisper-iOS-SDK Example-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6367DEA2196213EC00E14551 /* Whisper-iOS-SDKTestTests */ = {
+		6367DEA2196213EC00E14551 /* Whisper-iOS-SDK ExampleTests */ = {
 			isa = PBXGroup;
 			children = (
 				6367DEA8196213EC00E14551 /* Whisper_iOS_SDKTestTests.m */,
 				6367DEA3196213EC00E14551 /* Supporting Files */,
 			);
+			name = "Whisper-iOS-SDK ExampleTests";
 			path = "Whisper-iOS-SDKTestTests";
 			sourceTree = "<group>";
 		};
 		6367DEA3196213EC00E14551 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6367DEA4196213EC00E14551 /* Whisper-iOS-SDKTestTests-Info.plist */,
+				6367DEA4196213EC00E14551 /* Whisper-iOS-SDK ExampleTests-Info.plist */,
 				6367DEA5196213EC00E14551 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -212,9 +214,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6367DE76196213EC00E14551 /* Whisper-iOS-SDKTest */ = {
+		6367DE76196213EC00E14551 /* Whisper-iOS-SDK Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6367DEAC196213EC00E14551 /* Build configuration list for PBXNativeTarget "Whisper-iOS-SDKTest" */;
+			buildConfigurationList = 6367DEAC196213EC00E14551 /* Build configuration list for PBXNativeTarget "Whisper-iOS-SDK Example" */;
 			buildPhases = (
 				6367DE73196213EC00E14551 /* Sources */,
 				6367DE74196213EC00E14551 /* Frameworks */,
@@ -224,14 +226,14 @@
 			);
 			dependencies = (
 			);
-			name = "Whisper-iOS-SDKTest";
+			name = "Whisper-iOS-SDK Example";
 			productName = "Whisper-iOS-SDKTest";
-			productReference = 6367DE77196213EC00E14551 /* Whisper-iOS-SDKTest.app */;
+			productReference = 6367DE77196213EC00E14551 /* Whisper-iOS-SDK Example.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6367DE9A196213EC00E14551 /* Whisper-iOS-SDKTestTests */ = {
+		6367DE9A196213EC00E14551 /* Whisper-iOS-SDK ExampleTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6367DEAF196213EC00E14551 /* Build configuration list for PBXNativeTarget "Whisper-iOS-SDKTestTests" */;
+			buildConfigurationList = 6367DEAF196213EC00E14551 /* Build configuration list for PBXNativeTarget "Whisper-iOS-SDK ExampleTests" */;
 			buildPhases = (
 				6367DE97196213EC00E14551 /* Sources */,
 				6367DE98196213EC00E14551 /* Frameworks */,
@@ -242,9 +244,9 @@
 			dependencies = (
 				6367DEA1196213EC00E14551 /* PBXTargetDependency */,
 			);
-			name = "Whisper-iOS-SDKTestTests";
+			name = "Whisper-iOS-SDK ExampleTests";
 			productName = "Whisper-iOS-SDKTestTests";
-			productReference = 6367DE9B196213EC00E14551 /* Whisper-iOS-SDKTestTests.xctest */;
+			productReference = 6367DE9B196213EC00E14551 /* Whisper-iOS-SDK ExampleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -261,7 +263,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6367DE72196213EC00E14551 /* Build configuration list for PBXProject "Whisper-iOS-SDKTest" */;
+			buildConfigurationList = 6367DE72196213EC00E14551 /* Build configuration list for PBXProject "Whisper-iOS-SDK Example" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -274,8 +276,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6367DE76196213EC00E14551 /* Whisper-iOS-SDKTest */,
-				6367DE9A196213EC00E14551 /* Whisper-iOS-SDKTestTests */,
+				6367DE76196213EC00E14551 /* Whisper-iOS-SDK Example */,
+				6367DE9A196213EC00E14551 /* Whisper-iOS-SDK ExampleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -333,7 +335,7 @@
 /* Begin PBXTargetDependency section */
 		6367DEA1196213EC00E14551 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6367DE76196213EC00E14551 /* Whisper-iOS-SDKTest */;
+			target = 6367DE76196213EC00E14551 /* Whisper-iOS-SDK Example */;
 			targetProxy = 6367DEA0196213EC00E14551 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -452,9 +454,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Whisper-iOS-SDKTest/Whisper-iOS-SDKTest-Prefix.pch";
-				INFOPLIST_FILE = "Whisper-iOS-SDKTest/Whisper-iOS-SDKTest-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Whisper-iOS-SDKTest/Whisper-iOS-SDK Example-Prefix.pch";
+				INFOPLIST_FILE = "Whisper-iOS-SDKTest/Whisper-iOS-SDK Example-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PRODUCT_NAME = "Whisper-iOS-SDK Example";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -465,9 +468,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Whisper-iOS-SDKTest/Whisper-iOS-SDKTest-Prefix.pch";
-				INFOPLIST_FILE = "Whisper-iOS-SDKTest/Whisper-iOS-SDKTest-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Whisper-iOS-SDKTest/Whisper-iOS-SDK Example-Prefix.pch";
+				INFOPLIST_FILE = "Whisper-iOS-SDKTest/Whisper-iOS-SDK Example-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PRODUCT_NAME = "Whisper-iOS-SDK Example";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -487,8 +491,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Whisper-iOS-SDKTestTests/Whisper-iOS-SDKTestTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "Whisper-iOS-SDKTestTests/Whisper-iOS-SDK ExampleTests-Info.plist";
+				PRODUCT_NAME = "Whisper-iOS-SDK ExampleTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -505,8 +509,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Whisper-iOS-SDKTest/Whisper-iOS-SDKTest-Prefix.pch";
-				INFOPLIST_FILE = "Whisper-iOS-SDKTestTests/Whisper-iOS-SDKTestTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "Whisper-iOS-SDKTestTests/Whisper-iOS-SDK ExampleTests-Info.plist";
+				PRODUCT_NAME = "Whisper-iOS-SDK ExampleTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -515,7 +519,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6367DE72196213EC00E14551 /* Build configuration list for PBXProject "Whisper-iOS-SDKTest" */ = {
+		6367DE72196213EC00E14551 /* Build configuration list for PBXProject "Whisper-iOS-SDK Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6367DEAA196213EC00E14551 /* Debug */,
@@ -524,21 +528,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6367DEAC196213EC00E14551 /* Build configuration list for PBXNativeTarget "Whisper-iOS-SDKTest" */ = {
+		6367DEAC196213EC00E14551 /* Build configuration list for PBXNativeTarget "Whisper-iOS-SDK Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6367DEAD196213EC00E14551 /* Debug */,
 				6367DEAE196213EC00E14551 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		6367DEAF196213EC00E14551 /* Build configuration list for PBXNativeTarget "Whisper-iOS-SDKTestTests" */ = {
+		6367DEAF196213EC00E14551 /* Build configuration list for PBXNativeTarget "Whisper-iOS-SDK ExampleTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6367DEB0196213EC00E14551 /* Debug */,
 				6367DEB1196213EC00E14551 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
