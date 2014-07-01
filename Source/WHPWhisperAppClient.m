@@ -36,7 +36,7 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
 
 @interface WHPWhisperAppClient () <UIDocumentInteractionControllerDelegate, UIAlertViewDelegate>
 
-@property (nonatomic, strong) UIDocumentInteractionController *documentController;
+@property (nonatomic, weak) UIDocumentInteractionController *documentController;
 @property (nonatomic, strong) NSURL *fileURL;
 
 @property (nonatomic, weak) UIBarButtonItem *item;
@@ -73,11 +73,11 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
 -(id)init
 {
     if (self = [super init]) {
-        _animated = YES;
-        [self cleanUpTempDirectory];
 #ifdef WHISPER_DEBUG
         NSLog(@"WHPWhisperAppClient: Init");
 #endif
+        _animated = YES;
+        [self cleanUpTempDirectory];
     }
     return self;
 }
@@ -144,7 +144,7 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
 
 -(void)prepareWithBarButtonItem:(UIBarButtonItem *)item
 {
-    NSAssert(item, @"item cannot be nil");
+    NSParameterAssert(item);
 #ifdef WHISPER_DEBUG
     NSLog(@"WHPWhisperAppClient: Preparing with bar button item %@", item);
 #endif
@@ -155,8 +155,8 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
 
 -(void)prepareWithView:(UIView *)view inRect:(CGRect)rect
 {
-    NSAssert(view, @"view cannot be nil");
-    NSAssert(!CGRectIsEmpty(rect), @"rect cannot be empty");
+    NSParameterAssert(view);
+    NSParameterAssert(!CGRectIsEmpty(rect));
 #ifdef WHISPER_DEBUG
     NSLog(@"WHPWhisperAppClient: Preparing with view %@ and rect ((%f, %f), (%f, %f))", view, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 #endif
@@ -268,10 +268,14 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
-        // cancelled
+#ifdef WHISPER_DEBUG
+        NSLog(@"WHPWhisperAppClient: AlertView cancelled");
+#endif
     }
     else {
-        // ok!
+#ifdef WHISPER_DEBUG
+        NSLog(@"WHPWhisperAppClient: AlertView confirmed");
+#endif
         [self redirectToAppStore];
     }
 }
