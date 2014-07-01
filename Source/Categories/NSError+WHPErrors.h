@@ -1,6 +1,6 @@
 //
 //  NSError+WHPErrors.h
-//  WhisperImageTest
+//  Whisper-iOS-SDK
 //
 //  Created by whisper on 6/27/14.
 //  Copyright (c) 2014 Whisper. All rights reserved.

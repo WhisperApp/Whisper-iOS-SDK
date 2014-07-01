@@ -1,6 +1,6 @@
 //
 //  WHPWhisperAppClient.m
-//  WhisperImageTest
+//  Whisper-iOS-SDK
 //
 //  Created by Yujin Ariza on 6/23/14.
 //  Copyright (c) 2014 Whisper. All rights reserved.
