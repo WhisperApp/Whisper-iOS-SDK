@@ -25,7 +25,7 @@ static NSString *const WHPWhisperAppURL = @"whisperapp://";
 
 static NSString *const WHPTemporaryDirectoryName = @"whisperTmp";
 static NSString *const WHPTemporaryFileName = @"whisperTemp.whimage";
-static NSString *const WHPWhisperIconResourceName = @"whisper_appicon152";
+static NSString *const WHPWhisperIconResourceName = @"whp_whisper_button";
 static NSString *const WHPWhisperIconResourceType = @"png";
 
 static NSString *const WHPWhisperImageUTI = @"sh.whisper.whimage";
