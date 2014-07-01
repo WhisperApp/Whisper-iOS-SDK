@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="wPt-TZ-7yo">
     <dependencies>
+        <deployment defaultVersion="1552" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
@@ -32,29 +33,32 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wsp-1g-v3J">
-                                <rect key="frame" x="141" y="231" width="39" height="30"/>
+                                <rect key="frame" x="58" y="214" width="206" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Good">
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Legal Size JPEG Image">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="goodButtonPressed:" destination="ax8-OE-lZT" eventType="touchUpInside" id="Pg2-3O-w7R"/>
+                                    <action selector="legalImageButtonPressed:" destination="ax8-OE-lZT" eventType="touchUpInside" id="GCp-Uk-feA"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IYk-nq-qpb">
-                                <rect key="frame" x="145" y="269" width="30" height="30"/>
+                                <rect key="frame" x="60" y="266" width="201" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Bad">
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Illegal Size PNG Image">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="badButtonPressed:" destination="ax8-OE-lZT" eventType="touchUpInside" id="wg5-Ie-rDh"/>
+                                    <action selector="illegalImageButtonPressed:" destination="ax8-OE-lZT" eventType="touchUpInside" id="8yv-nT-hqP"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LwD-97-rqR">
-                                <rect key="frame" x="118" y="307" width="85" height="30"/>
+                                <rect key="frame" x="44" y="318" width="234" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Camera Roll">
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Choose From Camera Roll">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -66,9 +70,9 @@
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="IYk-nq-qpb" secondAttribute="centerY" id="6GF-4A-rXh"/>
                             <constraint firstItem="wsp-1g-v3J" firstAttribute="centerX" secondItem="IYk-nq-qpb" secondAttribute="centerX" constant="0.5" id="ZjX-Qm-Jau"/>
-                            <constraint firstItem="LwD-97-rqR" firstAttribute="top" secondItem="IYk-nq-qpb" secondAttribute="bottom" constant="8" symbolic="YES" id="f9W-qP-A1j"/>
+                            <constraint firstItem="LwD-97-rqR" firstAttribute="top" secondItem="IYk-nq-qpb" secondAttribute="bottom" constant="16" id="f9W-qP-A1j"/>
                             <constraint firstAttribute="centerX" secondItem="IYk-nq-qpb" secondAttribute="centerX" id="fWX-xd-Ifz"/>
-                            <constraint firstItem="IYk-nq-qpb" firstAttribute="top" secondItem="wsp-1g-v3J" secondAttribute="bottom" constant="8" id="llj-Ma-M2f"/>
+                            <constraint firstItem="IYk-nq-qpb" firstAttribute="top" secondItem="wsp-1g-v3J" secondAttribute="bottom" constant="16" id="llj-Ma-M2f"/>
                             <constraint firstItem="LwD-97-rqR" firstAttribute="centerX" secondItem="IYk-nq-qpb" secondAttribute="centerX" constant="0.5" id="sPD-G7-hFI"/>
                         </constraints>
                     </view>

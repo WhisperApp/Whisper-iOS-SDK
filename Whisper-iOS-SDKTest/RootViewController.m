@@ -32,13 +32,13 @@ NSString *const goodImageType = @"jpg";
 
 #pragma mark - IBAction
 
-- (IBAction)goodButtonPressed:(id)sender
+- (IBAction)legalImageButtonPressed:(id)sender
 {
     [self loadImageWithName:goodImageName type:goodImageType];
     [self performSegueWithIdentifier:@"pushToPost" sender:sender];
 }
 
-- (IBAction)badButtonPressed:(id)sender
+- (IBAction)illegalImageButtonPressed:(id)sender
 {
     [self loadImageWithName:badImageName type:badImageType];
     [self performSegueWithIdentifier:@"pushToPost" sender:sender];
