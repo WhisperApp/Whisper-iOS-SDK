@@ -51,6 +51,7 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
 -(NSString *)getApplicationURLScheme;
 -(BOOL)writeToCache:(NSData *)data error:(NSError **)error;
 -(BOOL)showFileOpenDialog:(NSURL *)url error:(NSError **)error;
+-(void)createWhisperWithDelegate;
 
 @end
 
@@ -84,35 +85,6 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
 
 #pragma mark - Public
 
-+(UIButton *)whisperButtonWithSize:(WHPWhisperAppClientButtonSize)size rounded:(BOOL)rounded
-{
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    NSBundle *whisperBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:WHPResourceBundleName ofType:@"bundle"]];
-    NSString *buttonPath = [whisperBundle pathForResource:WHPWhisperIconResourceName ofType:WHPWhisperIconResourceType];
-    
-#ifdef WHISPER_DEBUG
-    NSLog(@"Getting resource %@.%@ from bundle %@", WHPWhisperIconResourceName, WHPWhisperIconResourceType, whisperBundle.bundlePath);
-#endif
-    
-    UIImage *buttonImage = [UIImage imageWithContentsOfFile:buttonPath];
-    
-    CGSize buttonSize = [WHPWhisperAppClient whisperButtonSizeForSize:size];
-    button.frame = CGRectMake(0, 0, buttonSize.width, buttonSize.height);
-    
-    if (rounded) {
-        button.layer.cornerRadius = WHPButtonCornerRadius;
-        button.clipsToBounds = YES;
-    }
-    
-#ifdef WHISPER_DEBUG
-    NSLog(@"WHPWhisperAppClient: Button with size (%f, %f) with rounded: %@", buttonSize.width, buttonSize.height, rounded ? @"YES" : @"NO");
-#endif
-    
-    [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [button.imageView setContentMode:UIViewContentModeScaleAspectFit];
-    return button;
-}
-
 +(CGSize)whisperButtonSizeForSize:(WHPWhisperAppClientButtonSize)size
 {
     switch (size) {
@@ -140,6 +112,41 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
         return YES;
     }
     return NO;
+}
+
+-(UIButton *)whisperButtonWithSize:(WHPWhisperAppClientButtonSize)size rounded:(BOOL)rounded
+{
+    return [self whisperButtonWithCustomSize:[WHPWhisperAppClient whisperButtonSizeForSize:size] rounded:rounded];
+}
+
+-(UIButton *)whisperButtonWithCustomSize:(CGSize)size rounded:(BOOL)rounded
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    NSBundle *whisperBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:WHPResourceBundleName ofType:@"bundle"]];
+    NSString *buttonPath = [whisperBundle pathForResource:WHPWhisperIconResourceName ofType:WHPWhisperIconResourceType];
+    
+#ifdef WHISPER_DEBUG
+    NSLog(@"Getting resource %@.%@ from bundle %@", WHPWhisperIconResourceName, WHPWhisperIconResourceType, whisperBundle.bundlePath);
+#endif
+    
+    UIImage *buttonImage = [UIImage imageWithContentsOfFile:buttonPath];
+    
+    button.frame = CGRectMake(0, 0, size.width, size.height);
+    
+    if (rounded) {
+        button.layer.cornerRadius = WHPButtonCornerRadius;
+        button.clipsToBounds = YES;
+    }
+    
+#ifdef WHISPER_DEBUG
+    NSLog(@"WHPWhisperAppClient: Button with size (%f, %f) with rounded: %@", buttonSize.width, buttonSize.height, rounded ? @"YES" : @"NO");
+#endif
+    
+    [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [button.imageView setContentMode:UIViewContentModeScaleAspectFit];
+    
+    [button addTarget:self action:@selector(createWhisperWithDelegate) forControlEvents:UIControlEventTouchUpInside];
+    return button;
 }
 
 -(void)prepareWithBarButtonItem:(UIBarButtonItem *)item
@@ -428,6 +435,59 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
         return NO;
     }
     return YES;
+}
+
+-(void)createWhisperWithDelegate
+{
+    NSError *error = nil;
+    BOOL success = NO;
+    for (WHPImageSourceType sourceType = 0; sourceType < WHPImageSourceTypeCount; sourceType++) {
+        error = nil;
+        success = [self createWhisperWithSourceType:sourceType error:&error];
+        if (success) {
+            break;
+        }
+    }
+    if (!success) {
+        if ([_delegate respondsToSelector:@selector(whisperAppClientDidFailWithError:)]) {
+            [_delegate whisperAppClientDidFailWithError:error];
+        }
+    }
+}
+
+-(BOOL)createWhisperWithSourceType:(WHPImageSourceType)sourceType error:(NSError **)error
+{
+    switch (sourceType) {
+        case kWHPImageSourceType_Image:
+        {
+            if ([_delegate respondsToSelector:@selector(whisperAppClientSourceImageForWhisper)]) {
+                return [self createWhisperWithImage:[_delegate whisperAppClientSourceImageForWhisper] error:error];
+            }
+            break;
+        }
+        case kWHPImageSourceType_Data:
+        {
+            if ([_delegate respondsToSelector:@selector(whisperAppClientSourceDataForWhisper)]) {
+                return [self createWhisperWithData:[_delegate whisperAppClientSourceDataForWhisper] error:error];
+            }
+        }
+        case kWHPImageSourceType_Path:
+        {
+            if ([_delegate respondsToSelector:@selector(whisperAppClientSourcePathForWhisper)]) {
+                return [self createWhisperWithPath:[_delegate whisperAppClientSourcePathForWhisper] error:error];
+            }
+        }
+        case kWHPImageSourceType_URL:
+        {
+            if ([_delegate respondsToSelector:@selector(whisperAppClientSourceURLForWhisper)]) {
+                return [self createWhisperWithURL:[_delegate whisperAppClientSourceURLForWhisper] error:error];
+            }
+        }
+        default:
+            break;
+    }
+    *error = [NSError whp_ErrorDelegateMethodNotImplemented];
+    return NO;
 }
 
 @end

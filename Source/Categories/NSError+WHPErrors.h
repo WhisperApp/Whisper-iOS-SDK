@@ -30,7 +30,11 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientErrorCode){
     /**
      *  The image is not in the proper JPEG image format.
      */
-    kWHPWhisperAppClientErrorCode_WrongImageFormat
+    kWHPWhisperAppClientErrorCode_WrongImageFormat,
+    /**
+     *  Delegate method not implemented.
+     */
+    kWHPWhisperAppClientErrorCode_DelegateMethodNotImplemented
 };
 
 /**
@@ -69,5 +73,12 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientErrorCode){
  *  @return An `NSError` object with the specified information.
  */
 +(NSError *)whp_ErrorWrongImageFormat;
+
+/**
+ *  Error when none of the delegate methods are implemented.
+ *
+ *  @return An `NSError` object with the specified information.
+ */
++(NSError *)whp_ErrorDelegateMethodNotImplemented;
 
 @end

@@ -32,6 +32,37 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
 };
 
 /**
+ *  Defines the order that the `WHPWhisperAppClient` delegate
+ *  looks for an image source.
+ */
+typedef NS_ENUM(NSInteger, WHPImageSourceType) {
+    kWHPImageSourceType_Image,
+    kWHPImageSourceType_Data,
+    kWHPImageSourceType_Path,
+    kWHPImageSourceType_URL,
+    WHPImageSourceTypeCount
+};
+
+/**
+ *  Protocol Reference for the `WHPWhisperAppClient` delegate
+ *  property. One of the four methods for image source must
+ *  be defined.If more than one method is provided, the image
+ *  source is chosen in the order specified by the 
+ *  `WHPImageSourceType` enumerator.
+ */
+@protocol WHPWhisperAppClientDelegate <NSObject>
+
+@optional
+-(UIImage *)whisperAppClientSourceImageForWhisper;
+-(NSData *)whisperAppClientSourceDataForWhisper;
+-(NSString *)whisperAppClientSourcePathForWhisper;
+-(NSURL *)whisperAppClientSourceURLForWhisper;
+
+-(void)whisperAppClientDidFailWithError:(NSError *)error;
+
+@end
+
+/**
   The `WHPWhisperAppClient` class allows you to prompt the user to create a
   Whisper using a given image.
  
@@ -57,6 +88,11 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
   in a JPEG format, with a size of at least 640 pixels wide by 920
   pixels high. Failure to comply to these requirements will result
   in an `NSError` and a return value of `NO`.
+ 
+  Alternatively, you can use the provided Whisper buttons
+  instead of calling one of the create methods. In this case,
+  you must provide a delegate property that implements at 
+  least one of the methods for determining the image source.
  */
 @interface WHPWhisperAppClient : NSObject
 
@@ -91,6 +127,16 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
  */
 @property NSString *customCallbackURL;
 
+/**
+ *  Specifies a delegate handler that is used to specify
+ *  image source when a Whisper Button is pressed. The 
+ *  delegate must implement one of the four methods designated
+ *  for retrieving image source. If more than one method
+ *  is provided, the image source is chosen in the order
+ *  specified by the `WHPImageSourceType` enumerator.
+ */
+@property id<WHPWhisperAppClientDelegate> delegate;
+
 ///@name Class Methods
 
 /**
@@ -101,28 +147,6 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
  *  WHPWhisperAppClient object if one doesn't already exist.
  */
 +(WHPWhisperAppClient *)sharedClient;
-
-/**
- *  Returns a custom Whisper button that you can
- *  use for your prompt.
- *
- *  @param size    Size, as denoted by the `WHPWhisperAppClientButtonSize` enum.
- *  @param rounded A boolean denoting whether the button is rounded on the corners
- *
- *  @return A custom Whisper button.
- */
-+(UIButton *)whisperButtonWithSize:(WHPWhisperAppClientButtonSize)size
-                          rounded:(BOOL)rounded;
-
-/**
- *  Given a `WHPWhisperAppClientButtonSize` enum, returns the
- *  corresponding CGSize.
- *
- *  @param size The button size enum.
- *
- *  @return The corresponding CGSize.
- */
-+(CGSize)whisperButtonSizeForSize:(WHPWhisperAppClientButtonSize)size;
 
 /**
  *  Performs operations necessary when the app launches from
@@ -136,6 +160,30 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
  *  @return Returns `YES` if Whisper was able to read the URL callback.
  */
 +(BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
+
+/// @name Whisper Buttons
+
+/**
+ *  Returns a custom Whisper button that you can
+ *  use for your prompt, with a custom size.
+ *
+ *  @param size    A `CGSize` size.
+ *  @param rounded A boolean denoting whether the button is rounded on the corners
+ *
+ *  @return A custom Whisper button.
+ */
+-(UIButton *)whisperButtonWithCustomSize:(CGSize)size rounded:(BOOL)rounded;
+
+/**
+ *  Returns a custom Whisper button that you can
+ *  use for your prompt.
+ *
+ *  @param size    Size, as denoted by the `WHPWhisperAppClientButtonSize` enum.
+ *  @param rounded A boolean denoting whether the button is rounded on the corners
+ *
+ *  @return A custom Whisper button.
+ */
+-(UIButton *)whisperButtonWithSize:(WHPWhisperAppClientButtonSize)size rounded:(BOOL)rounded;
 
 /// @name Configure methods
 

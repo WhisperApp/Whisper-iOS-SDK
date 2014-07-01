@@ -14,7 +14,7 @@
 #define kSegmentedControlPath 2
 #define kSegmentedControlURL 3
 
-@interface PostViewController ()
+@interface PostViewController () <WHPWhisperAppClientDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *postButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @end
@@ -34,63 +34,23 @@
         [_imageView sizeToFit];
     }
     
-    UIButton *smallButton = [WHPWhisperAppClient whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Small rounded:YES];
+    UIButton *smallButton = [[WHPWhisperAppClient sharedClient] whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Small rounded:YES];
     smallButton.center = CGPointMake(80, 450);
-    [smallButton addTarget:self action:@selector(whisperButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:smallButton];
     
-    UIButton *mediumButton = [WHPWhisperAppClient whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Medium rounded:YES];
+    UIButton *mediumButton = [[WHPWhisperAppClient sharedClient] whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Medium rounded:YES];
     mediumButton.center = CGPointMake(160, 450);
-    [mediumButton addTarget:self action:@selector(whisperButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:mediumButton];
     
-    UIButton *largeButton = [WHPWhisperAppClient whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Large rounded:YES];
+    UIButton *largeButton = [[WHPWhisperAppClient sharedClient] whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Large rounded:YES];
     largeButton.center = CGPointMake(260, 450);
-    [largeButton addTarget:self action:@selector(whisperButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:largeButton];
+    
+    [WHPWhisperAppClient sharedClient].delegate = self;
+    [[WHPWhisperAppClient sharedClient] prepareWithView:self.view inRect:self.view.bounds];
 }
 
 #pragma mark - IBAction
-
-- (IBAction)whisperButtonPressed:(id)sender
-{
-    NSError *error = nil;
-    switch (_segmentedControl.selectedSegmentIndex) {
-        case kSegmentedControlImage:
-        {
-            NSData *data = [NSData dataWithContentsOfURL:_imageURL];
-            UIImage *image = [UIImage imageWithData:data];
-            [[WHPWhisperAppClient sharedClient] prepareWithView:self.view inRect:self.view.bounds];
-            [[WHPWhisperAppClient sharedClient] createWhisperWithImage:image error:&error];
-            break;
-        }
-        case kSegmentedControlData:
-        {
-            NSData *data = [NSData dataWithContentsOfURL:_imageURL];
-            [[WHPWhisperAppClient sharedClient] prepareWithView:self.view inRect:self.view.bounds];
-            [[WHPWhisperAppClient sharedClient] createWhisperWithData:data error:&error];
-            break;
-        }
-        case kSegmentedControlPath:
-        {
-            NSString *path = _imageURL.path;
-            [[WHPWhisperAppClient sharedClient] prepareWithView:self.view inRect:self.view.bounds];
-            [[WHPWhisperAppClient sharedClient] createWhisperWithPath:path error:&error];
-            break;
-        }
-        case kSegmentedControlURL:
-        {
-            [[WHPWhisperAppClient sharedClient] prepareWithView:self.view inRect:self.view.bounds];
-            [[WHPWhisperAppClient sharedClient] createWhisperWithURL:_imageURL error:&error];
-            break;
-        }
-        default:
-            break;
-    }
-    if (error) {
-        [[[UIAlertView alloc] initWithTitle:error.userInfo[NSLocalizedDescriptionKey] message:[NSString stringWithFormat:@"%@ - %@", error.userInfo[NSLocalizedFailureReasonErrorKey], error.userInfo[NSLocalizedRecoverySuggestionErrorKey]] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
-    }
-}
 
 - (IBAction)postButtonPressed:(id)sender
 {
@@ -130,6 +90,34 @@
     if (error) {
         [[[UIAlertView alloc] initWithTitle:error.userInfo[NSLocalizedDescriptionKey] message:[NSString stringWithFormat:@"%@ - %@", error.userInfo[NSLocalizedFailureReasonErrorKey], error.userInfo[NSLocalizedRecoverySuggestionErrorKey]] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
     }
+}
+
+#pragma mark - WHPWhisperAppClient
+
+-(UIImage *)whisperAppClientSourceImageForWhisper
+{
+    NSData *data = [NSData dataWithContentsOfURL:_imageURL];
+    return [UIImage imageWithData:data];
+}
+
+-(NSData *)whisperAppClientSourceDataForWhisper
+{
+    return [NSData dataWithContentsOfURL:_imageURL];
+}
+
+-(NSString *)whisperAppClientSourcePathForWhisper
+{
+    return _imageURL.path;
+}
+
+-(NSURL *)whisperAppClientSourceURLForWhisper
+{
+    return _imageURL;
+}
+
+-(void)whisperAppClientDidFailWithError:(NSError *)error
+{
+    [[[UIAlertView alloc] initWithTitle:error.userInfo[NSLocalizedDescriptionKey] message:[NSString stringWithFormat:@"%@ - %@", error.userInfo[NSLocalizedFailureReasonErrorKey], error.userInfo[NSLocalizedRecoverySuggestionErrorKey]] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
 }
 
 @end

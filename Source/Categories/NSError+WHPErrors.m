@@ -57,4 +57,16 @@
     return error;
 }
 
++(NSError *)whp_ErrorDelegateMethodNotImplemented
+{
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey: NSLocalizedString(@"Whisper creation unsuccessful", nil),
+                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"delegate methods not implemented", nil),
+                               NSLocalizedRecoverySuggestionErrorKey:
+                                   NSLocalizedString(@"Implement one or more of the WHPWhisperAppClientDelegate SourceType methods", nil)
+                               };
+    NSError *error = [NSError errorWithDomain:WHPWhisperAppClientErrorDomain code: kWHPWhisperAppClientErrorCode_WrongImageFormat userInfo:userInfo];
+    return error;
+}
+
 @end
