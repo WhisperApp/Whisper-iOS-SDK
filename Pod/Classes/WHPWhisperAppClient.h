@@ -36,11 +36,46 @@ typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
  *  looks for an image source.
  */
 typedef NS_ENUM(NSInteger, WHPImageSourceType) {
+    /**
+     *  Image source from an `UIImage`.
+     */
     kWHPImageSourceType_Image,
+    /**
+     *  Image source from `NSData`.
+     */
     kWHPImageSourceType_Data,
+    /**
+     *  Image source from a `NSString` file path.
+     */
     kWHPImageSourceType_Path,
+    /**
+     *  Image source from a `NSURL` file URL.
+     */
     kWHPImageSourceType_URL,
+    /**
+     *  The number of elements in this enumeration.
+     */
     WHPImageSourceTypeCount
+};
+
+/**
+ *  Defines the order that the `WHPWhisperAppClient` delegate
+ *  looks for a source for its menu presentation.
+ */
+typedef NS_ENUM(NSInteger, WHPMenuPresentationType) {
+    /**
+     *  Menu Presentation from a `UIView`. The view's frame is 
+     *  used for the bounds of the menu.
+     */
+    kWHPMenuPresentationType_View,
+    /**
+     *  Menu Presentation from a `UIBarButtonItem`.
+     */
+    kWHPMenuPresentationType_BarButtonItem,
+    /**
+     *  The number of elements in this enumeration.
+     */
+    WHPMenuPresentationTypeCount
 };
 
 /**
@@ -49,10 +84,18 @@ typedef NS_ENUM(NSInteger, WHPImageSourceType) {
  *  be defined.If more than one method is provided, the image
  *  source is chosen in the order specified by the 
  *  `WHPImageSourceType` enumerator.
+ *
+ *  Additionally, either one of the methods for Menu Presentation
+ *  must be defined. If more than one method is provided, the menu
+ *  source is chosen in the order specified by the `WHPMenuPresentationType`
+ *  enumerator.
  */
 @protocol WHPWhisperAppClientDelegate <NSObject>
 
 @optional
+-(UIView *)whisperAppClientViewForMenuPresentation;
+-(UIBarButtonItem *)whisperAppClientBarButtonItemForMenuPresentation;
+
 -(UIImage *)whisperAppClientSourceImageForWhisper;
 -(NSData *)whisperAppClientSourceDataForWhisper;
 -(NSString *)whisperAppClientSourcePathForWhisper;
@@ -92,7 +135,8 @@ typedef NS_ENUM(NSInteger, WHPImageSourceType) {
   Alternatively, you can use the provided Whisper buttons
   instead of calling one of the create methods. In this case,
   you must provide a delegate property that implements at 
-  least one of the methods for determining the image source.
+  least one of the methods for determining the image source, and
+  one of the two methods for determining the menu source.
  */
 @interface WHPWhisperAppClient : NSObject
 

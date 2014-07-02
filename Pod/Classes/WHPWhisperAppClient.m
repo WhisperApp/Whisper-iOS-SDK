@@ -52,6 +52,8 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
 -(BOOL)writeToCache:(NSData *)data error:(NSError **)error;
 -(BOOL)showFileOpenDialog:(NSURL *)url error:(NSError **)error;
 -(void)createWhisperWithDelegate;
+-(BOOL)prepareWhisperWithMenuPresentationType:(WHPMenuPresentationType)type;
+-(BOOL)createWhisperWithSourceType:(WHPImageSourceType)sourceType error:(NSError **)error;
 
 @end
 
@@ -441,6 +443,21 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
 {
     NSError *error = nil;
     BOOL success = NO;
+    
+    for (WHPMenuPresentationType menuType = 0; menuType < WHPMenuPresentationTypeCount; menuType++) {
+        success = [self prepareWhisperWithMenuPresentationType:menuType];
+        if (success) {
+            break;
+        }
+    }
+    if (!success) {
+        error = [NSError whp_ErrorNotConfigured];
+        if ([_delegate respondsToSelector:@selector(whisperAppClientDidFailWithError:)]) {
+            [_delegate whisperAppClientDidFailWithError:error];
+        }
+        return;
+    }
+    
     for (WHPImageSourceType sourceType = 0; sourceType < WHPImageSourceTypeCount; sourceType++) {
         error = nil;
         success = [self createWhisperWithSourceType:sourceType error:&error];
@@ -453,6 +470,32 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
             [_delegate whisperAppClientDidFailWithError:error];
         }
     }
+}
+
+-(BOOL)prepareWhisperWithMenuPresentationType:(WHPMenuPresentationType)type
+{
+    switch (type) {
+        case kWHPMenuPresentationType_View:
+        {
+            if ([_delegate respondsToSelector:@selector(whisperAppClientViewForMenuPresentation)]) {
+                UIView *view = [_delegate whisperAppClientViewForMenuPresentation];
+                [self prepareWithView:view inRect:view.frame];
+                return YES;
+            }
+            break;
+        }
+        case kWHPMenuPresentationType_BarButtonItem:
+        {
+            if ([_delegate respondsToSelector:@selector(whisperAppClientBarButtonItemForMenuPresentation)]) {
+                [self prepareWithBarButtonItem:[_delegate whisperAppClientBarButtonItemForMenuPresentation]];
+                return YES;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    return NO;
 }
 
 -(BOOL)createWhisperWithSourceType:(WHPImageSourceType)sourceType error:(NSError **)error

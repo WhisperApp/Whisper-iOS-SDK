@@ -94,6 +94,16 @@
 
 #pragma mark - WHPWhisperAppClient
 
+-(UIView *)whisperAppClientViewForMenuPresentation
+{
+    return self.view;
+}
+
+-(UIBarButtonItem *)whisperAppClientBarButtonItemForMenuPresentation
+{
+    return _postButton;
+}
+
 -(UIImage *)whisperAppClientSourceImageForWhisper
 {
     NSData *data = [NSData dataWithContentsOfURL:_imageURL];
