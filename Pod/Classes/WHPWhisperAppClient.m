@@ -432,7 +432,7 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
         NSLog(@"WHPWhisperAppClient: Whisper not up to date. Prompting for update");
 #endif
         [self promptForUpdate];
-        return NO;
+        return YES;
     }
     return YES;
 }
