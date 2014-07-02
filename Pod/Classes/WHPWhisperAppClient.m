@@ -7,8 +7,8 @@
 //
 
 #import "WHPWhisperAppClient.h"
-#import "NSData+WHPImageFormat.h"
-#import "NSError+WHPErrors.h"
+#import <Whisper-iOS-SDK/NSData+WHPImageFormat.h>
+#import <Whisper-iOS-SDK/NSError+WHPErrors.h>
 
 CGSize const WHPMinimumSourceImageSize = {640.0f, 920.0f};
 static CGSize const WHPButtonSizeSmall = {44.0f, 44.0f};

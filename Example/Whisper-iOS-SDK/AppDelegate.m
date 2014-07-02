@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "WHPWhisperAppClient.h"
+#import <Whisper-iOS-SDK/WHPWhisperAppClient.h>
 
 @implementation AppDelegate
 

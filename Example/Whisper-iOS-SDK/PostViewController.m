@@ -7,7 +7,7 @@
 //
 
 #import "PostViewController.h"
-#import "WHPWhisperAppClient.h"
+#import <Whisper-iOS-SDK/WHPWhisperAppClient.h>
 
 #define kSegmentedControlImage 0
 #define kSegmentedControlData 1

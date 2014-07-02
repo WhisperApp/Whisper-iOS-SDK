@@ -1,9 +1,9 @@
 //
 //  main.m
-//  Whisper-iOS-SDKTest
+//  Whisper-iOS-SDK
 //
-//  Created by whisper on 6/30/14.
-//  Copyright (c) 2014 Whisper. All rights reserved.
+//  Created by Yujin Ariza on 07/01/2014.
+//  Copyright (c) 2014 Yujin Ariza. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

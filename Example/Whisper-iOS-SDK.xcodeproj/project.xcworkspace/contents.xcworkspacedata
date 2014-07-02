@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Whisper-iOS-SDK Example.xcodeproj">
+      location = "self:Whisper-iOS-SDK.xcodeproj">
    </FileRef>
 </Workspace>
