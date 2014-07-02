@@ -93,6 +93,14 @@ typedef NS_ENUM(NSInteger, WHPMenuPresentationType) {
 @protocol WHPWhisperAppClientDelegate <NSObject>
 
 @optional
+
+/**
+ *  Returns the text to be displayed alongside the Whisper image.
+ *
+ *  @return the text to be displayed alongside the Whisper image.
+ */
+-(NSString *)whisperAppClientTextForWhisper;
+
 /**
  *  Returns a `UIView` object for the `WHPWhisperAppClient` to present
  *  its menu from. The view's frame is used for the bounds of the menu.
@@ -228,7 +236,9 @@ typedef NS_ENUM(NSInteger, WHPMenuPresentationType) {
   instead of calling one of the create methods. In this case,
   you must provide a delegate property that implements at 
   least one of the methods for determining the image source, and
-  one of the two methods for determining the menu source.
+  one of the two methods for determining the menu source. If you
+  would like to provide custom text for the Whisper post, provide
+  the optional method `whisperAppClientTextForWhisper`.
  */
 @interface WHPWhisperAppClient : NSObject
 
@@ -272,6 +282,11 @@ typedef NS_ENUM(NSInteger, WHPMenuPresentationType) {
  *  specified by the `WHPImageSourceType` enumerator.
  */
 @property id<WHPWhisperAppClientDelegate> delegate;
+
+/**
+ *  The text to be displayed in the Whisper post alongside the image.
+ */
+@property NSString *whisperText;
 
 ///@name Class Methods
 

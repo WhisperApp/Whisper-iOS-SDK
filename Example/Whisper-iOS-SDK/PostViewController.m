@@ -16,6 +16,7 @@
 
 @interface PostViewController () <WHPWhisperAppClientDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *postButton;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @end
 
@@ -34,6 +35,11 @@
         [_imageView sizeToFit];
     }
     
+    _textView.layer.borderColor = [[[UIColor grayColor] colorWithAlphaComponent:0.5f] CGColor];
+    _textView.layer.borderWidth = 1.0f;
+    _textView.layer.cornerRadius = 5.0f;
+    _textView.clipsToBounds = YES;
+    
     UIButton *smallButton = [[WHPWhisperAppClient sharedClient] whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Small rounded:YES];
     smallButton.center = CGPointMake(80, 450);
     [self.view addSubview:smallButton];
@@ -51,6 +57,13 @@
 }
 
 #pragma mark - IBAction
+
+- (IBAction)viewTapped:(id)sender
+{
+    if ([_textView isFirstResponder]) {
+        [_textView resignFirstResponder];
+    }
+}
 
 - (IBAction)postButtonPressed:(id)sender
 {
@@ -93,6 +106,11 @@
 }
 
 #pragma mark - WHPWhisperAppClient
+
+-(NSString *)whisperAppClientTextForWhisper
+{
+    return _textView.text;
+}
 
 -(UIView *)whisperAppClientViewForMenuPresentation
 {

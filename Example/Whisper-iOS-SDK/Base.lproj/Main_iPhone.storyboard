@@ -123,20 +123,38 @@
                                 </items>
                             </toolbar>
                             <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Bs-S8-w67">
-                                <rect key="frame" x="20" y="108" width="280" height="216"/>
+                                <rect key="frame" x="20" y="108" width="280" height="171"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="171" id="EP1-07-I9v"/>
+                                </constraints>
                             </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SJO-lf-xLe">
+                                <rect key="frame" x="20" y="287" width="280" height="78"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="78" id="pNo-ai-Xuv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="SJO-lf-xLe" firstAttribute="top" secondItem="6Bs-S8-w67" secondAttribute="bottom" constant="8" id="1fb-l1-sqM"/>
+                            <constraint firstItem="SJO-lf-xLe" firstAttribute="width" secondItem="6Bs-S8-w67" secondAttribute="width" id="8Y2-gz-ONE"/>
                             <constraint firstItem="6Bs-S8-w67" firstAttribute="top" secondItem="yKd-ie-GuX" secondAttribute="bottom" constant="8" symbolic="YES" id="Eia-lx-beH"/>
                             <constraint firstAttribute="trailing" secondItem="yKd-ie-GuX" secondAttribute="trailing" constant="20" symbolic="YES" id="Joh-IC-n4f"/>
                             <constraint firstItem="6Bs-S8-w67" firstAttribute="centerX" secondItem="yKd-ie-GuX" secondAttribute="centerX" id="OVD-Fw-CNT"/>
-                            <constraint firstItem="dFh-Ae-mF6" firstAttribute="top" secondItem="6Bs-S8-w67" secondAttribute="bottom" constant="200" id="brv-sn-yiR"/>
                             <constraint firstItem="yKd-ie-GuX" firstAttribute="leading" secondItem="SQd-7Y-4gf" secondAttribute="leading" constant="20" symbolic="YES" id="cQf-cw-QLk"/>
+                            <constraint firstItem="SJO-lf-xLe" firstAttribute="centerX" secondItem="6Bs-S8-w67" secondAttribute="centerX" id="jl7-rh-aFX"/>
                             <constraint firstItem="yKd-ie-GuX" firstAttribute="top" secondItem="3xX-D1-ut7" secondAttribute="bottom" constant="20" symbolic="YES" id="mY3-ap-EVF"/>
                             <constraint firstItem="6Bs-S8-w67" firstAttribute="width" secondItem="yKd-ie-GuX" secondAttribute="width" id="pwx-CC-RaE"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="mUF-wl-K3n" appends="YES" id="3hf-ku-O8I"/>
+                        </connections>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Post" id="ega-Zp-l1x"/>
@@ -145,9 +163,15 @@
                         <outlet property="imageView" destination="6Bs-S8-w67" id="rm0-RB-n4g"/>
                         <outlet property="postButton" destination="n4K-8r-YdD" id="YdN-Gz-70P"/>
                         <outlet property="segmentedControl" destination="yKd-ie-GuX" id="jef-Ae-NrB"/>
+                        <outlet property="textView" destination="SJO-lf-xLe" id="1EN-Lg-4ed"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sk8-Z6-ovp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="mUF-wl-K3n">
+                    <connections>
+                        <action selector="viewTapped:" destination="Z9m-y5-agz" id="iXa-kD-Wro"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="697" y="-364"/>
         </scene>

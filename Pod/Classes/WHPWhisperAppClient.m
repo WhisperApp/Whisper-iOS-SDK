@@ -385,9 +385,15 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
     _documentController = [UIDocumentInteractionController interactionControllerWithURL:url];
     _documentController.delegate = self;
     _documentController.UTI = WHPWhisperImageUTI;
+    
+    NSMutableDictionary *annotations = [[NSMutableDictionary alloc] init];
     if (urlScheme) {
-        _documentController.annotation = @{@"CallbackURL": urlScheme};
+        annotations[@"CallbackURL"] = urlScheme;
     }
+    if (_whisperText.length > 0) {
+        annotations[@"Text"] = _whisperText;
+    }
+    _documentController.annotation = annotations;
 #ifdef WHISPER_DEBUG
     NSLog(@"WHPWhisperAppClient: Initializing Document controller with URL: %@, callback: %@", url.path, urlScheme ? urlScheme : @"(none)");
 #endif
@@ -457,7 +463,12 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
         }
         return;
     }
-    
+    if ([_delegate respondsToSelector:@selector(whisperAppClientTextForWhisper)]) {
+        _whisperText = [_delegate whisperAppClientTextForWhisper];
+    }
+    else {
+        _whisperText = nil;
+    }
     for (WHPImageSourceType sourceType = 0; sourceType < WHPImageSourceTypeCount; sourceType++) {
         error = nil;
         success = [self createWhisperWithSourceType:sourceType error:&error];
