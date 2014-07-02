@@ -93,14 +93,106 @@ typedef NS_ENUM(NSInteger, WHPMenuPresentationType) {
 @protocol WHPWhisperAppClientDelegate <NSObject>
 
 @optional
+/**
+ *  Returns a `UIView` object for the `WHPWhisperAppClient` to present
+ *  its menu from. The view's frame is used for the bounds of the menu.
+ *  
+ *  At least one of the `whisperAppClientViewForMenuPresentation` or the
+ *  `whisperAppClientBarButtonItemForMenuPresentation` methods must be
+ *  provided. If more than one method is provided, the menu
+ *  source is chosen in the order specified by the `WHPMenuPresentationType`
+ *  enumerator.
+ *
+ *  @return `UIView` object for the `WHPWhisperAppClient` to present
+ *  its menu from.
+ */
 -(UIView *)whisperAppClientViewForMenuPresentation;
+
+/**
+ *  Returns a `UIBarButtonItem` object for the `WHPWhisperAppClient` to 
+ *  present its menu from.
+ *
+ *  At least one of the `whisperAppClientViewForMenuPresentation` or the
+ *  `whisperAppClientBarButtonItemForMenuPresentation` methods must be
+ *  provided. If more than one method is provided, the menu
+ *  source is chosen in the order specified by the `WHPMenuPresentationType`
+ *  enumerator.
+ *
+ *  @return `UIBarButtonItem` object for the `WHPWhisperAppClient` to present
+ *  its menu from.
+ */
 -(UIBarButtonItem *)whisperAppClientBarButtonItemForMenuPresentation;
 
+/**
+ *  Returns an `UIImage` object for the `WHPWhisperAppClient` to use as its
+ *  image source.
+ *
+ *  At least one of the `whisperAppClientSourceImageForWhisper`, 
+ *  `whisperAppClientSourceDataForWhisper`,
+ *  `whisperAppClientSourcePathForWhisper`, or
+ *  `whisperAppClientSourceURLForWhisper` methods must be provided. If more
+ *  than one method is provided, the image source is chosen in the order
+ *  specified by the `WHPImageSourceType` enumerator.
+ *
+ *  @return `UIImage` object for the `WHPWhisperAppClient` to use as its
+ *  image source.
+ */
 -(UIImage *)whisperAppClientSourceImageForWhisper;
+
+/**
+ *  Returns a `NSData` object for the `WHPWhisperAppClient` to use as its
+ *  image source.
+ *
+ *  At least one of the `whisperAppClientSourceImageForWhisper`,
+ *  `whisperAppClientSourceDataForWhisper`,
+ *  `whisperAppClientSourcePathForWhisper`, or
+ *  `whisperAppClientSourceURLForWhisper` methods must be provided. If more
+ *  than one method is provided, the image source is chosen in the order
+ *  specified by the `WHPImageSourceType` enumerator.
+ *
+ *  @return `NSData` object for the `WHPWhisperAppClient` to use as its
+ *  image source.
+ */
 -(NSData *)whisperAppClientSourceDataForWhisper;
+
+/**
+ *  Returns a `NSString` file path for the `WHPWhisperAppClient` to use 
+ *  as its image source.
+ *
+ *  At least one of the `whisperAppClientSourceImageForWhisper`,
+ *  `whisperAppClientSourceDataForWhisper`,
+ *  `whisperAppClientSourcePathForWhisper`, or
+ *  `whisperAppClientSourceURLForWhisper` methods must be provided. If more
+ *  than one method is provided, the image source is chosen in the order
+ *  specified by the `WHPImageSourceType` enumerator.
+ *
+ *  @return `NSString` file path for the `WHPWhisperAppClient` to use as its
+ *  image source.
+ */
 -(NSString *)whisperAppClientSourcePathForWhisper;
+
+/**
+ *  Returns a `NSURL` file path for the `WHPWhisperAppClient` to use
+ *  as its image source.
+ *
+ *  At least one of the `whisperAppClientSourceImageForWhisper`,
+ *  `whisperAppClientSourceDataForWhisper`,
+ *  `whisperAppClientSourcePathForWhisper`, or
+ *  `whisperAppClientSourceURLForWhisper` methods must be provided. If more
+ *  than one method is provided, the image source is chosen in the order
+ *  specified by the `WHPImageSourceType` enumerator.
+ *
+ *  @return `NSURL` file path for the `WHPWhisperAppClient` to use as its
+ *  image source.
+ */
 -(NSURL *)whisperAppClientSourceURLForWhisper;
 
+/**
+ *  Called when `WHPAppClient` encounters an error with the specified
+ *  configuration.
+ *
+ *  @param error The `NSError` to be handled.
+ */
 -(void)whisperAppClientDidFailWithError:(NSError *)error;
 
 @end
