@@ -41,19 +41,18 @@
     _textView.clipsToBounds = YES;
     
     UIButton *smallButton = [[WHPWhisperAppClient sharedClient] whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Small rounded:YES];
-    smallButton.center = CGPointMake(80, 450);
+    smallButton.center = CGPointMake(80, 420);
     [self.view addSubview:smallButton];
     
     UIButton *mediumButton = [[WHPWhisperAppClient sharedClient] whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Medium rounded:YES];
-    mediumButton.center = CGPointMake(160, 450);
+    mediumButton.center = CGPointMake(160, 420);
     [self.view addSubview:mediumButton];
     
     UIButton *largeButton = [[WHPWhisperAppClient sharedClient] whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Large rounded:YES];
-    largeButton.center = CGPointMake(260, 450);
+    largeButton.center = CGPointMake(260, 420);
     [self.view addSubview:largeButton];
     
     [WHPWhisperAppClient sharedClient].delegate = self;
-    [[WHPWhisperAppClient sharedClient] prepareWithView:self.view inRect:self.view.bounds];
 }
 
 #pragma mark - IBAction
@@ -68,32 +67,30 @@
 - (IBAction)postButtonPressed:(id)sender
 {
     NSError *error = nil;
+    [[WHPWhisperAppClient sharedClient] prepareWithBarButtonItem:sender];
+    [WHPWhisperAppClient sharedClient].whisperText = _textView.text;
     switch (_segmentedControl.selectedSegmentIndex) {
         case kSegmentedControlImage:
         {
             NSData *data = [NSData dataWithContentsOfURL:_imageURL];
             UIImage *image = [UIImage imageWithData:data];
-            [[WHPWhisperAppClient sharedClient] prepareWithBarButtonItem:_postButton];
             [[WHPWhisperAppClient sharedClient] createWhisperWithImage:image error:&error];
             break;
         }
         case kSegmentedControlData:
         {
             NSData *data = [NSData dataWithContentsOfURL:_imageURL];
-            [[WHPWhisperAppClient sharedClient] prepareWithBarButtonItem:_postButton];
             [[WHPWhisperAppClient sharedClient] createWhisperWithData:data error:&error];
             break;
         }
         case kSegmentedControlPath:
         {
             NSString *path = _imageURL.path;
-            [[WHPWhisperAppClient sharedClient] prepareWithBarButtonItem:_postButton];
             [[WHPWhisperAppClient sharedClient] createWhisperWithPath:path error:&error];
             break;
         }
         case kSegmentedControlURL:
         {
-            [[WHPWhisperAppClient sharedClient] prepareWithBarButtonItem:_postButton];
             [[WHPWhisperAppClient sharedClient] createWhisperWithURL:_imageURL error:&error];
             break;
         }

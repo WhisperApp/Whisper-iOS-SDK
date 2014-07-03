@@ -85,7 +85,7 @@
             </objects>
             <point key="canvasLocation" x="293" y="-364"/>
         </scene>
-        <!--Post View Controller - Post-->
+        <!--Post View Controller - Configure Whisper-->
         <scene sceneID="XA1-rY-8xG">
             <objects>
                 <viewController id="Z9m-y5-agz" customClass="PostViewController" sceneMemberID="viewController">
@@ -110,27 +110,15 @@
                                     <segment title="URL"/>
                                 </segments>
                             </segmentedControl>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T2p-iy-Ehq">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="3Np-XA-6vJ"/>
-                                    <barButtonItem title="Post" style="plain" id="n4K-8r-YdD">
-                                        <connections>
-                                            <action selector="postButtonPressed:" destination="Z9m-y5-agz" id="xLJ-Ow-EIL"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                             <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Bs-S8-w67">
-                                <rect key="frame" x="20" y="108" width="280" height="171"/>
+                                <rect key="frame" x="20" y="194" width="280" height="171"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="171" id="EP1-07-I9v"/>
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SJO-lf-xLe">
-                                <rect key="frame" x="20" y="287" width="280" height="78"/>
+                                <rect key="frame" x="20" y="108" width="280" height="78"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="78" id="pNo-ai-Xuv"/>
@@ -142,12 +130,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="SJO-lf-xLe" firstAttribute="top" secondItem="6Bs-S8-w67" secondAttribute="bottom" constant="8" id="1fb-l1-sqM"/>
                             <constraint firstItem="SJO-lf-xLe" firstAttribute="width" secondItem="6Bs-S8-w67" secondAttribute="width" id="8Y2-gz-ONE"/>
-                            <constraint firstItem="6Bs-S8-w67" firstAttribute="top" secondItem="yKd-ie-GuX" secondAttribute="bottom" constant="8" symbolic="YES" id="Eia-lx-beH"/>
                             <constraint firstAttribute="trailing" secondItem="yKd-ie-GuX" secondAttribute="trailing" constant="20" symbolic="YES" id="Joh-IC-n4f"/>
+                            <constraint firstItem="SJO-lf-xLe" firstAttribute="top" secondItem="yKd-ie-GuX" secondAttribute="bottom" constant="8" id="Ltd-t0-byZ"/>
                             <constraint firstItem="6Bs-S8-w67" firstAttribute="centerX" secondItem="yKd-ie-GuX" secondAttribute="centerX" id="OVD-Fw-CNT"/>
                             <constraint firstItem="yKd-ie-GuX" firstAttribute="leading" secondItem="SQd-7Y-4gf" secondAttribute="leading" constant="20" symbolic="YES" id="cQf-cw-QLk"/>
+                            <constraint firstItem="6Bs-S8-w67" firstAttribute="top" secondItem="SJO-lf-xLe" secondAttribute="bottom" constant="8" id="jNh-1E-osS"/>
                             <constraint firstItem="SJO-lf-xLe" firstAttribute="centerX" secondItem="6Bs-S8-w67" secondAttribute="centerX" id="jl7-rh-aFX"/>
                             <constraint firstItem="yKd-ie-GuX" firstAttribute="top" secondItem="3xX-D1-ut7" secondAttribute="bottom" constant="20" symbolic="YES" id="mY3-ap-EVF"/>
                             <constraint firstItem="6Bs-S8-w67" firstAttribute="width" secondItem="yKd-ie-GuX" secondAttribute="width" id="pwx-CC-RaE"/>
@@ -157,11 +145,17 @@
                         </connections>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Post" id="ega-Zp-l1x"/>
+                    <navigationItem key="navigationItem" title="Configure Whisper" id="ega-Zp-l1x">
+                        <barButtonItem key="rightBarButtonItem" title="Post" id="6KY-if-Bhf">
+                            <connections>
+                                <action selector="postButtonPressed:" destination="Z9m-y5-agz" id="jFn-Cd-YjT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="imageView" destination="6Bs-S8-w67" id="rm0-RB-n4g"/>
-                        <outlet property="postButton" destination="n4K-8r-YdD" id="YdN-Gz-70P"/>
+                        <outlet property="postButton" destination="6KY-if-Bhf" id="ArK-Rb-1ti"/>
                         <outlet property="segmentedControl" destination="yKd-ie-GuX" id="jef-Ae-NrB"/>
                         <outlet property="textView" destination="SJO-lf-xLe" id="1EN-Lg-4ed"/>
                     </connections>
