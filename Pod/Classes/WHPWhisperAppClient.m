@@ -34,6 +34,10 @@ static NSString *const WHPRedirectMessage = @"You don't have Whisper Installed. 
 static NSString *const WHPUpdateMessage = @"Your Whisper App is not up to date. You are about to be taken to the Whisper App Store page. Continue?";
 static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App Store Page.";
 
+static NSString *const annotationKeyCallbackURL = @"callback_url";
+static NSString *const annotationKeyWhisperText = @"whisper_text";
+static NSString *const annotationKeyParentWid = @"parent_wid";
+
 @interface WHPWhisperAppClient () <UIDocumentInteractionControllerDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UIDocumentInteractionController *documentController;
@@ -388,10 +392,10 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
     
     NSMutableDictionary *annotations = [[NSMutableDictionary alloc] init];
     if (urlScheme) {
-        annotations[@"CallbackURL"] = urlScheme;
+        annotations[annotationKeyCallbackURL] = urlScheme;
     }
     if (_whisperText.length > 0) {
-        annotations[@"Text"] = _whisperText;
+        annotations[annotationKeyWhisperText] = _whisperText;
     }
     _documentController.annotation = annotations;
 #ifdef WHISPER_DEBUG
