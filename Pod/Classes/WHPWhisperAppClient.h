@@ -79,6 +79,33 @@ typedef NS_ENUM(NSInteger, WHPMenuPresentationType) {
 };
 
 /**
+ *  Determines the result of the Whisper post upon returning from
+ *  the Whisper app.
+ */
+typedef NS_ENUM(NSInteger, WHPPostResult) {
+    /**
+     *  The app returned from a Whisper post that was
+     *  successfully posted.
+     */
+    kWHPPostResult_Success,
+    /**
+     *  The app returned from a Whisper post that encountered
+     *  an error while posting.
+     */
+    kWHPPostResult_Failed,
+    /**
+     *  The app returned from a Whisper post that was
+     *  cancelled by the user.
+     */
+    kWHPPostResult_Canceled,
+    /**
+     *  The app returned from a Whisper post that was
+     *  called under invalid parameters.
+     */
+    kWHPPostResult_Invalid
+};
+
+/**
  *  Protocol Reference for the `WHPWhisperAppClient` delegate
  *  property. One of the four methods for image source must
  *  be defined.If more than one method is provided, the image
@@ -203,6 +230,22 @@ typedef NS_ENUM(NSInteger, WHPMenuPresentationType) {
  */
 -(void)whisperAppClientDidFailWithError:(NSError *)error;
 
+/**
+ *  Called when the app has returned from Whisper.
+ *
+ *  @param result The result of the Whisper post.
+ */
+-(void)whisperAppClientDidReturnWithResult:(WHPPostResult)result;
+
+/**
+ *  Determines whether the app should prompt the user before
+ *  redirecting to the Whisper App Store page.
+ *
+ *  @return If `YES`, users are presented with a prompt before
+ *  directed to the Whisper App Store page.
+ */
+-(BOOL)whisperAppClientShouldAutomaticallyPromptForInstall;
+
 @end
 
 /**
@@ -249,7 +292,7 @@ typedef NS_ENUM(NSInteger, WHPMenuPresentationType) {
  * to the Whisper App Store page. If set to `NO`, a dialog
  * is shown to confirm the redirect. Defaults to `NO`.
  */
-@property BOOL autotakeToAppStore;
+@property BOOL automaticallyPromptUserToInstallWhisper;
 
 /**
  * Specifies whether menu presentations and dismissals are 

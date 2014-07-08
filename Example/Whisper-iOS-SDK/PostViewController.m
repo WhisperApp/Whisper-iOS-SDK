@@ -28,6 +28,8 @@
 {
     [super viewDidLoad];
     
+    [WHPWhisperAppClient sharedClient].customCallbackURL = @"whispertest://";
+    
     if (_imageURL) {
         NSData *imageData = [NSData dataWithContentsOfURL:_imageURL];
         UIImage *image = [UIImage imageWithData:imageData];
@@ -143,6 +145,27 @@
 -(void)whisperAppClientDidFailWithError:(NSError *)error
 {
     [[[UIAlertView alloc] initWithTitle:error.userInfo[NSLocalizedDescriptionKey] message:[NSString stringWithFormat:@"%@ - %@", error.userInfo[NSLocalizedFailureReasonErrorKey], error.userInfo[NSLocalizedRecoverySuggestionErrorKey]] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
+}
+
+-(void)whisperAppClientDidReturnWithResult:(WHPPostResult)result
+{
+    switch (result) {
+        case kWHPPostResult_Success:
+            NSLog(@"Whisper post succeeded!");
+            break;
+        case kWHPPostResult_Failed:
+            NSLog(@"Whisper post failed!");
+            break;
+        case kWHPPostResult_Canceled:
+            NSLog(@"Whisper was canceled");
+            break;
+        case kWHPPostResult_Invalid:
+            NSLog(@"Invalid input!");
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

@@ -52,7 +52,7 @@ static NSString *const annotationKeyParentWid = @"parent_wid";
 -(void)redirectToAppStore;
 -(void)promptForRedirect;
 -(BOOL)isLegalImageSize:(UIImage *)image;
--(NSString *)getApplicationURLScheme;
+-(NSString *)getApplicationURL;
 -(BOOL)writeToCache:(NSData *)data error:(NSError **)error;
 -(BOOL)showFileOpenDialog:(NSURL *)url error:(NSError **)error;
 -(void)createWhisperWithDelegate;
@@ -85,6 +85,7 @@ static NSString *const annotationKeyParentWid = @"parent_wid";
 #endif
         _animated = YES;
         [self cleanUpTempDirectory];
+        _automaticallyPromptUserToInstallWhisper = YES;
     }
     return self;
 }
@@ -111,11 +112,52 @@ static NSString *const annotationKeyParentWid = @"parent_wid";
 #ifdef WHISPER_DEBUG
     NSLog(@"WHPWhisperAppClient: Handle Open URL %@ from %@", url.path, sourceApplication);
 #endif
-    [[WHPWhisperAppClient sharedClient] cleanUpTempDirectory];
+    WHPWhisperAppClient *sharedClient = [WHPWhisperAppClient sharedClient];
+    [sharedClient cleanUpTempDirectory];
     
     if ([sourceApplication isEqualToString:WHPWhisperBundleIdentifier]) {
-
-        return YES;
+        
+        NSString *absoluteString = [url absoluteString];
+        NSString *prefix = [sharedClient getApplicationURL];
+        if ([absoluteString hasPrefix:prefix?: @""]) {
+            NSString *path = [absoluteString substringFromIndex:[prefix length]];
+            NSString *firstComponent = nil;
+            if (path.pathComponents.count > 0) {
+                firstComponent = path.pathComponents[0];
+            }
+            NSString *secondComponent = nil;
+            if (path.pathComponents.count > 1) {
+                secondComponent = path.pathComponents[1];
+            }
+            
+            if ([firstComponent isEqualToString:@"whisper_result"]) {
+                //now we're talking
+                if ([secondComponent isEqualToString:@"success"]) {
+                    if ([sharedClient.delegate respondsToSelector:@selector(whisperAppClientDidReturnWithResult:)]) {
+                        [sharedClient.delegate whisperAppClientDidReturnWithResult:kWHPPostResult_Success];
+                    }
+                }
+                else if ([secondComponent isEqualToString:@"failed"]) {
+                    if ([sharedClient.delegate respondsToSelector:@selector(whisperAppClientDidReturnWithResult:)]) {
+                        [sharedClient.delegate whisperAppClientDidReturnWithResult:kWHPPostResult_Failed];
+                    }
+                }
+                else if ([secondComponent isEqualToString:@"canceled"]) {
+                    if ([sharedClient.delegate respondsToSelector:@selector(whisperAppClientDidReturnWithResult:)]) {
+                        [sharedClient.delegate whisperAppClientDidReturnWithResult:kWHPPostResult_Canceled];
+                    }
+                }
+                else if ([secondComponent isEqualToString:@"invalid"]) {
+                    if ([sharedClient.delegate respondsToSelector:@selector(whisperAppClientDidReturnWithResult:)]) {
+                        [sharedClient.delegate whisperAppClientDidReturnWithResult:kWHPPostResult_Invalid];
+                    }
+                }
+                else {
+                    return NO;
+                }
+                return YES;
+            }
+        }
     }
     return NO;
 }
@@ -264,13 +306,21 @@ static NSString *const annotationKeyParentWid = @"parent_wid";
 #ifdef WHISPER_DEBUG
         NSLog(@"WHPWhisperAppClient: Whisper app not found. Redirect to App Store");
 #endif
-        if (_autotakeToAppStore) {
-            //redirect
-            [self redirectToAppStore];
+        if ([_delegate respondsToSelector:@selector(whisperAppClientShouldAutomaticallyPromptForInstall)]) {
+            if ([_delegate whisperAppClientShouldAutomaticallyPromptForInstall]) {
+                [self promptForRedirect];
+            }
+            else {
+                [self redirectToAppStore];
+            }
         }
         else {
-            //prompt, then redirect
-            [self promptForRedirect];
+            if (_automaticallyPromptUserToInstallWhisper) {
+                [self redirectToAppStore];
+            }
+            else {
+                [self promptForRedirect];
+            }
         }
     }
     return YES;
@@ -347,10 +397,13 @@ static NSString *const annotationKeyParentWid = @"parent_wid";
     return size.width >= WHPMinimumSourceImageSize.width && size.height >= WHPMinimumSourceImageSize.height;
 }
 
--(NSString *)getApplicationURLScheme
+-(NSString *)getApplicationURL
 {
     if (_customCallbackURL) {
-        return _customCallbackURL;
+        if (![_customCallbackURL hasSuffix:@"/"]) {
+            return [_customCallbackURL stringByAppendingString:@"/"];
+        }
+        return [_customCallbackURL stringByReplacingOccurrencesOfString:@"://" withString:@":/"];
     }
     NSArray *urlTypes = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"];
     if (urlTypes.count == 0) {
@@ -360,7 +413,7 @@ static NSString *const annotationKeyParentWid = @"parent_wid";
     if (urlSchemes.count == 0) {
         return nil;
     }
-    return [urlSchemes objectAtIndex:0];
+    return [[urlSchemes objectAtIndex:0] stringByAppendingString:@":/"];
 }
 
 -(BOOL)writeToCache:(NSData *)data error:(NSError **)error
@@ -381,7 +434,7 @@ static NSString *const annotationKeyParentWid = @"parent_wid";
 -(BOOL)showFileOpenDialog:(NSURL *)url error:(NSError **)error
 {
     BOOL result;
-    NSString *urlScheme = [self getApplicationURLScheme];
+    NSString *urlScheme = [self getApplicationURL];
     
     if (_documentController) {
         [_documentController dismissMenuAnimated:_animated];
