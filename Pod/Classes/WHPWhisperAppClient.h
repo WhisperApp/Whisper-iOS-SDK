@@ -275,13 +275,30 @@ typedef NS_ENUM(NSInteger, WHPPostResult) {
   pixels high. Failure to comply to these requirements will result
   in an `NSError` and a return value of `NO`.
  
-  Alternatively, you can use the provided Whisper buttons
-  instead of calling one of the create methods. In this case,
-  you must provide a delegate property that implements at 
-  least one of the methods for determining the image source, and
-  one of the two methods for determining the menu source. If you
-  would like to provide custom text for the Whisper post, provide
-  the optional method `whisperAppClientTextForWhisper`.
+ Alternatively, you can use the standard Whisper button, and add it to your view:
+ 
+    UIButton *whisperButton = [[WHPWhisperAppClient sharedClient] whisperButtonWithSize:kWHPWhisperAppClientButtonSize_Medium rounded:YES];
+    [self.view addSubView:whisperButton];
+ 
+ When pressed, the button will retrieve the image data by calling protocol
+ methods in the delegate property of the `WHPWhisperAppClient`. You can provide
+ these methods by setting the delegate property to one of your own classes:
+ 
+    [WHPWhisperAppClient sharedClient].delegate = self;
+    ...
+ 
+    -(UIView *)whisperAppClientViewForMenuPresentation
+    {
+        return _view;
+    }
+ 
+    -(UIImage *)whisperAppClientSourceImageForWhisper
+    {
+        return _image;
+    }
+ 
+ Note that your delegate class must conform to the protocol
+ `WHPWhisperAppClientDelegate`.
  */
 @interface WHPWhisperAppClient : NSObject
 

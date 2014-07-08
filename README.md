@@ -9,11 +9,14 @@ The Whisper-iOS-SDK will let your users create Whisper content from inside your
 app with just a few lines of code. Currently, we support creating a Whisper
 post from an Image, Data, file path, or URL, with a custom text overlay.
 
+Note that images using the SDK must be at least 640 pixels wide and 940 pixels
+high.
+
+## Requirements
+
 The SDK requires that the Whisper app is installed. If version 4.2 or higher of
 the Whisper app is not installed, users will be prompted to the App Store to
 download it. Our app only supports iOS 6.0 or higher.
-
-## Requirements
 
 ## Installation
 
@@ -65,6 +68,42 @@ these methods by setting the delegate property to one of your own classes:
     
 Note that your delegate class must conform to the protocol
 `WHPWhisperAppClientDelegate`.
+
+### App Callbacks
+
+Finally, add the following method to your app's `AppDelegate.m` in order to
+enable callbacks from the Whisper app:
+
+    - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+    {
+        if ([WHPWhisperAppClient handleOpenURL:url sourceApplication:sourceApplication])
+            return YES;
+        return NO;
+    }
+    
+This will enable you to receive notifications when your app returns from a
+Whisper post, via a delegate method:
+
+    -(void)whisperAppClientDidReturnWithResult:(WHPPostResult)result
+    {
+        switch (result) {
+            case kWHPPostResult_Success:
+                NSLog(@"Whisper post succeeded!");
+                break;
+            case kWHPPostResult_Failed:
+                NSLog(@"Whisper post failed!");
+                break;
+            case kWHPPostResult_Canceled:
+                NSLog(@"Whisper was canceled");
+                break;
+            case kWHPPostResult_Invalid:
+                NSLog(@"Invalid input!");
+                break;
+
+            default:
+                break;
+        }
+    }
 
 There is an example project that demonstrates the functionality described above,
 and some additional properties. To run the example project, clone the repo, and
