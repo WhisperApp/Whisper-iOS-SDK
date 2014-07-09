@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="wPt-TZ-7yo">
+    <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="LYD-fc-A1f">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="wPt-TZ-7yo" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="k5C-u0-QRl">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ax8-OE-lZT" kind="relationship" relationship="rootViewController" id="f7U-3N-pGb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qzP-KD-S9l" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-101" y="-364"/>
+        </scene>
+        <!--Root View Controller - Root-->
+        <scene sceneID="5V6-Sf-UcR">
+            <objects>
+                <viewController id="ax8-OE-lZT" customClass="RootViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Y8T-zq-OtI"/>
+                        <viewControllerLayoutGuide type="bottom" id="O8v-Ah-Xuy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="d0e-FC-qSy">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wsp-1g-v3J">
+                                <rect key="frame" x="58" y="214" width="206" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Legal Size JPEG Image">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="legalImageButtonPressed:" destination="ax8-OE-lZT" eventType="touchUpInside" id="GCp-Uk-feA"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IYk-nq-qpb">
+                                <rect key="frame" x="60" y="266" width="201" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Illegal Size PNG Image">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="illegalImageButtonPressed:" destination="ax8-OE-lZT" eventType="touchUpInside" id="8yv-nT-hqP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LwD-97-rqR">
+                                <rect key="frame" x="44" y="318" width="234" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Choose From Camera Roll">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cameraRollButtonPressed:" destination="ax8-OE-lZT" eventType="touchUpInside" id="6st-27-PHk"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="IYk-nq-qpb" secondAttribute="centerY" id="6GF-4A-rXh"/>
+                            <constraint firstItem="wsp-1g-v3J" firstAttribute="centerX" secondItem="IYk-nq-qpb" secondAttribute="centerX" constant="0.5" id="ZjX-Qm-Jau"/>
+                            <constraint firstItem="LwD-97-rqR" firstAttribute="top" secondItem="IYk-nq-qpb" secondAttribute="bottom" constant="16" id="f9W-qP-A1j"/>
+                            <constraint firstAttribute="centerX" secondItem="IYk-nq-qpb" secondAttribute="centerX" id="fWX-xd-Ifz"/>
+                            <constraint firstItem="IYk-nq-qpb" firstAttribute="top" secondItem="wsp-1g-v3J" secondAttribute="bottom" constant="16" id="llj-Ma-M2f"/>
+                            <constraint firstItem="LwD-97-rqR" firstAttribute="centerX" secondItem="IYk-nq-qpb" secondAttribute="centerX" constant="0.5" id="sPD-G7-hFI"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Root" id="BaJ-Wg-fAo"/>
+                    <connections>
+                        <segue destination="Z9m-y5-agz" kind="push" identifier="pushToPost" id="2A3-x4-rN0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cPn-eb-W1i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="293" y="-364"/>
+        </scene>
+        <!--Post View Controller - Configure Whisper-->
+        <scene sceneID="XA1-rY-8xG">
+            <objects>
+                <viewController id="Z9m-y5-agz" customClass="PostViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3xX-D1-ut7"/>
+                        <viewControllerLayoutGuide type="bottom" id="dFh-Ae-mF6"/>
+                    </layoutGuides>
+                    <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="SQd-7Y-4gf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yKd-ie-GuX">
+                                <rect key="frame" x="20" y="72" width="280" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="t24-nB-Sir"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Image"/>
+                                    <segment title="Data"/>
+                                    <segment title="Path"/>
+                                    <segment title="URL"/>
+                                </segments>
+                            </segmentedControl>
+                            <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Bs-S8-w67">
+                                <rect key="frame" x="20" y="194" width="280" height="171"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="171" id="EP1-07-I9v"/>
+                                </constraints>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SJO-lf-xLe">
+                                <rect key="frame" x="20" y="108" width="280" height="78"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="78" id="pNo-ai-Xuv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="SJO-lf-xLe" firstAttribute="width" secondItem="6Bs-S8-w67" secondAttribute="width" id="8Y2-gz-ONE"/>
+                            <constraint firstAttribute="trailing" secondItem="yKd-ie-GuX" secondAttribute="trailing" constant="20" symbolic="YES" id="Joh-IC-n4f"/>
+                            <constraint firstItem="SJO-lf-xLe" firstAttribute="top" secondItem="yKd-ie-GuX" secondAttribute="bottom" constant="8" id="Ltd-t0-byZ"/>
+                            <constraint firstItem="6Bs-S8-w67" firstAttribute="centerX" secondItem="yKd-ie-GuX" secondAttribute="centerX" id="OVD-Fw-CNT"/>
+                            <constraint firstItem="yKd-ie-GuX" firstAttribute="leading" secondItem="SQd-7Y-4gf" secondAttribute="leading" constant="20" symbolic="YES" id="cQf-cw-QLk"/>
+                            <constraint firstItem="6Bs-S8-w67" firstAttribute="top" secondItem="SJO-lf-xLe" secondAttribute="bottom" constant="8" id="jNh-1E-osS"/>
+                            <constraint firstItem="SJO-lf-xLe" firstAttribute="centerX" secondItem="6Bs-S8-w67" secondAttribute="centerX" id="jl7-rh-aFX"/>
+                            <constraint firstItem="yKd-ie-GuX" firstAttribute="top" secondItem="3xX-D1-ut7" secondAttribute="bottom" constant="20" symbolic="YES" id="mY3-ap-EVF"/>
+                            <constraint firstItem="6Bs-S8-w67" firstAttribute="width" secondItem="yKd-ie-GuX" secondAttribute="width" id="pwx-CC-RaE"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="mUF-wl-K3n" appends="YES" id="3hf-ku-O8I"/>
+                        </connections>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Configure Whisper" id="ega-Zp-l1x">
+                        <barButtonItem key="rightBarButtonItem" title="Post" id="6KY-if-Bhf">
+                            <connections>
+                                <action selector="postButtonPressed:" destination="Z9m-y5-agz" id="jFn-Cd-YjT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="imageView" destination="6Bs-S8-w67" id="rm0-RB-n4g"/>
+                        <outlet property="postButton" destination="6KY-if-Bhf" id="ArK-Rb-1ti"/>
+                        <outlet property="segmentedControl" destination="yKd-ie-GuX" id="jef-Ae-NrB"/>
+                        <outlet property="textView" destination="SJO-lf-xLe" id="1EN-Lg-4ed"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sk8-Z6-ovp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="mUF-wl-K3n">
+                    <connections>
+                        <action selector="viewTapped:" destination="Z9m-y5-agz" id="iXa-kD-Wro"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="697" y="-364"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

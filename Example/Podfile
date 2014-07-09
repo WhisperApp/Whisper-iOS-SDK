@@ -1,0 +1,12 @@
+target 'Whisper-iOS-SDK', :exclusive => true do
+  pod "Whisper-iOS-SDK", :path => "../"
+end
+
+target 'Tests', :exclusive => true do
+  pod "Whisper-iOS-SDK", :path => "../"
+
+  pod 'Specta', '~> 0.2.1'
+  pod 'Expecta'
+  pod 'FBSnapshotTestCase'
+  pod 'EXPMatchers+FBSnapshotTest'
+end
