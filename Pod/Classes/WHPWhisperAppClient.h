@@ -14,6 +14,29 @@
 extern struct CGSize const WHPMinimumSourceImageSize;
 
 /**
+ *  Defines the origin of the image. Set this enum
+ *  before calling the create methods.
+ */
+typedef NS_ENUM(NSUInteger, WHPImageType) {
+    /**
+     *  Image is from the users's Photo Library.
+     */
+    kWHPImageType_Photos,
+    /**
+     *  Image is from the device camera.
+     */
+    kWHPImageType_Camera,
+    /**
+     *  Image is from a Social Network.
+     */
+    kWHPImageType_SocialNetwork,
+    /**
+     *  Image is from an image search engine.
+     */
+    kWHPImageType_SearchEngine
+};
+
+/**
  *  Defines the default sizes of a Whisper button.
  */
 typedef NS_ENUM(NSInteger, WHPWhisperAppClientButtonSize) {
@@ -347,6 +370,8 @@ typedef NS_ENUM(NSInteger, WHPPostResult) {
  *  The text to be displayed in the Whisper post alongside the image.
  */
 @property NSString *whisperText;
+
+@property WHPImageType imageType;
 
 ///@name Class Methods
 
