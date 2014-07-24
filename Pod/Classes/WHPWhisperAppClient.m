@@ -37,6 +37,7 @@ static NSString *const WHPCannotOpenAppStoreMessage = @"Cannot open Whisper App 
 static NSString *const annotationKeyCallbackURL = @"callback_url";
 static NSString *const annotationKeyWhisperText = @"whisper_text";
 static NSString *const annotationKeyParentWid = @"parent_wid";
+static NSString *const annotationKeyImageType = @"source";
 
 @interface WHPWhisperAppClient () <UIDocumentInteractionControllerDelegate, UIAlertViewDelegate>
 
@@ -58,6 +59,7 @@ static NSString *const annotationKeyParentWid = @"parent_wid";
 -(void)createWhisperWithDelegate;
 -(BOOL)prepareWhisperWithMenuPresentationType:(WHPMenuPresentationType)type;
 -(BOOL)createWhisperWithSourceType:(WHPImageSourceType)sourceType error:(NSError **)error;
+-(NSString *)nameForImageType:(WHPImageType)source;
 
 @end
 
@@ -431,6 +433,17 @@ static NSString *const annotationKeyParentWid = @"parent_wid";
     return [data writeToFile:_fileURL.path options:NSDataWritingAtomic error:error];
 }
 
+-(NSString *)nameForImageType:(WHPImageType)type
+{
+    switch (type)
+    {
+        case kWHPImageType_Camera: return @"camera";
+        case kWHPImageType_Photos: return @"photos";
+        case kWHPImageType_SearchEngine: return @"search_engine";
+        case kWHPImageType_SocialNetwork: return @"social_network";
+    }
+}
+
 -(BOOL)showFileOpenDialog:(NSURL *)url error:(NSError **)error
 {
     BOOL result;
@@ -450,6 +463,8 @@ static NSString *const annotationKeyParentWid = @"parent_wid";
     if (_whisperText.length > 0) {
         annotations[annotationKeyWhisperText] = _whisperText;
     }
+    annotations[annotationKeyImageType] = [self nameForImageType:_imageType];
+
     _documentController.annotation = annotations;
 #ifdef WHISPER_DEBUG
     NSLog(@"WHPWhisperAppClient: Initializing Document controller with URL: %@, callback: %@", url.path, urlScheme ? urlScheme : @"(none)");

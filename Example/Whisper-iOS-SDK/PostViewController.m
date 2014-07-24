@@ -29,6 +29,7 @@
     [super viewDidLoad];
     
     [WHPWhisperAppClient sharedClient].customCallbackURL = @"whispertest://";
+    [WHPWhisperAppClient sharedClient].imageType = kWHPImageType_SocialNetwork;
     
     if (_imageURL) {
         NSData *imageData = [NSData dataWithContentsOfURL:_imageURL];
