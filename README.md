@@ -9,7 +9,7 @@ The Whisper-iOS-SDK will let your users create Whisper content from inside your
 app with just a few lines of code. Currently, we support creating a Whisper
 post from an Image, Data, file path, or URL, with a custom text overlay.
 
-Note that images using the SDK must be at least 640 pixels wide and 940 pixels
+Note that images using the SDK must be at least 640 pixels wide and 920 pixels
 high.
 
 ## Requirements
