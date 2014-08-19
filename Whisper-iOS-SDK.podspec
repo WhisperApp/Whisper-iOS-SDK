@@ -10,18 +10,20 @@
 Pod::Spec.new do |s|
   s.name             = "Whisper-iOS-SDK"
   s.version          = "0.1.0"
-  s.summary          = "A short description of Whisper-iOS-SDK."
+  s.summary          = "Official SDK for Whisper App."
   s.description      = <<-DESC
-                       An optional longer description of Whisper-iOS-SDK
+                       The Whisper-iOS-SDK will let your users create Whisper content 
+                       from inside your app with just a few lines of code. Currently, 
+                       we support creating a Whisper post from an Image, Data, file 
+                       path, or URL, with a custom text overlay.
 
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
+                       Note that images using the SDK must be at least 640 pixels wide and 940 pixels high.
                        DESC
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/Whisper-iOS-SDK"
+  s.homepage         = "https://github.com/WhisperApp/Whisper-iOS-SDK"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "Yujin Ariza" => "yujin@whisper.sh" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/Whisper-iOS-SDK.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/WhisperApp/Whisper-iOS-SDK.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform     = :ios, '7.0'
